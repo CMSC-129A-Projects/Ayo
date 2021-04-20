@@ -120,30 +120,6 @@ const LogInScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
-          <TextInput 
-              placeholder = "Password"
-              placeholderTextColor = '#dcdcdc'
-              underlineColorAndroid = "transparent"
-              secureTextEntry
-              onChangeText = {(passwordInput) => setPassword(passwordInput)}
-              style = {styles.PasswordField}/>
-        </View>
-        <View>
-          <TouchableOpacity style = {styles.LoginButton} onPress = {() => {
-            const formdata = new FormData();
-            formdata.append('username', username); 
-            formdata.append('password', password); 
-            login(formdata);
-            navigation.navigate("Homes")
-          }}>
-            <Text style = {styles.ButtonText}>LOG IN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.SignupButton} onPress = {() => navigation.navigate("Sign Up")}>
-            <Text style = {styles.ButtonText}>SIGN UP</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
   );
 }

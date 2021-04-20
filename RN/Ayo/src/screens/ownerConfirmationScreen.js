@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, 
         Text, 
         View,
@@ -10,66 +10,8 @@ import {StyleSheet,
       Modal, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import VerificationScreen from '../modals/verificationScreen';
-import {Fontisto} from '@expo/vector-icons';
 
-const tmpUsers = [
-  {
-      name: "mmm",
-      contact_number: "mmm",
-      username: "mmm",
-      address: "mmm",
-      valid_id1: require("../assets/favicon.png")
-  },
-  {
-      name: "yep",
-      contact_number: "yep",
-      username: "yep",
-      address: "yep",
-      valid_id1: require("../assets/favicon.png")
-  },
-  {
-      name: "Juan Dela Cruz",
-      contact_number: "0922331232",
-      username: "mrlabalaba",
-      address: "Kabangkalan, Mandaue",
-      valid_id1: require("../assets/favicon.png")
-  },
-    {
-      name: "Tom",
-      contact_number: "Tom",
-      username: "Tom",
-      address: "Cebu, Mandaue",
-      valid_id1: require("../assets/favicon.png")
-  },
-    {
-      name: "Jerry",
-      contact_number: "Jerry",
-      username: "Jerry",
-      address: "Jerry, Mandaue",
-      valid_id1: require("../assets/favicon.png")
-  },
-    {
-      name: "Pedro",
-      contact_number: "Pedro",
-      username: "Pedro",
-      address: "Pedro, Mandaue",
-      valid_id1: require("../assets/favicon.png")
-  },
-  {
-    name: "Penduko",
-    contact_number: "Penduko",
-    username: "Penduko",
-    address: "Penduko, Mandaue",
-    valid_id1: require("../assets/favicon.png")
-},
-{
-  name: "Jojo",
-  contact_number: "Jojo",
-  username: "Jojo",
-  address: "Jojo, Mandaue",
-  valid_id1: require("../assets/favicon.png")
-}
-]
+import usersApi from '../api/Users';
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -82,6 +24,28 @@ const confirmationScreen = () => {
   const [modalVisible, setModalVisible] = useState(false); 
   const [selectedId, setSelectedId] = useState(null);
   const [itemData, setItemData] = useState(null);
+  const [users, setUsers] = useState()
+
+  const toggle = () => {
+    setModalVisible(!modalVisible);
+    if(!modalVisible){
+      setItemData(null);
+      setSelectedId(null);
+    }
+  };
+
+  const fetchUsers = async () => {
+      // const response = await testScreen.get('http://localhost:8000/users/users').catch((err) => {
+      const response = await usersApi.get('unverifiedcustomers').catch( (err) => {
+              console.log("Error occured: ", err);
+      })
+      setUsers(response.data);
+      // setUser(response.data);
+  }
+   
+  useEffect(() => {
+    fetchUsers()
+  }, [modalVisible]);
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.username === selectedId ? "transparent" : "#ffffff";
@@ -91,7 +55,7 @@ const confirmationScreen = () => {
         <TouchableOpacity style = {styles.touchables} item={item} backgroundColor = {{backgroundColor}} textColor = {{color}} onPress = {() => {
             setItemData(item);
             setSelectedId(item.username)
-            setModalVisible(!modalVisible); 
+            setModalVisible(true);
         }}>
             <View style = {styles.userPreviewTextContainer}>
               <Text style = {styles.userPreviewText}>{item.name}</Text>
@@ -109,10 +73,11 @@ const confirmationScreen = () => {
   return (
     <SafeAreaView style= {styles.Container}>
       <ImageBackground source={require('../backgrounds/AyoDefaultBG.png')} style={styles.Background}/>
+      <VerificationScreen modalVisible={modalVisible} toggle={toggle} itemData={itemData}/>
       <View style = {styles.ContentContainer}>
         <SafeAreaView style={styles.ListContainer}>
           <FlatList
-            data={tmpUsers} //list of users goes here
+            data={users} //list of users goes here
             renderItem={renderItem}
             keyExtractor={(item) => item.username}
             extraData={selectedId} //User identifier
@@ -126,24 +91,7 @@ const confirmationScreen = () => {
           <Text style = {styles.ButtonText}>VIEW DETAILS</Text>
         </TouchableOpacity>   */}
       </View>
-      <Modal 
-            animationType = "slide"
-            style = {styles.modal}
-            transparent = {false}
-            visible={modalVisible}
-            onRequestClose = {() => {
-                    setModalVisible(false); 
-            }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-              <TouchableOpacity style={{margin:15 , position: 'absolute'}} onPress = {() => setModalVisible(!modalVisible)}>
-                      <Fontisto name="close" size={30}/>
-              </TouchableOpacity>
               {/* TAN-AWA NI */}
-              <VerificationScreen itemData={itemData}/>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -221,20 +169,6 @@ const styles = StyleSheet.create(
       fontFamily: 'Roboto',
       letterSpacing: 0.3,
       color: 'red'
-    },
-    modal : {
-      width: '100%',
-      height: '100%',
-      margin: 0,
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    modalContainer : {
-      height:'80%',
-      flex: 1
-    },
-    modalView : {
-      //backgroundColor: "#FFFFFF"
     },
     touchablesContainer: {
       alignSelf:'center',
