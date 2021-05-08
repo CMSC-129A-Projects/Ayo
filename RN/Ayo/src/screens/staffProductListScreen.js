@@ -18,6 +18,10 @@ import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
 import AddProductFail from '../modals/addProductFail'
 import AddProductSuccess from '../modals/addProductSuccess'
+import DeleteProductModal from '../modals/deleteProduct'
+import DeleteProductSuccess from '../modals/deleteProductSuccess'
+import DeleteProductFail from '../modals/deleteProductFail'
+import EditProductModal from '../modals/editProduct'
 import {Fontisto} from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -93,6 +97,10 @@ const productList = () => {
   const [modal2Visible, setModal2Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+  const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
+  const [deleteFailVisible, setDeleteFailVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
   const [itemData, setItemData] = useState(null);
   const [name, setname] = useState(null);
   const [description, setDescription] = useState(null);
@@ -209,12 +217,18 @@ const productList = () => {
               <ScrollView style = {styles.productDetailsScrollView}>
                 <ViewProductDetails itemData={itemData}/>
               </ScrollView>
-              <TouchableOpacity style={styles.editProductButton}>
+              <TouchableOpacity style={styles.editProductButton}
+                                  onPress = {() =>{
+                                  setEditVisible(!editVisible)
+                                }}>
                 <Text style = {styles.addProductButtonText}>
                   EDIT PRODUCT
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.deleteProductButton}>
+              <TouchableOpacity style={styles.deleteProductButton}
+                                  onPress = {() =>{
+                                  setDeleteVisible(!deleteVisible)
+                                }}>
                 <Text style = {styles.deleteProductButtonText}>
                   DELETE PRODUCT
                 </Text>
@@ -222,7 +236,60 @@ const productList = () => {
           </View>
         </View>
       </Modal>
-     <Modal 
+      <Modal //Edit Product Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={editVisible}
+            onRequestClose = {() => {
+                    setEditVisible(false); 
+            }}>
+      <View style={styles.editProductContainer}>
+        <EditProductModal/>
+        <View style={{flexDirection:"row-reverse",margin:10, position:'absolute'}}>
+        <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginTop:330,paddingVertical:10,paddingHorizontal:50,backgroundColor:"#00d1a3"}}
+         onPress={() => {
+          setEditVisible(!editVisible)
+          }}>
+          <Text style={{color: "#ffff", alignSelf: 'center'}}>SAVE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginTop:330, paddingVertical:10,paddingHorizontal:40, backgroundColor:'lightgray'}} 
+          onPress={() => {
+            setEditVisible(!editVisible)
+          }}>
+          <Text style={{color:'gray'}}>CANCEL</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </Modal>
+      <Modal //Delete Product Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteVisible}
+            onRequestClose = {() => {
+                    setDeleteVisible(false); 
+            }}>
+      <View style={styles.deleteProductContainer}>
+     <DeleteProductModal/>
+        <View style={{flexDirection:"row-reverse",margin:10}}>
+        <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
+         onPress={() => {
+          //setDeleteFailVisible(!deleteFailVisible)
+          setDeleteSuccessVisible(!deleteSuccessVisible)
+          }}>
+          <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginVertical: 5, paddingVertical:10,paddingHorizontal:30, backgroundColor:'lightgray'}} 
+          onPress={() => {
+            setDeleteVisible(!deleteVisible)
+          }}>
+          <Text style={{color:'gray'}}>CANCEL</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </Modal>
+     <Modal //Add Product Success Modal
             animationType = "slide"
             style = {styles.modal}
             transparent = {true}
@@ -233,15 +300,18 @@ const productList = () => {
       <View style={styles.addSuccessContainer}>
         <AddProductSuccess/>
         <TouchableOpacity>
-          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
-          onPress ={() => setSuccessVisible(!successVisible)}>
+          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', marginBottom: 1, alignSelf: 'flex-end'}} 
+          onPress ={() =>
+          setSuccessVisible(!successVisible)
+          //setDeleteVisible(!deleteVisible)
+          }>
             OK
           </Text>
 
         </TouchableOpacity>
       </View>
       </Modal> 
-      <Modal 
+      <Modal //Add Product Fail Modal
             animationType = "slide"
             style = {styles.modal}
             transparent = {true}
@@ -260,8 +330,47 @@ const productList = () => {
         </TouchableOpacity>
       </View>
       </Modal>
-
-      <Modal 
+      <Modal //Delete Success Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteSuccessVisible}
+            onRequestClose = {() => {
+                    setDeleteSuccessVisible(false); 
+            }}>
+      <View style={styles.deleteSuccessContainer}>
+        <DeleteProductSuccess/>
+        <View style={{ marginLeft:100, marginTop: 40}}>
+        <TouchableOpacity>
+          <Text style={{fontSize: 25, color: 'dodgerblue', fontWeight: 'bold'}} 
+          onPress ={() => setDeleteSuccessVisible(!deleteSuccessVisible)}>
+            OK
+          </Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+      </Modal> 
+      <Modal //Delete Fail Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteFailVisible}
+            onRequestClose = {() => {
+                    setDeleteFailVisible(false); 
+            }}>
+      <View style={styles.deleteSuccessContainer}>
+        <DeleteProductFail/>
+        <View style={{ marginLeft:80, marginTop: 40}}>
+        <TouchableOpacity>
+          <Text style={{fontSize: 25, color: 'dodgerblue', fontWeight: 'bold'}} 
+          onPress ={() => setDeleteFailVisible(!deleteFailVisible)}>
+            OK
+          </Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+      </Modal>
+      <Modal //Add Product Modal
             animationType = "slide"
             visible={modal2Visible}
             transparent={true}
@@ -595,7 +704,7 @@ const styles = StyleSheet.create(
       alignItems:'center',
       borderRadius: 20,
       borderWidth: 5,
-      borderColor: "#00CC00",
+      borderColor: "#00d1a3",
       alignSelf: 'center'
     },
     productDetailsScrollView: {
@@ -643,5 +752,38 @@ const styles = StyleSheet.create(
       width: '30%',
       flexDirection: 'column'
     },
+    deleteProductContainer:{
+      backgroundColor: "#ffff",
+      height: '20%',
+      width: '80%',
+      marginTop: 'auto',
+      marginBottom: 290,
+      alignItems:'center',
+      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: 'red',
+      alignSelf: 'center'
+    },
+    deleteSuccessContainer:{
+      backgroundColor: "#00000999",
+      height: '10%',
+      width: '100%',
+      marginTop: 'auto',
+      alignSelf: 'center',
+      flexDirection:'row',
+    },
+    editProductContainer:{
+      backgroundColor: "#ffff",
+      height: '50%',
+      width: '90%',
+      marginTop: 'auto',
+      marginBottom: 40,
+      alignItems:'center',
+      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: '#00d1a3',
+      alignSelf: 'center'
+    },
+
   }
 )
