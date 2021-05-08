@@ -26,11 +26,5 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
     product_img = models.FileField(
         upload_to='products', blank=True, null=True)
-<<<<<<< HEAD
     generic_name = models.ForeignKey(
         GenericName, default=None, on_delete=models.CASCADE)
-=======
-
-    def __str__(self):
-        return self.name
->>>>>>> 7033f8173218a63d9e22ad777f7bf199fce1c1a3

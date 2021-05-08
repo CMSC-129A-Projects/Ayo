@@ -13,13 +13,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.db.models import Q
 from django.shortcuts import render
-<< << << < HEAD
-
->>>>>> > 7033f8173218a63d9e22ad777f7bf199fce1c1a3
 
 # Create your views here.
-
-<< << << < HEAD
 
 
 class FreeRequestItems(APIView):

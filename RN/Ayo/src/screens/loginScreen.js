@@ -83,24 +83,25 @@ const LogInScreen = () => {
       if(has_error)
         return null;
       
-    setJWT(response.data.jwt);
-    const header = {
-      headers:{
-        'Authorization': "Bearer " + response.data.jwt 
-      }
-    }
-    const payload = {
-    }
-    const secondresponse = await usersApi.get('user', payload, header);
-    console.log(secondresponse.data.data);
-    setUser(secondresponse.data.data)
+      console.log(response.data.is_staff);
+    // setJWT(response.data.jwt);
+    // const header = {
+    //   headers:{
+    //     'Authorization': "Bearer " + response.data.jwt 
+    //   }
+    // }
+    // const payload = {
+    // }
+    // const secondresponse = await usersApi.get('user', payload, header);
+    // console.log(secondresponse.data.data);
+    // setUser(secondresponse.data.data)
     // SUUUUUPER EXPLICIT
-    if(secondresponse.data.data['is_verified']){
+    if(response.data.is_staff || response.data.is_verified){
       toggleVerify();
       setWaitingVisible(false);
       setRejectVisible(false);
     }
-    else if(secondresponse.data.data['is_rejected']){
+    else if(secondresponse.data.is_rejected){
       toggleRejected();
       setWaitingVisible(false);
       setVerifyVisible(false);
