@@ -2,13 +2,16 @@ from rest_framework import serializers
 
 from .models import User, PharmacyWorker, Owner, Customer
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 import urllib
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['name', 'contact_number', 'address', 'password']
+        fields = ['id', 'username', 'name', 'contact_number',
+                  'address', 'password', 'role']
 
         extra_kwargs = {
             # does not show password on read operations
@@ -22,16 +25,26 @@ class UserSerializer(serializers.ModelSerializer):
             if password is not None:
                 instance.set_password(password)
             instance.save()
+            if validated_data['role'] == 'Customer':
+                assigned_group = Group.objects.get(name='Customer')
+                assigned_group.user_set.add(instance)
+            elif validated_data['role'] == 'Owner':
+                assigned_group = Group.objects.get(name='Owner')
+                assigned_group.user_set.add(instance)
+            elif validated_data['role'] == 'Worker':
+                assigned_group = Group.objects.get(name='PharmacyWorker')
+                assigned_group.user_set.add(instance)
             return instance
-        except e:
-            print(e)
+        except:
+            raise(AttributeError)
 
     def update(self, instance, validated_data):
         # TODO: what do we need to checl jere?
         try:
             print(validated_data)
-            instance.name = validated_data.get('name', instance.first_name)
-            if validated_data.get('password') != instance.password:
+            instance.name = validated_data.get('name', instance.name)
+            if validated_data.get('password') and validated_data.get('password') != instance.password:
+                print("CHANGE PASS VRO")
                 instance.set_password(validated_data.get(
                     'password'))
             instance.address = validated_data.get('address', instance.address)
@@ -43,28 +56,54 @@ class UserSerializer(serializers.ModelSerializer):
             print(e)
 
 
-class PharmacyWorkerSerializer(UserSerializer):
+class UserViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'contact_number',
+                  'address', 'id', 'role']
+
+
+class PharmacyWorkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = PharmacyWorker
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'password', 'medical_license']
+        fields = ['worker_user', 'medical_license']
+
+    def create(self, validated_data):
+        try:
+            instance = self.Meta.model(**validated_data)
+            instance.save()
+            return instance
+        except e:
+            print(e)
 
 
-class CustomerSerializer(UserSerializer):
+class PharmacyWorkerViewSerializer(PharmacyWorkerSerializer):
+    medical_license = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        preurl = settings.MEDIA_URL + obj['medical_license']
+        return self.context['request'].build_absolute_uri(preurl)
+
+    class Meta:
+        model = PharmacyWorker
+        fields = ['worker_user', 'medical_license']
+
+
+class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'password', 'valid_id1']
+        fields = ['customer_user', 'valid_id1']
+
+    def create(self, validated_data):
+        try:
+            instance = self.Meta.model(**validated_data)
+            instance.save()
+            return instance
+        except e:
+            print(e)
 
 
-class OwnerSerializer(UserSerializer):
-    class Meta:
-        model = Owner
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'password', 'business_permit']
-
-
-class CustomerViewSerializer(UserSerializer):
+class CustomerViewSerializer(CustomerSerializer):
     valid_id1 = serializers.SerializerMethodField('get_valid_id1_url')
 
     def get_valid_id1_url(self, obj):
@@ -73,31 +112,31 @@ class CustomerViewSerializer(UserSerializer):
 
     class Meta:
         model = Customer
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'valid_id1', 'is_verified', 'is_rejected']
+        fields = ['customer_id',
+                  'valid_id1', 'is_verified', 'is_rejected']
 
 
-class PharmacyWorkerViewSerializer(UserSerializer):
-    medical_license = serializers.SerializerMethodField('get_valid_id1_url')
-
-    def get_valid_id1_url(self, obj):
-        preurl = settings.MEDIA_URL + obj['valid_id1']
-        return self.context['request'].build_absolute_uri(preurl)
-
+class OwnerSerializer(UserSerializer):
     class Meta:
-        model = PharmacyWorker
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'password', 'medical_license']
+        model = Owner
+        fields = ['owner_user', 'business_permit']
+
+    def create(self, validated_data):
+        try:
+            instance = self.Meta.model(**validated_data)
+            instance.save()
+            return instance
+        except e:
+            print(e)
 
 
 class OwnerViewSerializer(UserSerializer):
-    business_permit = serializers.SerializerMethodField('get_valid_id1_url')
+    business_permit = serializers.SerializerMethodField('get_image_url')
 
-    def get_valid_id1_url(self, obj):
-        preurl = settings.MEDIA_URL + obj['valid_id1']
+    def get_image_url(self, obj):
+        preurl = settings.MEDIA_URL + obj['business_permit']
         return self.context['request'].build_absolute_uri(preurl)
 
     class Meta:
         model = Owner
-        fields = ['name', 'contact_number', 'username',
-                  'address', 'password', 'business_permit']
+        fields = ['owner_user', 'business_permit']

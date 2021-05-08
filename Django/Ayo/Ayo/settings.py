@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'Users',
     'PurchaseRequests',
     'Prescriptions',
-    'Products'
+    'Products',
 ]
 
 MIDDLEWARE = [
@@ -148,4 +148,15 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
 )
 
+# project level permissions
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': {
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication'
+    # }
+}
+
 AUTH_USER_MODEL = 'Users.User'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
