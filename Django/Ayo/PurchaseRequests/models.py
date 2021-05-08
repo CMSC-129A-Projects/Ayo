@@ -8,7 +8,8 @@
 from django.db import models
 import uuid
 
-from Users.models import User
+from Users.models import User, Customer
+from Products.models import Product
 from Prescriptions.models import MedicineRecord, Prescription
 from Products.models import Product
 

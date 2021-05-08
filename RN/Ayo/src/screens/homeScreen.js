@@ -6,10 +6,12 @@ import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
 import { getSelectLogin } from '../redux/loginScreen/selectors';
 import {getSelectSignup} from '../redux/signupScreen/selectors';
+import {getUser} from '../redux/loginScreen/selectors';
 
 export default function homeScreen({navigation}) {
+      const user = useSelector(getUser);
       const signupval = useSelector(getSelectSignup);
-      console.log("Final signup vals ", signupval);
+      console.log("Final signup vals ", user);
 
       return (
             <SafeAreaView style = {styles.Container}>
@@ -30,9 +32,9 @@ export default function homeScreen({navigation}) {
                         <View style = {styles.barGraphic}>
                         </View>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products", img:icons.homeScreenButton1, screen:"Product List"},
+                              {title: "View Products Staff", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "Screen3", img:icons.homeScreenButton1 }
+                              {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
                               {title: "Screen4", img:icons.homeScreenButton1},

@@ -63,7 +63,7 @@ class RequestItemSerializer(serializers.ModelSerializer):
             print("Error occured 1")
 
     def update(self, instance, validated_data):
-        # TODO: what do we need to checl jere?
+        # TODO: check for non-negative values
         instance.quantity = validated_data.get('quantity', instance.quantity)
         instance.save()
         return instance
@@ -72,11 +72,6 @@ class RequestItemSerializer(serializers.ModelSerializer):
 
 
 class RequestItemViewSerializer(serializers.ModelSerializer):
-    #     product_img = serializers.SerializerMethodField('get_url')
-
-    #     def get_url(self, obj):
-    #         preurl = settings.MEDIA_URL + obj['product_img']
-    #         return self.context['request'].build_absolute_uri(preurl)
 
     class Meta:
         model = PurchaseRequest

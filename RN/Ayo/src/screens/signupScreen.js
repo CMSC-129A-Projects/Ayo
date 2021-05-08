@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, 
+import React, {useState, useEffect} from 'react';
+import {Platform,
+        StyleSheet, 
         Text, 
         View,
         TextInput,
@@ -7,9 +8,13 @@ import {StyleSheet,
         ImageBackground, 
         SafeAreaView,
         Modal} from 'react-native';
+import Constants from 'expo-constants';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {createSelector} from 'reselect';
+import * as Location from 'expo-location';
+import axios from 'axios';
+import locApi from '../api/Location';
 
 import {getSelectSignup, getUsername, getName, getPassword, getPasswordConfirm, getContactNumber, getAddress} from '../redux/signupScreen/selectors';
 
@@ -42,15 +47,36 @@ const SignUpScreen = () => {
     const signupData = useSelector(getSelectSignup);
     const {setUsername, setName, setPassword, setPasswordConfirm, setContactNumber, setAddress} = actionDispatch(useDispatch());
     const {username, name, password, password_confirm, contact_number, address} = getLoginData(); 
-    // const [usernameInput, recordUsernameInput] = useState('');
-    // const [passwordInput, recordPasswordInput] = useState('');
-    // const [contactNumberInput, recordContactNumberInput] = useState('');
-    // const [addressInput, recordAddressInput] = useState('');
     const navigation = useNavigation();
-
     const [firstStep, setFirstStepVisible] = useState(true);
     const [secondStep, setSecondStepVisible] = useState(false);
+    const [filledFields1, setFilledFields1] = useState(0);
+    const [filledFields2, setFilledFields3] = useState(0);
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
+    const getLocation = async () => {
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+          setErrorMsg(
+            'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
+          );
+          return;
+        }
+        let { status } = await Location.requestPermissionsAsync().catch((error) => console.log(error));
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+        console.log("after here");
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        console.log(`&lat=${location.coords.latitude}&lon=${location.coords.longitude}&format=json`);
+        const response = await axios.get(`https://us1.locationiq.com/v1/reverse.php?key=pk.c4d3bc349c75133c9c91dc86dec37582&lat=${location.coords.latitude}&lon=${location.coords.longitude}&format=json`)
+        console.log(response["data"]["address"]);
+        setAddress(`${response["data"]["address"]["road"]}, ${response["data"]["address"]["village"]}, ${response["data"]["address"]["city"]}`)
+    };
+ 
     /* TODO: 
         - INTEGRATE RED BORDER PARA SA: 
           = LACKING ENTRIES ONPRESS SA REGISTER
@@ -132,9 +158,18 @@ const SignUpScreen = () => {
                         style = {styles.OtherFields}/>
                   </View>
                   <View>
+                    <TouchableOpacity style = {styles.NextButton} onPress = {() => {
+                      getLocation()
+                    }}>
+                      <Text style = {styles.ButtonText}>Get Location</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
                     <TextInput 
-                        placeholder = "Address"
-                        placeholderTextColor = '#dcdcdc'
+                        placeholder = {signupData.address} 
+                        placeholderTextColor = '#000000'
+                        fontSize = {10}
+                        // placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         onChangeText = {(addressInput) => setAddress(addressInput)}
                         style = {styles.OtherFields}/>

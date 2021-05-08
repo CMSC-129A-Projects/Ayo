@@ -74,7 +74,6 @@ const customerSignUpScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                   const formdata = json2formdata(JSON.stringify(finalval))
-                  console.log("before ", formdata);
                   usersApi.post('register', formdata, {headers : {
                     'Content-Type': 'multipart/form-data',
                   }}).then(err => console.log(err))

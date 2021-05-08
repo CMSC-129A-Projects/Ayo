@@ -27,13 +27,13 @@ from .authentication import generate_access_token, JWTAuthentication
 
 # helper function to convert uri from RN to django-file for storage
 
-def uri_to_img(id, uri):
+def uri_to_img(name, uri):
     opened_img = urlretrieve(uri)
     img = Image.open(opened_img[0])
     img_io = BytesIO()
     img.save(img_io, format='PNG')
     img_file = InMemoryUploadedFile(
-        img_io, None, id + '.png', 'images/png', sys.getsizeof(img_io), None)
+        img_io, None, name.replace(" ", "") + '.png', 'images/png', sys.getsizeof(img_io), None)
     return img_file
 
 
@@ -42,7 +42,7 @@ class NewProduct(APIView):
     def post(self, request):
         data = request.data
         new_data = data.copy()
-        new_data['product_img'] = uri_to_img(data['id'],
+        new_data['product_img'] = uri_to_img(data['name'],
                                              data['product_img'])
         serializer = ProductSerializer(data=new_data)
 

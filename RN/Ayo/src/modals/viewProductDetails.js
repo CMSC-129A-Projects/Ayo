@@ -11,7 +11,8 @@ export default function ViewProductDetails({itemData}) {
             <View>
                   <View style = {styles.TopDetailsContainer}>
                         <View style = {styles.TopTextContainer}>
-                              <Text style = {styles.NameText}>Name: {name}</Text>
+                              <Text style = {styles.NameText}>Brand Name: {name}</Text>
+                              <Text>Generic Name: N/A</Text>
                               <Text>Price: {price}</Text>
                         </View>
                         <Image source={product_img} style={styles.images}/>
@@ -19,7 +20,7 @@ export default function ViewProductDetails({itemData}) {
                   <View style = {styles.barGraphic}/>
                   <View style = {styles.DescriptionContainer}>
                         <Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget dolor felis. Praesent euismod ac lacus nec iaculis. Quisque vel diam risus. Nam facilisis et justo at iaculis. Etiam non sapien eleifend, congue diam porta, vehicula velit. Etiam eu urna erat. Vivamus ac lacus vel turpis auctor dictum. Pellentesque leo justo, tincidunt ac rutrum vel, porttitor vitae dolor. Aenean condimentum orci tellus, non vulputate leo facilisis non. Nulla tempor sagittis dictum.
+                              {description}
                         </Text>
                   </View>
             </View>
@@ -30,7 +31,8 @@ export default function ViewProductDetails({itemData}) {
 const styles = StyleSheet.create({
       images : {
             height: 100,
-            width: 100
+            width: 100,
+            marginRight: '5%'
       },
       quantity : {
             marginVertical: 10,

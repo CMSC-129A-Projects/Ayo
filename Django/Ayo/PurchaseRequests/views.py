@@ -1,14 +1,25 @@
-from django.shortcuts import render
-from django.db.models import Q
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
-from django.contrib.auth import get_user_model
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+"""
+TODO:
+- reconfigure api for possible roles
+"""
 
-from .models import *
+
 from .serializers import *
+from .models import *
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+from django.db.models import Q
+from django.shortcuts import render
+<< << << < HEAD
+
+>>>>>> > 7033f8173218a63d9e22ad777f7bf199fce1c1a3
+
 # Create your views here.
+
+<< << << < HEAD
 
 
 class FreeRequestItems(APIView):
@@ -47,6 +58,9 @@ class ChangeRequestItems(APIView):
 
         if request is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if request.data.get('quantity') < 0:
+            raise exceptions.AuthenticationFailed("Value less than 0")
 
         serializer = RequestItemSerializer(
             data=request.data, instance=request, partial=True)
