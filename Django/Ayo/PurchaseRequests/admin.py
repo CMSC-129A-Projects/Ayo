@@ -1,10 +1,7 @@
 from django.contrib import admin
 
-from .models import PrescriptionRequest, OrderRequest, PrescriptionItem, OrderItem, PaymentSlip
+from .models import RequestItem, PurchaseRequest
 # Register your models here.
 
-admin.site.register(PrescriptionRequest)
-admin.site.register(OrderRequest)
-admin.site.register(PrescriptionItem)
-admin.site.register(OrderItem)
-admin.site.register(PaymentSlip)
+admin.site.register(PurchaseRequest)
+admin.site.register(RequestItem)

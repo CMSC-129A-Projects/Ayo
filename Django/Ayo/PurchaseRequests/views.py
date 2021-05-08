@@ -4,108 +4,189 @@ TODO:
 """
 
 
-from django.shortcuts import render
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import exceptions
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from PIL import Image
-from io import BytesIO
-from urllib.request import urlretrieve
-from django.core.files.uploadedfile import InMemoryUploadedFile
-import sys
-from django.db.models import Q
-
 from .serializers import *
 from .models import *
-from .authentication import generate_access_token, JWTAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+from django.db.models import Q
+from django.shortcuts import render
+<< << << < HEAD
 
+>>>>>> > 7033f8173218a63d9e22ad777f7bf199fce1c1a3
 
 # Create your views here.
 
-# helper function to convert uri from RN to django-file for storage
+<< << << < HEAD
 
-class NewOrderItem(APIView):
+
+class FreeRequestItems(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        items = RequestItem.objects.filter(request_id=None)
+        serializer = PurchaseRequestViewSerializer(items, many=True)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )
+
+
+class RequestItems(APIView):
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
-        data = request.data
-        serializer = OrderItemSerializer(data=data)
+        serializer = RequestItemSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+        # call serializer
 
 
-@api_view(['GET'])
-def OrderItems(request):
-    print(OrderItem.objects.all().values())
-    serializer = OrderItemViewSerializer(
-        OrderItem.objects.all().values(), many=True)
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-def CustomerOrderItems(request):
-    id = request.data.get('customer_id')
-    serializer = OrderItemViewSerializer(
-        OrderItem.objects.filter(customer_id=id).values(), many=True)
-    return Response(serializer.data)
-
-
-# TODO: recalculate cost?
-class ChangedOrderItem(APIView):
+class ChangeRequestItems(APIView):
+    permission_classes = (IsAuthenticated, )
 
     def patch(self, request):
-        order_item = OrderItem.objects.filter(
-            id=request.data.get('id')).first()
+        request = RequestItem.objects.filter(id=request.data.get('id')).first()
 
-        if order_item is None:
-            raise exceptions.AuthenticationFailed("User not found")
+        if request is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # determine what kind of error
         if request.data.get('quantity') < 0:
             raise exceptions.AuthenticationFailed("Value less than 0")
 
-        serializer = OrderItemSerializer(
-            data=request.data, instance=order_item)
+        serializer = RequestItemSerializer(
+            data=request.data, instance=request, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({
-            'data': serializer.data
-        })
+        return Response(
+            serializer.data,
+            status=status.HTTP_202_ACCEPTED
+        )
+
+    def delete_request_item():
+        request = RequestItem.objects.filter(id=request.data.get('id')).first()
+
+        if request is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        request.delete()
+
+        return Response(
+            status=status.HTTP_200_OK
+        )
 
 
-class DeletedOrderItem (APIView):
-
-    def post(self, request):
-        order_item_to_delete = OrderItem.objects.filter(
-            id=request.data['id']).first()
-        print(order_item_to_delete)
-        if order_item_to_delete != None:
-            order_item_to_delete.delete()
-            return Response("Deleted")
-        else:
-            return Response("Failed")
-
-
-class DeletedOrderItemList(APIView):
+class DeleteMultipleItems(APIView):
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
         for req_id in request.data['ids']:
-            if len(OrderItem.objects.filter(id=req_id)) == 0:
-                return Response("Failed")
+            if len(RequestItem.objects.filter(id=req_id)) == 0:
+                return Response(
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
         for req_id in request.data['ids']:
-            order_item_to_delete = OrderItem.objects.filter(
-                id=request.data['id']).first()
-            print(order_item_to_delete)
-            if order_item_to_delete != None:
-                order_item_to_delete.delete()
-                return Response("Deleted")
+            product_to_delete = RequestItem.objects.filter(
+                id=req_id).first()
+            print(product_to_delete)
+            if product_to_delete is not None:
+                product_to_delete.delete()
             else:
-                return Response("Failed")
+                return Response(
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        return Response("Deleted all")
+        return Response(
+            status=status.HTTP_200_OK
+        )
+
+
+class UserOrders(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        user = get_user_model().objects.filter(id=request.user.id).first()
+
+        if user is None:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        orders = PurchaseRequest.objects.filter(customer_id=user.id)
+
+        if orders is None:
+            return Response(
+                None,
+                status=status.HTTP_200_OK
+            )
+
+        serializer = PurchaseRequestViewSerializer(orders, many=True)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )
+
+
+class UnfulfilledRequests(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        requests = PurchaseRequest.objects.filter(
+            Q(is_confirmed=False) & Q(is_cancelled=False) & Q(is_fulfilled-False))
+        serializer = PurchaseRequestViewSerializer(request, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AllOrders(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        orders = PurchaseRequest.objects.all()
+
+        if orders is None:
+            return Response(
+                None,
+                status=status.HTTP_200_OK
+            )
+
+        serializer = PurchaseRequestViewSerializer(orders, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CreateOrder(APIView):
+    permission_classes = (IsAuthenticated, )
+    # needs improvement pa ni
+
+    def post(self, request):
+        new_data = request.data.copy()
+        new_data['customer_id'] = request.user.id
+        serializer = PurchaseRequestSerializer(data=new_data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# go for update only?
+
+
+def cancel_order():
+    pass
+
+
+def approve_order():
+    pass
+
+
+def add_order_note():
+    pass
