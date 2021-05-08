@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('Users.urls')),
     path('products/', include('Products.urls')),
+    path('basket/', include('PurchaseRequests.basketurls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

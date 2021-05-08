@@ -6,7 +6,8 @@ import pharmacyStaffSignupScreen from './pharmacyStaffSignupScreen';
 import pharmacyOwnerSignupScreen from './pharmacyOwnerSignupScreen';
 import confirmationScreen from './ownerConfirmationScreen';
 import homeScreen from './homeScreen';
-import productListScreen from './productListScreen';
+import customerProductListScreen from './customerProductListScreen';
+import staffProductListScreen from './staffProductListScreen';
 /* import viewMedItemsScreen from './viewMedItemsScreen';*/
 import medItemScreen from './medItemScreen';
 import apiTestScreen from './apiTestScreen';
@@ -22,7 +23,8 @@ export {loginScreen,
         pharmacyOwnerSignupScreen,
         confirmationScreen,
         homeScreen, 
-        productListScreen, 
+        customerProductListScreen,
+        staffProductListScreen, 
         medItemScreen, 
         apiTestScreen,
         testingscreen,

@@ -1,7 +1,9 @@
 import React, { Component, useState } from 'react';
+import {useNavigation} from '@react-navigation/native';
 import { Modal, Text, ImageBackground, TouchableOpacity, View, Alert,StyleSheet } from 'react-native';
 
 export default function App({toVisible, toggle}) {
+  const navigation = useNavigation();
 
   const modalHeader=(
     <View style={styles.modalHeader}>
@@ -27,7 +29,10 @@ export default function App({toVisible, toggle}) {
           <Text style={styles.actionText}>No</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{...styles.actions,backgroundColor:"#21ba45"}}
-        //onPress={() =>navigation.navigate("SignUp")}
+          onPress={() => {
+            Alert.alert(toggle());
+            navigation.navigate("Sign Up")}
+        }
         >
           <Text style={styles.actionText}>Yes</Text>
         </TouchableOpacity>

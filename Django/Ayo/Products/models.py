@@ -13,3 +13,6 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=False, blank=True)
     product_img = models.FileField(
         upload_to='products', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
