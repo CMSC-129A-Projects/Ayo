@@ -16,8 +16,8 @@ import * as ImagePicker from 'expo-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import json2formdata from 'json2formdata'
 
-import {getSelectSignup, getMedicalLicense} from '../redux/signupScreen/selectors';
-import {setMedicalLicense} from '../redux/signupScreen/actions';
+import {getSelectSignup, getMedicalLicense} from '../redux/UserDetails/selectors';
+import {setMedicalLicense} from '../redux/UserDetails/actions';
 import usersApi from '../api/Users';
 
 const actionDispatch = (dispatch) => ({
