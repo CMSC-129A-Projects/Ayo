@@ -22,6 +22,7 @@ import DeleteProductModal from '../modals/deleteProduct'
 import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
+import EditQuantity from '../modals/editQuantity'
 import RNPickerSelect from 'react-native-picker-select';
 import {Fontisto} from '@expo/vector-icons';
 
@@ -301,11 +302,12 @@ const productList = () => {
             }}>
       <View style={styles.addSuccessContainer}>
         <AddProductSuccess/>
+        {/*//setTimeout(() => 
+          //setSuccessVisible(false), 3000);*/}
         <TouchableOpacity>
           <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', marginBottom: 1, alignSelf: 'flex-end'}} 
           onPress ={() =>
-          setSuccessVisible(!successVisible)
-          //setDeleteVisible(!deleteVisible)
+            setSuccessVisible(!successVisible)
           }>
             OK
           </Text>
@@ -415,12 +417,7 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-                    <TextInput
-                      placeholder = "Quantity"
-                      placeholderTextColor = '#ffffff'
-                      underlineColorAndroid = "transparent"
-                      style = {styles.inputField}
-                    />
+                    <EditQuantity/>
                     </View>
                   <View style = {styles.addProductDetailsImages}>
                     <TouchableOpacity style = {styles.ImagePreviewContainer} 
