@@ -8,7 +8,9 @@ import {ActionTypes} from './constants';
 const defaultState = {
       username : '',
       password : '',
-      JWT : '',
+      password_confirm : '',
+      JWT_REFRESH : '',
+      JWT_ACCESS : '',
       name: '',
       new_password: '',
       contact_number: '',
@@ -37,8 +39,12 @@ export default function loginScreenReducer(state = defaultState, action) {
                   return {...state, username:action.payload}
             case ActionTypes.SET_PASSWORD:
                   return {...state, password:action.payload}
-            case ActionTypes.SET_JWT:
-                  return {...state, JWT :action.payload}
+            case ActionTypes.SET_PASSWORD_CONFIRM:
+                  return {...state, password_confirm:action.payload}
+            case ActionTypes.SET_JWT_REFRESH:
+                  return {...state, JWT_REFRESH :action.payload}
+            case ActionTypes.SET_JWT_ACCESS:
+                  return {...state, JWT_ACCESS :action.payload}
             case ActionTypes.SET_NAME:
                   return {...state, name:action.payload}
             case ActionTypes.SET_NEW_PASSWORD:

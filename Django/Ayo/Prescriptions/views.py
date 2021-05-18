@@ -4,36 +4,22 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser, AllowAny
 
 from .models import *
 from .serializers import *
 
-
-def update_medicine_record():
-    pass
-    # calll serializer
-
-
-def delete_medicine_record():
-    pass
-    # calll serializer
-
-
-def delete_multiple_medicine_record():
-    pass
-    # calll serializer
-
 # Create your views here.
 
 
-class MedicineRecords(APIView):
-    permission_classes = (IsAuthenticated, )
+class FreeMedicineRecords(APIView):
+    permission_classes = (AllowAny, )
 
     # check on this!
-    def get(self, request):
-        items = MedicineRecord.objects.filter(prescription_id=None)
-        serializer = MedicineRecordSerializer(items, many=True)
+    def get(self, request, userid):
+        items = MedicineRecord.objects.filter(
+            Q(prescription_id=None) & Q(customer_id=userid))
+        serializer = MedicineRecordViewSerializer(items, many=True)
 
         return Response(
             serializer.data,
@@ -41,10 +27,12 @@ class MedicineRecords(APIView):
         )
 
 
-class CreateMedicineRecord(APIView):
-    permission_classes = (IsAuthenticated, )
+class NewMedicineRecord(APIView):
+    permission_classes = (AllowAny, )
 
     def post(self, request):
+        # DO CHECKS HERE
+
         serializer = MedicineRecordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -53,21 +41,22 @@ class CreateMedicineRecord(APIView):
             serializer.data,
             status=status.HTTP_201_CREATED
         )
-        # call serializer
 
 
-class ChangeMedicineRecord(APIView):
-    permission_classes = (IsAuthenticated, )
+class MedicineRecordView(APIView):
+    permission_classes = (AllowAny, )
 
-    def patch(self, request):
-        request = MedicineRecord.objects.filter(
-            id=request.data.get('id')).first()
+    def patch(self, request, medid):
+        med = MedicineRecord.objects.filter(
+            id=medid).first()
 
-        if request is None:
+        if med is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        # DO CHECKS HERE!
+
         serializer = MedicineRecordSerializer(
-            data=request.data, instance=request, partial=True)
+            data=request.data, instance=med, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -76,9 +65,9 @@ class ChangeMedicineRecord(APIView):
             status=status.HTTP_202_ACCEPTED
         )
 
-    def delete(self, request):
+    def delete(self, request, medid):
         record = MedicineRecord.objects.filter(
-            id=request.data.get('id')).first()
+            id=medid).first()
 
         if record is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -90,7 +79,7 @@ class ChangeMedicineRecord(APIView):
 
 
 class DeleteMultipleRecords(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (AllowAny, )
 
     def post(self, request):
         for req_id in request.data['ids']:
@@ -116,10 +105,10 @@ class DeleteMultipleRecords(APIView):
 
 
 class UserPrescriptions(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (AllowAny, )
 
-    def get(self, request):
-        user = get_user_model().objects.filter(id=request.user.id).first()
+    def get(self, request, userid):
+        user = get_user_model().objects.filter(id=userid).first()
 
         if user is None:
             return Response(
@@ -134,24 +123,59 @@ class UserPrescriptions(APIView):
                 status=status.HTTP_200_OK
             )
 
-        serializer = PrescriptionSerializer(orders, many=True)
+        serializer = PrescriptionViewSerializer(orders, many=True)
         return Response(
             serializer.data,
             status=status.HTTP_200_OK
         )
 
 
-class CreatePrescription(APIView):
-    permission_classes = (IsAuthenticated, )
+class NewPrescription(APIView):
+    permission_classes = (AllowAny, )
     # needs improvement pa ni
 
     def post(self, request):
-        new_data = request.data.copy()
-        new_data['customer_id'] = request.user.id
-        serializer = PrescriptionSerializer(data=new_data)
+        # do checks here
+        print(request.data)
+        serializer = PrescriptionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # go for update only?
+
+
+class PrescriptionView(APIView):
+    permission_classes = (AllowAny, )
+
+    def patch(self, request, presid):
+        med = Prescription.objects.filter(
+            id=presid).first()
+
+        if med is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # DO CHECKS HERE!
+
+        serializer = PrescriptionViewSerializer(
+            data=request.data, instance=med, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_202_ACCEPTED
+        )
+
+    def delete(self, request, presid):
+        record = Prescription.objects.filter(
+            id=presid).first()
+
+        if record is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        record.delete()
+
+        return Response(
+            status=status.HTTP_200_OK
+        )

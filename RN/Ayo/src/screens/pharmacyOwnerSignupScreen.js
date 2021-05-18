@@ -12,8 +12,8 @@ import * as ImagePicker from 'expo-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import json2formdata from 'json2formdata'
 
-import {getSelectSignup, getBusinessPermit} from '../redux/signupScreen/selectors';
-import {setBusinessPermit} from '../redux/signupScreen/actions';
+import {getSelectSignup, getBusinessPermit} from '../redux/UserDetails/selectors';
+import {setBusinessPermit} from '../redux/UserDetails/actions';
 import usersApi from '../api/Users';
 
 const actionDispatch = (dispatch) => ({

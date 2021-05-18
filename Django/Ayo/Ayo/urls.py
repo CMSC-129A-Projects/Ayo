@@ -31,6 +31,7 @@ urlpatterns = [
     path('users/', include('Users.urls')),
     path('products/', include('Products.urls')),
     path('basket/', include('PurchaseRequests.urls')),
+    path('prescriptions/', include('Prescriptions.urls')),
     # TODO: REMOVE THIS AFTER TESTING
 ]
 

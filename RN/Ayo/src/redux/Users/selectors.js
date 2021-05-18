@@ -25,5 +25,5 @@ export const getPassword = createSelector(
 
 export const getJWT = createSelector(
       loginScreenState,
-      (loginScreenState) => loginScreenState.JWT
+      (loginScreenState) => {loginScreenState.JWT_REFRESH, loginScreenState.JWT_ACCESS}
 )

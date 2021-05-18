@@ -7,9 +7,8 @@ TODO:
 from django.shortcuts import render
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
 from rest_framework.response import Response
-from rest_framework import exceptions, status, permissions
+from rest_framework import exceptions, status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -24,6 +23,7 @@ import uuid
 from .serializers import PharmacyWorkerSerializer, UserSerializer, UserViewSerializer, OwnerSerializer, CustomerSerializer, CustomerViewSerializer, PharmacyWorkerViewSerializer, OwnerViewSerializer
 from .models import User, PharmacyWorker, Customer, Owner
 from .authentication import generate_access_token, JWTAuthentication
+from permissionfunctions import *
 
 
 # Create your views here.
@@ -47,34 +47,6 @@ def uri_to_img(role, uri, username):
     img_file = InMemoryUploadedFile(
         img_io, None, username + imgtype + '.png', 'images/png', sys.getsizeof(img_io), None)
     return img_file
-
-
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    """Allow unsafe methods for admin users only."""
-
-    def has_permission(self, request, view):
-        if not request.user or isinstance(request.user, AnonymousUser):
-            print("ANONYMOUS KASI")
-            return False
-        if request.user.is_superuser:
-            print("SUPERUSER HERE")
-            return True
-            # return bool(request.user.role == "Owner" or request.user.role == "Worker")
-
-        return bool(request.user.role == "Owner")
-
-
-class IsPharmacyStaffOrReadOnly(permissions.BasePermission):
-    """Allow unsafe methods for admin users only."""
-
-    def has_permission(self, request, view):
-        if not request.user:
-            return False
-        if request.user.is_superuser:
-            return True
-        return bool(request.user.role == "Owner" or request.user.role == "Worker")
-
-# TODO: edit this to add viewing capabiliies for other users
 
 
 class User(APIView):
@@ -168,10 +140,8 @@ class RegisterUser(APIView):
             serializer_img = CustomerSerializer(data=new_data)
 
         serializer_img.is_valid(raise_exception=True)
-        print(serializer_img.validated_data)
         serializer_img.save()
 
-        print("MANA TA VRO")
         return Response(
             serializer.data,
             status=status.HTTP_201_CREATED
@@ -218,7 +188,7 @@ class LoginUser(APIView):
 
 
 class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
 
     def get(self, request):
         unverified = Customer.objects.filter(
@@ -230,7 +200,7 @@ class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
 
 
 class ApproveCustomer(APIView, IsOwnerOrReadOnly):
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
 
     def patch(self, request):
         customer = Customer.objects.get(customer_user=request.data['id'])
@@ -239,7 +209,7 @@ class ApproveCustomer(APIView, IsOwnerOrReadOnly):
 
 
 class RejectCustomer(APIView, IsOwnerOrReadOnly):
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
 
     def patch(self, request):
         customer = Customer.objects.get(customer_user=request.data['id'])

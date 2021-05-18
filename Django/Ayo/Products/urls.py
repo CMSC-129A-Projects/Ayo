@@ -3,9 +3,11 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('products', products),
-    path('addproduct', NewProduct.as_view()),
-    path('deleteproduct', DeletedProduct.as_view()),
-    path('editproduct', ChangedProduct.as_view()),
-    path('deleteproductlist', DeletedProductList.as_view())
+    path('product/all', Products.as_view()),
+    path('product/add', NewProduct.as_view()),
+    path('product/instance/<str:product>', ProductView.as_view()),
+    path('product/multidelete', DeletedProductList.as_view()),
+    path('generic/add', NewGenericName.as_view()),
+    path('generic/all', GenericNames.as_view()),
+    path('generic/instance/<str:generic>', GenericNameView.as_view()),
 ]

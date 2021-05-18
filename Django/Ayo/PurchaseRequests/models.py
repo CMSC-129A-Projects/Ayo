@@ -1,5 +1,5 @@
 """
-   TODO
+   TODO:
    continue this
    check if needed pa ba gyud ang separate labels
    check if needed ba nga vector ang cost_pairs a la class diag
@@ -29,11 +29,18 @@ class PurchaseRequest(models.Model):
     request_type = models.CharField(max_length=20, blank=True, null=True)
     total_cost = models.FloatField(default=0.0)
     prescription_id = models.ForeignKey(
-        Prescription, default=None, on_delete=models.CASCADE)
+        Prescription, null=True, blank=True, default=None, on_delete=models.CASCADE)
     note = models.TextField(max_length=500, null=True)
 
-    # TODO: update this
     def save(self, *args, **kwargs):
+        prev = PurchaseRequest.objects.filter(id=self.id)
+        # return stock quantity upon calcellation
+        if prev.is_cancelled == False and self.is_cancelled == True:
+            total = 0
+            for item in RequestItem.objects.filter(request_id_id=self.id):
+                prod = Product.objects.filter(id=item.product_id_id).first()
+                prod.quantity += item.quantity
+                prod.save()
         super(PurchaseRequest, self).save(*args, **kwargs)
 
 
@@ -44,6 +51,6 @@ class RequestItem(models.Model):
     product_id = models.ForeignKey(
         Product, default=None, on_delete=models.CASCADE)
     request_id = models.ForeignKey(
-        PurchaseRequest, default=None, on_delete=models.CASCADE)
+        PurchaseRequest, null=True, blank=True, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
     cost = models.FloatField(default=0.0)

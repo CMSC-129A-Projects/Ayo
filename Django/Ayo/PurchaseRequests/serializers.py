@@ -13,54 +13,64 @@ class PurchaseRequestSerializer(serializers.ModelSerializer):
         fields = ['customer_id', 'request_type']
 
     def create(self, validated_data):
-        try:
-            instance = self.Meta.model(**validated_data)
-            for item in RequestItem.objects.filter(Q(user_id=instance.customer_id) & Q(request_id=None)):
-                item.request_id = instance.id
-                item.save()
-
-            instance.save()
-            return instance
-        except:
-            print("Error occured 1")
-
-    def update(self, instance, validated_data):
-        # TODO: what do we need to checl jere?
-        instance.note = validated_data.get('note', instance.note)
-        instance.total_cost = validated_data.get(
-            'total_cost', instance.total_cost)
+        total = 0
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        for item in RequestItem.objects.filter(Q(user_id=validated_data['customer_id']) & Q(request_id=None)):
+            item.request_id_id = str(instance.id)
+            prod = Product.objects.filter(id=item.product_id_id).first()
+            prod.quantity -= item.quantity
+            print("successfully updated")
+            prod.save()
+            total += item.quantity * item.product_id.price
+            item.save()
+        instance.total_cost = total
         instance.save()
         return instance
 
-# do I need this?
-
 
 class PurchaseRequestViewSerializer(serializers.ModelSerializer):
-    #     product_img = serializers.SerializerMethodField('get_url')
+    contents = serializers.SerializerMethodField('get_content')
 
-    #     def get_url(self, obj):
-    #         preurl = settings.MEDIA_URL + obj['product_img']
-    #         return self.context['request'].build_absolute_uri(preurl)
+    def get_content(self, obj):
+        content = []
+        for item in (RequestItem.objects.filter(user_id=obj.customer_id)):
+            content.append(OrderedRequestItemViewSerializer(item).data)
+        return content
 
     class Meta:
         model = PurchaseRequest
         fields = ['id', 'customer_id', 'is_confirmed',
                   'is_cancelled', 'is_fulfilled', 'request_date',
-                  'request_type', 'total_cost', 'prescription_id', 'note']
+                  'request_type', 'total_cost', 'prescription_id', 'note', 'contents']
+        # extra_kwargs = {'contents': 11}
+
+    def update(self, instance, validated_data):
+        # TODO: what do we need to checl jere?
+        print("IN UPDATE")
+        print(validated_data)
+        print(instance)
+        instance.note = validated_data.get('note', instance.note)
+        instance.is_fulfilled = validated_data.get(
+            'is_fulfilled', instance.is_fulfilled)
+        instance.is_cancelled = validated_data.get(
+            'is_cancelled', instance.is_cancelled)
+        instance.is_confirmed = validated_data.get(
+            'is_confirmed', instance.is_confirmed)
+        instance.save()
+        return instance
 
 
 class RequestItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestItem
-        fields = ['quantity', 'product_id', 'request_id', 'user_id']
+        fields = ['quantity', 'product_id', 'user_id']
 
     def create(self, validated_data):
-        try:
-            instance = self.Meta.model(**validated_data)
-            instance.save()
-            return instance
-        except:
-            print("Error occured 1")
+        print("Inside damn", validated_data)
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        return instance
 
     def update(self, instance, validated_data):
         # TODO: check for non-negative values
@@ -72,7 +82,26 @@ class RequestItemSerializer(serializers.ModelSerializer):
 
 
 class RequestItemViewSerializer(serializers.ModelSerializer):
+    product_id = serializers.SerializerMethodField('get_product')
+    user_id = serializers.SerializerMethodField('get_user')
+
+    def get_product(self, obj):
+        return {"id": obj.product_id.id, "name": obj.product_id.name}
+
+    def get_user(self, obj):
+        return {"id": obj.user_id.id, "name": obj.user_id.name}
 
     class Meta:
-        model = PurchaseRequest
+        model = RequestItem
         fields = ['id', 'quantity', 'product_id', 'user_id', 'cost']
+
+
+class OrderedRequestItemViewSerializer(serializers.ModelSerializer):
+    product_id = serializers.SerializerMethodField('get_product')
+
+    def get_product(self, obj):
+        return {"id": obj.product_id.id, "name": obj.product_id.name}
+
+    class Meta:
+        model = RequestItem
+        fields = ['id', 'quantity', 'product_id', 'cost']

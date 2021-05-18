@@ -12,8 +12,8 @@ import {StyleSheet,
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {getUsername, getPassword, getUser} from '../redux/loginScreen/selectors';
-import {setUser, setUsername, setPassword, setJWT} from '../redux/loginScreen/actions' 
+import {getUsername, getPassword, getUser} from '../redux/UserDetails/selectors';
+import {setUser, setUsername, setPassword, setJWT} from '../redux/UserDetails/actions' 
 import usersApi from '../api/Users';
 
 import RejectModal from '../modals/RejectModal';
