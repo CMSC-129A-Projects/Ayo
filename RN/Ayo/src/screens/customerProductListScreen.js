@@ -16,9 +16,10 @@ import {StyleSheet,
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
-import AddProductFail from '../modals/addProductFail'
-import AddProductSuccess from '../modals/addProductSuccess'
-import {Fontisto} from '@expo/vector-icons';
+import AddtoBasketFail from '../modals/addToBasketFail'
+import AddtoBasketSuccess from '../modals/addToBasketSuccess'
+import EditQuantity1 from '../modals/editQuantity1'
+import {Fontisto, Entypo} from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 var tmpProducts = [
@@ -111,10 +112,22 @@ const productList = () => {
           setModalVisible(!modalVisible); 
           
         }}>
-            <View>
+            <View style ={{flexDirection:'row'}}>
+            <TouchableOpacity style= {styles.basket}
+                onPress = {() =>{
+                                  setSuccessVisible(!successVisible)
+                                }}>
+                    <Entypo
+                    name= "shopping-basket"
+                    size = {30}
+                    color= "#ffffff"
+                     />
+                </TouchableOpacity>
+                <View>
               <Text style = {styles.productPreviewTextHeavy}>{item.name}</Text>
               <Text style = {styles.productPreviewText}>$Generic Name$</Text>
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
+              </View>
             </View>
             <Image source={item.product_img}
                 style={styles.productPreviewImage}
@@ -178,10 +191,24 @@ const productList = () => {
               </View>
               <ScrollView style = {styles.productDetailsScrollView}>
                 <ViewProductDetails itemData={itemData}/>
+
+                
               </ScrollView>
-              <TouchableOpacity style={styles.addProductButton}>
+              <Text style={{fontSize:22, alignSelf:'center'}}>Quantity</Text>
+                <EditQuantity1/>
+
+              <TouchableOpacity style={styles.addProductButton}
+              onPress ={() => setSuccessVisible(!successVisible)}>
+            {/*  //setFailVisible(!failVisible)} */}
                 <Text style = {styles.addProductButtonText}>
                   ADD TO BASKET
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buyProductButton}
+              onPress ={() => setFailVisible(!failVisible)}>
+             
+                <Text style = {styles.addProductButtonText}>
+                  BUY NOW
                 </Text>
               </TouchableOpacity>
           </View>
@@ -196,7 +223,7 @@ const productList = () => {
                     setSuccessVisible(false); 
             }}>
       <View style={styles.addSuccessContainer}>
-        <AddProductSuccess/>
+        <AddtoBasketSuccess/>
         <TouchableOpacity>
           <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
           onPress ={() => setSuccessVisible(!successVisible)}>
@@ -216,7 +243,7 @@ const productList = () => {
                     setFailVisible(false); 
             }}>
         <View style={styles.addFailContainer}>
-        <AddProductFail/>
+        <AddtoBasketFail/>
         <TouchableOpacity>
           <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
           onPress ={() => setFailVisible(!failVisible)}>
@@ -341,8 +368,21 @@ const styles = StyleSheet.create(
       alignItems:'center',
       marginTop: '5%',
       padding: '2%',
+      marginBottom: 10
+    },
+    buyProductButton: {
+      borderWidth: 3,
+      borderColor: '#00d1a3',
+      backgroundColor:  '#00E8B5',
+      borderRadius: 23,
+      width: '70%',
+      alignSelf:'center',
+      alignItems:'center',
+      marginTop: 10,
+      padding: '2%',
       marginBottom: '8%'
     },
+    
     addProductButtonText: {
       color: '#ffffff',
       fontSize: 15,
@@ -425,5 +465,21 @@ const styles = StyleSheet.create(
       width: '30%',
       flexDirection: 'column'
     },
+    basket:{
+      width: 45,
+      height: 45,
+      borderRadius: 25,
+      borderColor: '#ffffff',
+      borderWidth: 1,
+      backgroundColor: '#00E8B5',
+      justifyContent:'center',
+      alignItems: 'center',
+      alignSelf:'flex-end',
+      marginHorizontal:5,
+      marginRight:10,
+      marginBottom:10,
+      flexDirection:'row',
+      
+  },
   }
 )
