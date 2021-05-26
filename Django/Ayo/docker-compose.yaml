@@ -23,8 +23,8 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: ayo_django_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_USER: ayo
+      MYSQL_PASSWORD: ayo
       MYSQL_ROOT_PASSWORD: root
     # mapping files to container file
     volumes:

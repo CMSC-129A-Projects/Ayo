@@ -79,8 +79,6 @@ class CreateUserTestCase(TestCase):
         self.customer_access = response.data['jwt']['access']
         self.owner_refresh = response2.data['jwt']['refresh']
         self.owner_access = response2.data['jwt']['access']
-        print(self.customer_refresh)
-        print(self.owner_access)
 
     # def test_api_can_get_all_users(self):
     #     response = self.client.get(
