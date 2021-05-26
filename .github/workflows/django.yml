@@ -20,9 +20,10 @@ jobs:
         python-version: [3.7, 3.8]
         db: [mysql]
         include:
-          - db: ayo_django_db
+          - db: ayp_django_db
             db_user: ayo
             db_password: ayo
+            ports: '3306:3306'
    
     steps:
     - uses: actions/checkout@v2
