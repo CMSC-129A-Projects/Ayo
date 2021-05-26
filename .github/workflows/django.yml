@@ -20,7 +20,7 @@ jobs:
         python-version: [3.7, 3.8]
         db: [mysql]
         include:
-          - db: mysql
+          - db: ayo_django_db
             db_user: ayo
             db_password: ayo
    
