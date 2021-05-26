@@ -6,6 +6,7 @@ Django==3.2
 django-cors-headers==3.7.0
 django-mysql==3.11.1
 djangorestframework==3.12.4
+djangorestframework_simplejwt
 idna==2.7
 mysqlclient==2.0.3
 pika==1.2.0
