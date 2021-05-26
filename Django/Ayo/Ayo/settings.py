@@ -19,7 +19,8 @@ try:
     with open('/etc/djangoconfig.json') as config_file:
         config = json.load(config_file)
 except:
-    pass
+    with open('djangoconfig.json') as config_file:
+        config = json.load(config_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
