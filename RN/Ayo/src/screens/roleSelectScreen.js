@@ -132,6 +132,109 @@ const styles = StyleSheet.create(
         letterSpacing: 1,
         fontFamily: 'Roboto',
         fontWeight: 'bold'
+<<<<<<< Updated upstream
       }
+=======
+      },
+      modal:{
+        backgroundColor:"#ffff",
+        height: '25%',
+        width: '90%',
+        alignSelf: 'center'
+      },
+      modalContainer : {
+        height: '85%',
+        marginTop: 'auto',
+        backgroundColor:'#ffffff',
+        borderTopWidth: 7,
+        borderTopColor: '#dcdcdc',
+        alignItems:'stretch',
+      },
+      modalView : {
+        height: '100%'
+      },
+      ModalButtonContainer:{
+        width: '100%',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+      },
+      UploadButton: {
+        backgroundColor: '#00d1a3',
+        width: '70%',
+        alignSelf:'center',
+        alignItems:'center',
+        marginTop: '7%',
+        borderRadius: 25,
+        padding: '3%',
+        elevation: 3
+      },
+      UploadButtonText: {
+        color: '#ffffff',
+        fontSize: 15,
+        letterSpacing: 1,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold'
+      },
+      SignupButton: {
+        borderWidth: 5,
+        borderColor: '#00d1a3',
+        backgroundColor: 'transparent',
+        width: '70%',
+        alignSelf:'center',
+        alignItems:'center',
+        marginTop: '4%',
+        borderRadius: 25,
+        padding: '1%'
+      },
+      ImagePreviewContainer:{
+        width: '70%',
+        flexDirection: 'row',
+        aspectRatio: 1,
+        elevation: 7,
+        backgroundColor: '#ffffff',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginHorizontal: '3%'  
+      },
+      PlaceholderText: {
+        flexShrink: 1,
+        color: '#00d1a3',
+        fontSize: 18,
+        letterSpacing: 1,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        alignSelf: 'center'
+      },
+      ImagePreview: {
+        aspectRatio: 1,
+        resizeMode: 'contain'
+      },
+      ModalTitle:{
+        color: '#00d1a3',
+        fontSize: 30,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        marginBottom: '2%',
+      },
+      imageZoomModal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ffffff',
+        borderWidth: 3,
+        borderColor: 'black',
+        marginTop: 'auto',
+        marginBottom: 'auto'
+      },
+      imageZoom: {
+        width: '95%',
+        aspectRatio: 1,
+        elevation: 7,
+        alignSelf: 'center',
+        justifyContent: 'center',
+      },
+>>>>>>> Stashed changes
     }
   )
