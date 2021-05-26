@@ -4,25 +4,22 @@ TODO:
 """
 
 
-from django.shortcuts import render
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework import exceptions, status
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from PIL import Image
 from io import BytesIO
 from urllib.request import urlretrieve
-from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 from django.db.models import Q
 import uuid
 
 from .serializers import PharmacyWorkerSerializer, UserSerializer, UserViewSerializer, OwnerSerializer, CustomerSerializer, CustomerViewSerializer, PharmacyWorkerViewSerializer, OwnerViewSerializer
-from .models import User, PharmacyWorker, Customer, Owner
-from .authentication import generate_access_token, JWTAuthentication
+from .models import PharmacyWorker, Customer, Owner
 from permissionfunctions import *
 
 
@@ -77,6 +74,23 @@ class User(APIView):
         })
 
     def patch(self, request):
+        data = request.data
+
+        if 'contact_number' in data.keys():
+            if not data['contact_number'].isnumeric():
+                raise exceptions.APIException(
+                    'Contact number contains letters')
+
+            if len(data['contact_number']) > 10:
+                raise exceptions.APIException(
+                    'Contact number exceeds 10 numbers')
+
+        if 'role' in data.keys() and data['role'] not in ('Customer', 'Owner', 'Worker'):
+            raise exceptions.APIException('Incorrect Role')
+
+        if 'valid_id1' in data.keys() and data['valid_id1'] is None:
+            raise exceptions.APIException('No valid ID')
+
         user = get_user_model().objects.filter(
             id=request.user.id).first()
 
@@ -106,6 +120,12 @@ class Users(APIView, IsOwnerOrReadOnly):
 
 
 class RegisterUser(APIView):
+    """
+    THINGS TO CHECK:
+    - password matches
+    - username contains starts with only alphanumeric and then 19 characters can follow (alphanum or underscore)
+    - contact number is numeric and only has 10/9 chars
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -115,6 +135,24 @@ class RegisterUser(APIView):
 
         if(data['password'] != data['password_confirm']):
             raise exceptions.APIException('Passwords do not match')
+
+        if not data['contact_number'].isnumeric():
+            raise exceptions.APIException('Contact number contains letters')
+
+        if len(data['contact_number']) > 10:
+            raise exceptions.APIException('Contact number exceeds 10 numbers')
+
+        if data['role'] not in ('Customer', 'Owner', 'Worker'):
+            raise exceptions.APIException('Incorrect Role')
+
+        if data['role'] == 'Customer' and data['valid_id1'] is None:
+            raise exceptions.APIException('No valid ID')
+
+        if data['role'] == 'Owner' and data['business_permit'] is None:
+            raise exceptions.APIException('No valid ID')
+
+        if data['role'] == 'Worker' and data['medical_license'] is None:
+            raise exceptions.APIException('No valid ID')
 
         serializer = UserSerializer(data=new_data)
         if not serializer.is_valid():

@@ -20,9 +20,8 @@ class PurchaseRequestSerializer(serializers.ModelSerializer):
             item.request_id_id = str(instance.id)
             prod = Product.objects.filter(id=item.product_id_id).first()
             prod.quantity -= item.quantity
-            print("successfully updated")
             prod.save()
-            total += item.quantity * item.product_id.price
+            total += item.cost
             item.save()
         instance.total_cost = total
         instance.save()
@@ -34,7 +33,7 @@ class PurchaseRequestViewSerializer(serializers.ModelSerializer):
 
     def get_content(self, obj):
         content = []
-        for item in (RequestItem.objects.filter(user_id=obj.customer_id)):
+        for item in (RequestItem.objects.filter(request_id=obj.id)):
             content.append(OrderedRequestItemViewSerializer(item).data)
         return content
 
@@ -69,6 +68,7 @@ class RequestItemSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print("Inside damn", validated_data)
         instance = self.Meta.model(**validated_data)
+        instance.cost = instance.product_id.price * instance.quantity
         instance.save()
         return instance
 

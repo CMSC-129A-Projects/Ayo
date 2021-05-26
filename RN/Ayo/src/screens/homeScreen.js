@@ -29,15 +29,14 @@ export default function homeScreen({navigation}) {
                                     <Image style = {styles.NotificationIcon} source = {require('../assets/icon.png')}></Image>
                               </TouchableOpacity>
                         </View>
-                        <View style = {styles.barGraphic}>
-                        </View>
+                        <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
                               {title: "View Products Staff", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
                               {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Screen4", img:icons.homeScreenButton1},
+                              {title: "Basket", img:icons.homeScreenButton1, screen:"Medicine Basket"},
                               {title: "Screen5", img:icons.homeScreenButton1 },
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>

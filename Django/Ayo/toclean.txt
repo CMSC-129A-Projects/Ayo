@@ -1,0 +1,116 @@
+./Users/serializers.py:5:1 'django.contrib.auth.get_user_model' imported but unused
+./Users/serializers.py:7:1 'urllib' imported but unused
+./Users/serializers.py:55:16 undefined name 'e'
+./Users/serializers.py:56:19 undefined name 'e'
+./Users/serializers.py:76:16 undefined name 'e'
+./Users/serializers.py:77:19 undefined name 'e'
+./Users/serializers.py:102:16 undefined name 'e'
+./Users/serializers.py:103:19 undefined name 'e'
+./Users/serializers.py:129:16 undefined name 'e'
+./Users/serializers.py:130:19 undefined name 'e'
+./Prescriptions/urls.py:1:1 'django.urls.re_path' imported but unused
+./Prescriptions/urls.py:3:1 'from .views import *' used; unable to detect undefined names
+./Prescriptions/urls.py:6:37 'FreeMedicineRecords' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:7:23 'NewMedicineRecord' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:8:40 'MedicineRecordView' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:9:31 'DeleteMultipleRecords' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:10:43 'UserPrescriptions' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:11:30 'NewPrescription' may be undefined, or defined from star imports: .views
+./Prescriptions/urls.py:12:48 'PrescriptionView' may be undefined, or defined from star imports: .views
+./Prescriptions/tests.py:1:1 'django.test.TestCase' imported but unused
+./Prescriptions/views.py:1:1 'django.shortcuts.render' imported but unused
+./Prescriptions/views.py:7:1 redefinition of unused 'AllowAny' from line 7
+./Prescriptions/views.py:7:1 'rest_framework.permissions.IsAdminUser' imported but unused
+./Prescriptions/views.py:9:1 'from .models import *' used; unable to detect undefined names
+./Prescriptions/views.py:10:1 'from .serializers import *' used; unable to detect undefined names
+./Prescriptions/views.py:20:17 'MedicineRecord' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:22:22 'MedicineRecordViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:36:22 'MedicineRecordSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:50:15 'MedicineRecord' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:58:22 'MedicineRecordSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:69:18 'MedicineRecord' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:86:20 'MedicineRecord' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:92:33 'MedicineRecord' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:118:18 'Prescription' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:126:22 'PrescriptionViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:140:22 'PrescriptionSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:153:15 'Prescription' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:161:22 'PrescriptionViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/views.py:172:18 'Prescription' may be undefined, or defined from star imports: .models, .serializers
+./Prescriptions/serializers.py:4:1 'from .models import *' used; unable to detect undefined names
+./Prescriptions/serializers.py:5:1 'django.conf.settings' imported but unused
+./Prescriptions/serializers.py:7:1 'urllib' imported but unused
+./Prescriptions/serializers.py:12:17 'Prescription' may be undefined, or defined from star imports: .models
+./Prescriptions/serializers.py:20:25 'MedicineRecord' may be undefined, or defined from star imports: .models
+./Prescriptions/serializers.py:37:22 'MedicineRecord' may be undefined, or defined from star imports: .models
+./Prescriptions/serializers.py:42:17 'Prescription' may be undefined, or defined from star imports: .models
+./Prescriptions/serializers.py:57:17 'MedicineRecord' may be undefined, or defined from star imports: .models
+./Prescriptions/serializers.py:82:17 'MedicineRecord' may be undefined, or defined from star imports: .models
+./PurchaseRequests/authentication.py:14:1 'from .models import *' used; unable to detect undefined names
+./PurchaseRequests/authentication.py:18:7 local variable 'user_id' is assigned to but never used
+./PurchaseRequests/authentication.py:40:20 'User' may be undefined, or defined from star imports: .models
+./PurchaseRequests/authentication.py:46:26 'Owner' may be undefined, or defined from star imports: .models
+./PurchaseRequests/authentication.py:48:26 'Customer' may be undefined, or defined from star imports: .models
+./PurchaseRequests/authentication.py:50:26 'PharmacyWorker' may be undefined, or defined from star imports: .models
+./PurchaseRequests/urls.py:1:1 'django.urls.re_path' imported but unused
+./PurchaseRequests/urls.py:3:1 'from .views import *' used; unable to detect undefined names
+./PurchaseRequests/urls.py:6:43 'FreeRequestItems' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:7:29 'NewRequestItem' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:8:48 'RequestItemView' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:9:37 'DeleteMultipleItems' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:10:38 'UserOrders' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:11:32 'UnfulfilledOrders' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:12:24 'Orders' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:13:24 'Order' may be undefined, or defined from star imports: .views
+./PurchaseRequests/urls.py:14:41 'OrderView' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:3:1 'from .views import *' used; unable to detect undefined names
+./PurchaseRequests/basketurls.py:6:24 'OrderItems' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:7:32 'CustomerOrderItems' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:8:26 'NewOrderItem' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:9:29 'DeletedOrderItem' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:10:27 'ChangedOrderItem' may be undefined, or defined from star imports: .views
+./PurchaseRequests/basketurls.py:11:33 'DeletedOrderItemList' may be undefined, or defined from star imports: .views
+./PurchaseRequests/models.py:11:1 'Users.models.Customer' imported but unused
+./PurchaseRequests/models.py:13:1 'Prescriptions.models.MedicineRecord' imported but unused
+./PurchaseRequests/models.py:14:1 redefinition of unused 'Product' from line 12
+./PurchaseRequests/models.py:39:13 local variable 'total' is assigned to but never used
+./PurchaseRequests/modelscpy.py:12:1 'Prescriptions.models.Prescription' imported but unused
+./PurchaseRequests/modelscpy.py:57:9 undefined name 'PrescriptionRequest'
+./PurchaseRequests/modelscpy.py:67:9 undefined name 'OrderRequest'
+./PurchaseRequests/modelscpy.py:78:9 undefined name 'PrescriptionRequest'
+./PurchaseRequests/tests.py:1:1 'django.test.TestCase' imported but unused
+./PurchaseRequests/views.py:7:1 'urllib.request.Request' imported but unused
+./PurchaseRequests/views.py:8:1 'from .serializers import *' used; unable to detect undefined names
+./PurchaseRequests/views.py:9:1 'from .models import *' used; unable to detect undefined names
+./PurchaseRequests/views.py:10:1 redefinition of unused 'AllowAny' from line 10
+./PurchaseRequests/views.py:10:1 'rest_framework.permissions.IsAdminUser' imported but unused
+./PurchaseRequests/views.py:16:1 'django.shortcuts.render' imported but unused
+./PurchaseRequests/views.py:25:17 'RequestItem' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:27:22 'RequestItemViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:40:22 'RequestItemSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:55:23 'RequestItem' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:63:22 'RequestItemSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:74:19 'RequestItem' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:90:20 'RequestItem' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:96:33 'RequestItem' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:122:18 'PurchaseRequest' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:130:22 'PurchaseRequestViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:141:20 'PurchaseRequest' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:143:22 'PurchaseRequestViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:151:18 'PurchaseRequest' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:159:22 'PurchaseRequestViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:170:22 'PurchaseRequestSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:183:20 'PurchaseRequest' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:193:22 'PurchaseRequestViewSerializer' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/views.py:204:20 'PurchaseRequest' may be undefined, or defined from star imports: .models, .serializers
+./PurchaseRequests/serializers.py:3:1 'django.conf.settings' imported but unused
+./PurchaseRequests/serializers.py:5:1 'urllib' imported but unused
+./PurchaseRequests/serializers.py:7:1 'from .models import *' used; unable to detect undefined names
+./PurchaseRequests/serializers.py:12:17 'PurchaseRequest' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:19:21 'RequestItem' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:21:20 'Product' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:37:22 'RequestItem' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:42:17 'PurchaseRequest' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:66:17 'RequestItem' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:95:17 'RequestItem' may be undefined, or defined from star imports: .models
+./PurchaseRequests/serializers.py:106:17 'RequestItem' may be undefined, or defined from star imports: .models

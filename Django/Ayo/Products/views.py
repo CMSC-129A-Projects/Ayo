@@ -3,9 +3,7 @@ TODO:
 - reconfigure api for possible roles
 """
 
-from django.shortcuts import render
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import exceptions
 from rest_framework.views import APIView
@@ -13,14 +11,11 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from PIL import Image
 from io import BytesIO
 from urllib.request import urlretrieve
-from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
-from django.db.models import Q
 
-from .serializers import *
-from .models import *
-from .authentication import generate_access_token, JWTAuthentication
-from permissionfunctions import *
+from .serializers import ProductSerializer, ProductViewSerializer, GenericNameSerializer, GenericNameViewSerializer, DiseaseSerializer
+from .models import Product, Disease, GenericName
+from permissionfunctions import IsPharmacyStaffOrReadOnly
 
 # Create your views here.
 
@@ -59,6 +54,13 @@ class NewProduct(APIView, IsPharmacyStaffOrReadOnly):
 
     def post(self, request):
         data = request.data
+
+        if data['price'] < 0:
+            raise exceptions.APIException('Price is negative')
+
+        if data['quantity'] < 0:
+            raise exceptions.APIException('Quantity is negative')
+
         new_data = data.copy()
         new_data['product_img'] = uri_to_img(data['name'],
                                              data['product_img'])
@@ -68,8 +70,6 @@ class NewProduct(APIView, IsPharmacyStaffOrReadOnly):
         serializer.save()
 
         return Response(serializer.data)
-
-# TODO: add a password checking in frontend  (new_passowrd in frontend)
 
 
 class Products(APIView):
@@ -93,14 +93,18 @@ class ProductView(APIView, IsPharmacyStaffOrReadOnly):
         if prod is None:
             raise exceptions.AuthenticationFailed("User not found")
 
+        if 'price' in finaldata.keys() and finaldata['price'] < 0:
+            raise exceptions.APIException('Price is negative')
+
+        if 'quantity' in finaldata.keys() and finaldata['quantity'] < 0:
+            raise exceptions.APIException('Quantity is negative')
+
         serializer = ProductSerializer(
             data=finaldata, instance=prod, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({
-            'data': serializer.data
-        })
+        return Response(serializer.data)
 
     def delete(self, request, product):
         product_to_delete = Product.objects.filter(
@@ -142,6 +146,11 @@ class NewGenericName(APIView, IsPharmacyStaffOrReadOnly):
         data = request.data
         new_data = data.copy()
 
+        if len(new_data['generic_name']) == 0:
+            raise exceptions.APIException('No generic name provided')
+
+        if new_data['diseases'] is None or len(new_data['diseases']) == 0:
+            raise exceptions.APIException('No disease provided')
         # create disease first if nonexistent
         new_data = disease_check(new_data)
 
@@ -151,8 +160,6 @@ class NewGenericName(APIView, IsPharmacyStaffOrReadOnly):
         serializer.save()
 
         return Response(serializer.data)
-
-# TODO: add a password checking in frontend  (new_passowrd in frontend)
 
 
 class GenericNames(APIView):
@@ -174,7 +181,12 @@ class GenericNameView(APIView, IsPharmacyStaffOrReadOnly):
             id=generic).first()
         finaldata = request.data.copy()
 
+        if "generic_name" in finaldata and len(finaldata['generic_name']) == 0:
+            raise exceptions.APIException('No generic name provided')
+
         if "disease" in finaldata.keys():
+            if len(finaldata["disease"]) == 0:
+                raise exceptions.APIException('No disease provided')
             finaldata = disease_check(finaldata)
         if gen is None:
             raise exceptions.AuthenticationFailed("User not found")
@@ -184,9 +196,7 @@ class GenericNameView(APIView, IsPharmacyStaffOrReadOnly):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({
-            'data': serializer.data
-        })
+        return Response(serializer.data)
 
     def delete(self, request, generic):
         generic_to_delete = GenericName.objects.filter(
