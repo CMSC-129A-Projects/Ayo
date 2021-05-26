@@ -19,6 +19,22 @@ jobs:
       matrix:
         python-version: [3.7, 3.8]
 
+    services:
+      mysql:
+        image: mysql:5.7.22
+        env:
+          MYSQL_DATABASE: ayo_django_db
+          MYSQL_USER: ayo
+          MYSQL_PASSWORD: ayo
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
