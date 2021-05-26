@@ -35,7 +35,8 @@ jobs:
       run: |
         sudo systemctl start mysql.service
         sudo mysql -u"root" -p"root" -e "create user ayo@localhost identified by 'ayo'; create database if not exists ayo_django_db;"
-      
+        sudo mysql -u"root" -p"root" -e "grant all privileges on ayo_django_db.* to 'ayo'@'localhost' identified by 'ayo';"
+
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
