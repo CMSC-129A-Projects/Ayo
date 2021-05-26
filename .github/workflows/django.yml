@@ -18,33 +18,29 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.7, 3.8]
-
-    services:
-      mysql:
-        image: mysql:5.7.22
-        env:
-          MYSQL_DATABASE: ayo_django_db
-          MYSQL_USER: ayo
-          MYSQL_PASSWORD: ayo
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
+        db: [mysql]
+        include:
+          - db: mysql
+            db_user: ayo
+            db_password: ayo
+   
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Start Mysql
+      if: matrix.db == 'mysql'
+      run: sudo systemctl start mysql.service
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
+      env:
+        DB: ${{matrix.db}}
+        DB_USER: ${{matrix.db_user}}
+        DB_PASSWORD: ${{matrix.db_password}}
       run: |
         python manage.py test
