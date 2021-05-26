@@ -16,8 +16,8 @@ import * as ImagePicker from 'expo-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import json2formdata from 'json2formdata';
 
-import {getSelectSignup, getValidId} from '../redux/UserDetails/selectors';
-import {setValidId} from '../redux/UserDetails/actions';
+import {getSelectSignup, getValidId} from '../redux/Users/selectors';
+import {setValidId} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
 const actionDispatch = (dispatch) => ({

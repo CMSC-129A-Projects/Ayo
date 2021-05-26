@@ -6,7 +6,7 @@ Recheck if needed valid ids per user
 """
 
 from django.db import models
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 import uuid
 
@@ -81,6 +81,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.validate_unique()
+        super(User, self).save(*args, **kwargs)
+
 
 class Owner(models.Model):
     owner_id = models.UUIDField(
@@ -92,11 +96,6 @@ class Owner(models.Model):
 
     class Meta:
         verbose_name = "Pharmacy Owner"
-
-    def save(self, *args, **kwargs):
-        self.validate_unique()
-        self.role = "Owner"
-        super(Owner, self).save(*args, **kwargs)
 
 
 class Customer(models.Model):
@@ -135,6 +134,3 @@ class PharmacyWorker(models.Model):
 
     class Meta:
         verbose_name = "Pharmacy Worker"
-
-    def __str__(self):
-        return str(self.worker_id)

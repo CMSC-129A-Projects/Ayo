@@ -5,15 +5,19 @@ TODO:
 
 
 from urllib.request import Request
-from .serializers import *
-from .models import *
-from rest_framework.permissions import AllowAny, IsAdminUser, AllowAny
+
 from django.contrib.auth import get_user_model
-from rest_framework.views import APIView
-from rest_framework import status, exceptions
-from rest_framework.response import Response
 from django.db.models import Q
 from django.shortcuts import render
+from Prescriptions.models import Prescription
+from rest_framework import exceptions, status
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from Users.models import User
+
+from .models import *
+from .serializers import *
 
 # Create your views here.
 
@@ -37,6 +41,17 @@ class NewRequestItem(APIView):
 
     def post(self, request):
         # DO CHECKS HERE
+        data = request.data
+
+        if data['quantity'] < 0:
+            raise exceptions.APIException('Negative quantity')
+
+        if not User.objects.filter(id=data['user_id']).exists():
+            raise exceptions.APIException('User does not exist')
+
+        if not Product.objects.filter(id=data['product_id']).exists():
+            raise exceptions.APIException('Product does not exist')
+
         serializer = RequestItemSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -58,7 +73,7 @@ class RequestItemView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         if request.data.get('quantity') < 0:
-            raise exceptions.AuthenticationFailed("Value less than 0")
+            raise exceptions.APIException("Value less than 0")
 
         serializer = RequestItemSerializer(
             data=request.data, instance=requestitem, partial=True)
@@ -167,6 +182,22 @@ class Order(APIView):
 
     def post(self, request):
         # DO CHECKS HERE
+        data = request.data
+
+        if not User.objects.filter(id=data['customer_id']).exists():
+            raise exceptions.APIException('User does not exist')
+
+        if not RequestItem.objects.filter(Q(user_id=data['customer_id']) & Q(request_id=None)).exists():
+            raise exceptions.APIException('No items to order')
+
+        if data['type'] == "Prescription":
+            if data['prescription_id'] is None:
+                raise exceptions.APIException(
+                    'Prescription-type Order without Prescription')
+            if not Prescription.objects.filter(id=data['prescription_id']).exists():
+                raise exceptions.APIException(
+                    'Prescription submitted not in database')
+
         serializer = PurchaseRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -185,7 +216,7 @@ class OrderView(APIView):
         if orderval is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # checks here!
+        # TODO: checks here! or add something to check for
 
         data = request.data.copy()
         print("Order type is", orderval)

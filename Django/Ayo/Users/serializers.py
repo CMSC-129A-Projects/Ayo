@@ -2,9 +2,7 @@ from rest_framework import serializers
 
 from .models import User, PharmacyWorker, Owner, Customer
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-import urllib
 
 
 class UserSerializer(serializers.ModelSerializer):

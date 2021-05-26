@@ -22,7 +22,7 @@ class PurchaseRequest(models.Model):
     customer_id = models.ForeignKey(
         User, default=None, on_delete=models.CASCADE)
     is_confirmed = models.BooleanField(default=False)
-    is_cancelled = models.BooleanField(default=False)
+    is_cancelled = models.BooleanField(blank=True, null=True, default=False)
     is_fulfilled = models.BooleanField(default=False)
     request_date = models.DateTimeField(
         auto_now_add=True, blank=True, null=True)
@@ -33,14 +33,17 @@ class PurchaseRequest(models.Model):
     note = models.TextField(max_length=500, null=True)
 
     def save(self, *args, **kwargs):
-        prev = PurchaseRequest.objects.filter(id=self.id)
-        # return stock quantity upon calcellation
-        if prev.is_cancelled == False and self.is_cancelled == True:
-            total = 0
-            for item in RequestItem.objects.filter(request_id_id=self.id):
-                prod = Product.objects.filter(id=item.product_id_id).first()
-                prod.quantity += item.quantity
-                prod.save()
+        prev = PurchaseRequest.objects.filter(id=self.id).first()
+        if prev is not None:
+            # return stock quantity upon calcellation
+            if not prev.is_cancelled and self.is_cancelled:
+                total = 0
+                for item in RequestItem.objects.filter(request_id_id=self.id):
+                    prod = Product.objects.filter(
+                        id=item.product_id_id).first()
+                    prod.quantity += item.quantity
+                    prod.save()
+
         super(PurchaseRequest, self).save(*args, **kwargs)
 
 
