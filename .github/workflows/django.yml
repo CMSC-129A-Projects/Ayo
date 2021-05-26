@@ -21,8 +21,7 @@ jobs:
         db: [mysql]
         include:
           - db: ayp_django_db
-            db_user: ayo
-            db_password: ayo
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
             ports: '3306:3306'
    
     steps:
