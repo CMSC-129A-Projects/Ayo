@@ -34,7 +34,7 @@ jobs:
       if: matrix.db == 'mysql'
       run: |
         sudo systemctl start mysql.service
-        sudo mysql -u"root" -p"root" -e "create user ayo@localhost identified by 'ayo'";
+        sudo mysql -u"root" -p"root" -e "create user ayo@localhost identified by 'ayo'; create database if not exists ayo_django_db;"
       
     - name: Install Dependencies
       run: |
