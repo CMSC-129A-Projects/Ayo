@@ -1,13 +1,15 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, SafeAreaView} from 'react-native'
 import {useSelector} from 'react-redux';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
 import { getSelectLogin } from '../redux/loginScreen/selectors';
 import {getSelectSignup} from '../redux/signupScreen/selectors';
 import {getUser} from '../redux/loginScreen/selectors';
-
+    
 export default function homeScreen({navigation}) {
       const user = useSelector(getUser);
       const signupval = useSelector(getSelectSignup);
@@ -36,12 +38,14 @@ export default function homeScreen({navigation}) {
                               {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Basket", img:icons.homeScreenButton1, screen:"Medicine Basket"},
+                              {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
                               {title: "Screen5", img:icons.homeScreenButton1 },
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>
                   </View>
+                 
             </SafeAreaView>
+
       )
 }
 
