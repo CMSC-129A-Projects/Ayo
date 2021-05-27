@@ -149,18 +149,11 @@ const basketList = () => {
                             keyExtractor={item => item.description}
                     />
                     <View style ={styles.totalSection}>
-                    <Text style={{fontSize: 30, fontStyle:'normal', fontWeight:'bold', fontFamily:'sans-serif-condensed'}}>Total</Text>
-                        <View style={{flexDirection:'row',marginHorizontal:5}}>
-                        <Text style={{ fontSize: 20, fontFamily:'normal'}}>Sub total</Text>
+                        <View style={{flexDirection:'row',marginHorizontal:5, marginTop: '3%'}}>
+                        <Text style={{ fontSize: 20, fontWeight:'bold'}}>Total</Text>
                         <View style = {styles.divider}/>
                         <Text style={{fontSize:25, fontWeight:'bold'}}>₱376.00</Text>
-                        </View>
-
-                        <View style={{flexDirection:'row', marginHorizontal:5}}>
-                        <Text style={{ fontSize: 20, fontFamily:'normal'}}>Shipping</Text>
-                        <View style = {styles.divider}/>
-                        <Text style={{fontSize:25, fontWeight:'bold'}}>₱0</Text>
-                        </View>
+                    </View>
 
                       {/*  <View style={styles.couponSection}>
                         <TextInput 
@@ -315,7 +308,7 @@ const styles = StyleSheet.create(
             marginBottom:10,
         },
         totalSection:{
-            marginTop:10,
+            marginTop:'3%',
             marginHorizontal:5,
             borderTopWidth:2,
             borderTopColor:'white',
