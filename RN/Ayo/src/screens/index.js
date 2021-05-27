@@ -11,6 +11,8 @@ import apiTestScreen from './apiTestScreen';
 import testingscreen from './testingscreen';
 import customerVerificationScreen from './customerVerificationScreen';
 import basketScreen from './basketScreen';
+import profileScreen from './profileScreen';
+import mainTabScreen from './mainTabScreen';
 
 
 export {loginScreen, 
@@ -24,4 +26,6 @@ export {loginScreen,
         apiTestScreen,
         testingscreen,
         customerVerificationScreen,
-        basketScreen};
+        basketScreen,
+        profileScreen,
+        mainTabScreen};
