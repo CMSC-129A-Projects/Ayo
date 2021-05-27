@@ -22,8 +22,9 @@ import DeleteProductModal from '../modals/deleteProduct'
 import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
+import EditQuantity from '../modals/editQuantity'
 import {Fontisto} from '@expo/vector-icons';
-import DropDownPicker from 'react-native-dropdown-picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 var tmpProducts = [
   {
@@ -95,6 +96,7 @@ const productList = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
+  const [modal3Visible, setModal3Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -172,21 +174,15 @@ const productList = () => {
             style = {styles.searchBar}
           />
           <View style = {styles.dropdownBar}>
-            <DropDownPicker
+            <RNPickerSelect
+                pickerProps={{ style: {overflow: 'scroll' } }}
+                onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
                 items={[
-                  {label: 'Brand Name', value: 'brandname'},
-                  {label: 'Generic Name', value: 'genericname'},
-                  {label: 'Lowest Price', value: 'priceasc'},
-                  {label: 'Highest Price', value: 'pricedesc'},
+                    { label: 'Brand Name', value: 'brandname'},
+                    { label: 'Lowest Price', value: 'priceasc' },
+                    { label: 'Highest Price', value: 'pricedesc' },
                 ]}
-                placeholder = {"Sort"}
-                containerStyle={{height: 40}}
-                itemStyle={{
-                    justifyContent: 'flex-start'
-                }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
-                onChangeItem={item => setDropdownBar(item.value)}
-            />
+              />
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
@@ -397,14 +393,6 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-<<<<<<< Updated upstream
-                    <TextInput
-                      placeholder = "Generic Name"
-                      placeholderTextColor = '#ffffff'
-                      underlineColorAndroid = "transparent"
-                      style = {styles.inputField}
-                    />
-=======
                     <View style = {styles.dropdownField}>
                       <RNPickerSelect
                         placeholder = {{label: 'Generic Name'}}
@@ -480,29 +468,13 @@ const productList = () => {
                     <Text style={styles.addGenericTitleText}>
                       ADD GENERIC MEDICINE
                     </Text>
->>>>>>> Stashed changes
                     <TextInput
                       placeholder = "Price"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-<<<<<<< Updated upstream
-                  </View>
-                  <View style = {styles.addProductDetailsImages}>
-                    <View style = {styles.ImagePreviewContainer}>
-                      {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
-                      <Text style = {styles.PlaceholderText}>
-                        PRODUCT IMAGE
-                      </Text> 
                     </View>
-                    <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
-                      <Text style = {styles.addImageButtonText}>UPLOAD</Text>
-                    </TouchableOpacity>
-                  </View>
-=======
-                    </View>
->>>>>>> Stashed changes
                 </View>
                 <TextInput
                   placeholder = "Add Disease"
@@ -858,7 +830,8 @@ const styles = StyleSheet.create(
     },
     dropdownBar: {
       width: '30%',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      backgroundColor: '#dcdcdc'
     },
     deleteProductContainer:{
       backgroundColor: "#ffff",
@@ -892,10 +865,6 @@ const styles = StyleSheet.create(
       borderColor: '#00d1a3',
       alignSelf: 'center'
     },
-<<<<<<< Updated upstream
-
-  }
-=======
     imageZoomModal: {
       alignItems: 'center',
       justifyContent: 'center',
@@ -928,5 +897,4 @@ const styles = StyleSheet.create(
       alignSelf:'center'
     },
   },
->>>>>>> Stashed changes
 )

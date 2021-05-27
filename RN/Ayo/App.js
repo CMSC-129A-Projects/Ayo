@@ -29,9 +29,11 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer initialRouteName= "Log In">
+      <NavigationContainer initialRouteName= "Homes">
         <Stack.Navigator>
           {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
+          <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
+
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
@@ -41,7 +43,6 @@ export default function App() {
           <Stack.Screen options={{headerShown: false}} name="Verify" component={VerifiedModal} />
           <Stack.Screen options={{headerShown: false}} name="Reject" component={RejectModal} />
           
-          <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
 
                     <Stack.Screen name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
