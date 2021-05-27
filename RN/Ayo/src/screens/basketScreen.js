@@ -202,7 +202,7 @@ const basketList = () => {
                         </View>
 
                         <TouchableOpacity style={styles.buttonCheckout}
-                        onPress>
+                        >
                             <Text style={{fontSize:25, fontWeight: 'bold',color:'#ffffff'}}>CHECKOUT</Text>
                         </TouchableOpacity>
 
@@ -219,9 +219,7 @@ const basketList = () => {
                             <View style={{flexDirection:"row-reverse",margin:10}}>
                             <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
                             onPress={() => {
-                            //setDeleteFailVisible(!deleteFailVisible)
-                            onShowSelectedItem
-                            }}>
+                                setDeleteSuccessVisible(!deleteSuccessVisible)}}>
                             <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginVertical: 5, paddingVertical:10,paddingHorizontal:30, backgroundColor:'lightgray'}} 
