@@ -22,9 +22,8 @@ import DeleteProductModal from '../modals/deleteProduct'
 import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
-import EditQuantity from '../modals/editQuantity'
-import RNPickerSelect from 'react-native-picker-select';
 import {Fontisto} from '@expo/vector-icons';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 var tmpProducts = [
   {
@@ -96,7 +95,6 @@ const productList = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [modal3Visible, setModal3Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -108,8 +106,10 @@ const productList = () => {
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState(null);
-  const [viewImage, setViewImage] = useState(false);
   const [dropdownBar, setDropdownBar] = useState('brandname');
+  const [dropdownBar2, setDropdownBar2] = useState(null);
+  const [enteredDisease, setEnteredDisease] = useState('');
+  const [diseasesList, setDiseasesList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -122,11 +122,10 @@ const productList = () => {
     })();
   }, []);
   
-  const pickImage = async () => { //Fuction used to upload images
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [1, 1],
       quality: 1,
     });
   
@@ -138,7 +137,7 @@ const productList = () => {
     setImage(result.uri); //Do not remove this as this is to display the image
   };
 
-  const renderItem = ({ item }) => { //Fuction used to render flatlist items
+  const renderItem = ({ item }) => {
     const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
     const color = item.name === selectedId ? 'white' : 'black';
     return (
@@ -173,21 +172,25 @@ const productList = () => {
             style = {styles.searchBar}
           />
           <View style = {styles.dropdownBar}>
-            <RNPickerSelect
-              pickerProps={{ style: {overflow: 'scroll' } }}
-              onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
-              items={[
-                  { label: 'Brand Name', value: 'brandname'},
-                  { label: 'Lowest Price', value: 'priceasc' },
-                  { label: 'Highest Price', value: 'pricedesc' },
-              ]}
+            <DropDownPicker
+                items={[
+                  {label: 'Brand Name', value: 'brandname'},
+                  {label: 'Generic Name', value: 'genericname'},
+                  {label: 'Lowest Price', value: 'priceasc'},
+                  {label: 'Highest Price', value: 'pricedesc'},
+                ]}
+                placeholder = {"Sort"}
+                containerStyle={{height: 40}}
+                itemStyle={{
+                    justifyContent: 'flex-start'
+                }}
+                dropDownStyle={{backgroundColor: '#fafafa'}}
+                onChangeItem={item => setDropdownBar(item.value)}
             />
-          </View>
+            </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
-          <FlatList data={tmpProducts.sort((a, b) => a.name.localeCompare(b.name))} //sort by brand name ascending
-                    //data={tmpProducts.sort(function(a, b){return a.price-b.price})} //sort by price ascending
-                    //data={tmpProducts.sort(function(a, b){return b.price-a.price})} //sort by price descending
+          <FlatList data={tmpProducts}
                     renderItem={renderItem}
                     keyExtractor={item => item.description}
           />
@@ -199,7 +202,7 @@ const productList = () => {
         </TouchableOpacity>
       </View>
 
-      <Modal //Viewing Product Details modal
+      <Modal 
             animationType = "slide"
             style = {styles.modal}
             transparent = {true}
@@ -236,7 +239,6 @@ const productList = () => {
           </View>
         </View>
       </Modal>
-
       <Modal //Edit Product Modal
             animationType = "slide"
             style = {styles.modal}
@@ -263,7 +265,6 @@ const productList = () => {
       </View>
       </View>
       </Modal>
-
       <Modal //Delete Product Modal
             animationType = "slide"
             style = {styles.modal}
@@ -291,7 +292,6 @@ const productList = () => {
       </View>
       </View>
       </Modal>
-
      <Modal //Add Product Success Modal
             animationType = "slide"
             style = {styles.modal}
@@ -302,12 +302,11 @@ const productList = () => {
             }}>
       <View style={styles.addSuccessContainer}>
         <AddProductSuccess/>
-        {/*//setTimeout(() => 
-          //setSuccessVisible(false), 3000);*/}
         <TouchableOpacity>
           <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', marginBottom: 1, alignSelf: 'flex-end'}} 
           onPress ={() =>
-            setSuccessVisible(!successVisible)
+          setSuccessVisible(!successVisible)
+          //setDeleteVisible(!deleteVisible)
           }>
             OK
           </Text>
@@ -315,7 +314,6 @@ const productList = () => {
         </TouchableOpacity>
       </View>
       </Modal> 
-
       <Modal //Add Product Fail Modal
             animationType = "slide"
             style = {styles.modal}
@@ -335,7 +333,6 @@ const productList = () => {
         </TouchableOpacity>
       </View>
       </Modal>
-
       <Modal //Delete Success Modal
             animationType = "slide"
             style = {styles.modal}
@@ -356,7 +353,6 @@ const productList = () => {
         </View>
       </View>
       </Modal> 
-
       <Modal //Delete Fail Modal
             animationType = "slide"
             style = {styles.modal}
@@ -377,7 +373,6 @@ const productList = () => {
         </View>
       </View>
       </Modal>
-
       <Modal //Add Product Modal
             animationType = "slide"
             visible={modal2Visible}
@@ -402,35 +397,48 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-                    <RNPickerSelect
-                      style = {styles.inputField}
-                      onValueChange={(value) => console.log(value)}
-                      items={[
-                          { label: 'Brand Name', value: 'brandname' },
-                          { label: 'Lowest Price', value: 'priceasc' },
-                          { label: 'Highest Price', value: 'pricedesc' },
-                      ]}
-                    />
+<<<<<<< Updated upstream
                     <TextInput
-                      placeholder = "Price"
+                      placeholder = "Generic Name"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
+=======
+                    <View style = {styles.dropdownField}>
+                      <RNPickerSelect
+                        placeholder = {{label: 'Generic Name'}}
+                        pickerProps={{ style: {overflow: 'scroll' } }}
+                        onValueChange={(dropdownBar2) => dropdownBar2 != 'add' ? setDropdownBar2(dropdownBar2) : setModal3Visible(true)}
+                        items={[
+                            { label: 'fenofibrate', value: 'fenofibrate' },
+                            { label: 'olanzapine', value: 'olanzapine' },
+                            { label: 'rufinamide', value: 'rufinamide' },
+                            { label: 'valproic acid', value: 'valproic acid' },
+                            { label: 'Add...', value: 'add' }
+                        ]}
+                      />
+                    </View>
+                    <TextInput
+                        placeholder = "Price"
+                        placeholderTextColor = '#ffffff'
+                        underlineColorAndroid = "transparent"
+                        style = {styles.inputField}
+                      />
                     <EditQuantity/>
                     </View>
-                  <View style = {styles.addProductDetailsImages}>
-                    <TouchableOpacity style = {styles.ImagePreviewContainer} 
-                                      onPress = {() => setViewImage(true)}>
-                      {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
-                      <Text style = {styles.PlaceholderText}>
-                        PRODUCT IMAGE
-                      </Text> 
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
-                      <Text style = {styles.addImageButtonText}>UPLOAD</Text>
-                    </TouchableOpacity>
-                  </View>
+                      <View style = {styles.addProductDetailsImages}>
+                        <TouchableOpacity style = {styles.ImagePreviewContainer} 
+                                          onPress = {() => setViewImage(true)}>
+                          {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+                          <Text style = {styles.PlaceholderText}>
+                            PRODUCT IMAGE
+                          </Text> 
+                        </TouchableOpacity>
+                        <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
+                          <Text style = {styles.addImageButtonText}>UPLOAD</Text>
+                        </TouchableOpacity>
+                      </View>
                 </View>
                 <TextInput
                 placeholder = "Description"
@@ -457,7 +465,9 @@ const productList = () => {
             visible={modal3Visible}
             transparent={true}
             onRequestClose = {() => {
-                    setModal3Visible(false); 
+                    setModal3Visible(false);
+                    setDiseasesList([]);
+                    setEnteredDisease('');
             }}>
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
@@ -466,17 +476,19 @@ const productList = () => {
               </TouchableOpacity>
               <View style = {styles.addProductDetailsContainer}>
                 <View style = {styles.addProductDetailsTopField}>
-                  <View style= {styles.addProductDetailsField}>
-                    <Text style={styles.addProductTitleText}>
+                  <View style= {styles.addGenericDetailsField}>
+                    <Text style={styles.addGenericTitleText}>
                       ADD GENERIC MEDICINE
                     </Text>
+>>>>>>> Stashed changes
                     <TextInput
-                      placeholder = "Generic Name"
+                      placeholder = "Price"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-                    </View>
+<<<<<<< Updated upstream
+                  </View>
                   <View style = {styles.addProductDetailsImages}>
                     <View style = {styles.ImagePreviewContainer}>
                       {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
@@ -488,43 +500,30 @@ const productList = () => {
                       <Text style = {styles.addImageButtonText}>UPLOAD</Text>
                     </TouchableOpacity>
                   </View>
+=======
+                    </View>
+>>>>>>> Stashed changes
                 </View>
                 <TextInput
-                placeholder = "Description"
-                placeholderTextColor = '#ffffff'
-                underlineColorAndroid = "transparent"
-                style = {styles.inputDescriptionField}
+                  placeholder = "Add Disease"
+                  placeholderTextColor = '#dcdcdc'
+                  underlineColorAndroid = "transparent"
+                  style = {styles.inputDiseaseField}
+                  onChangeText = {enteredText => setEnteredDisease(enteredText)}
+                  value = {enteredDisease}
                 />
                 <TouchableOpacity style = {styles.addProductButton}
-                                  onPress = {() =>{
-                                  setSuccessVisible(!successVisible);
-                                  //setFailVisible(!failVisible);
-                                  }}>
+                                  onPress = {() => setDiseasesList(diseasesList => [...diseasesList, enteredDisease])}>
                   <Text style = {styles.addProductButtonText}>
-                    ADD
+                    ADD DISEASE
                   </Text>
                 </TouchableOpacity>
               </View>
+              <FlatList data = {diseasesList} renderItem = {diseaseData => <View><Text>{diseaseData.item}</Text></View>}/>
           </View>
         </View>
       </Modal>
-      
-      <Modal //Image Zoom View
-            animationType = "slide"
-            visible={viewImage}
-            transparent={true}
-            onRequestClose = {() => {
-                    setViewImage(false); 
-            }}>
-          <View style = {styles.imageZoomModal}>
-            <TouchableOpacity style={{margin:15 , alignSelf:'flex-end'}} onPress = {() => setViewImage(false)}>
-              <Fontisto name="close" size={30}/>
-            </TouchableOpacity>
-            <View style = {styles.imageZoom}>
-              {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
-            </View>
-          </View>
-      </Modal>
+
     </SafeAreaView>
   );
 }
@@ -570,6 +569,10 @@ const styles = StyleSheet.create(
       width: '50%',
       marginLeft: '5%',
       justifyContent: 'flex-end'
+    },
+    addGenericDetailsField: {
+      width: '93%',
+      justifyContent: 'center'
     },
     addProductDetailsImages: {
       width: '50%',
@@ -663,10 +666,21 @@ const styles = StyleSheet.create(
       margin: "3.5%",
       alignSelf:'center'
     },
+    dropdownField:{
+      width: '100%',
+      borderRadius: 17,
+      borderWidth: 0.75,
+      borderColor: 'black',
+      backgroundColor: '#dcdcdc',
+      textAlign: 'center',
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',      
+      alignSelf:'center'
+    },
     inputDescriptionField: {
       width: '93%',
       padding: '1%',
-      height: '28%',
+      height: '37%',
       borderRadius: 15,
       borderWidth: 0.75,
       borderColor: 'black',
@@ -686,6 +700,14 @@ const styles = StyleSheet.create(
       letterSpacing: 0.3,
       alignSelf: 'center',
       marginBottom: '5%',
+      color: '#2a2a2a',
+    },
+    addGenericTitleText: {
+      fontSize: 25,
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      letterSpacing: 0.3,
+      alignSelf: 'center',
       color: '#2a2a2a',
     },
     addProductButton: {
@@ -715,7 +737,6 @@ const styles = StyleSheet.create(
       alignSelf:'center',
       alignItems:'center',
       marginTop: '5%',
-      marginBottom: '3.5%',
       padding: '1.5%',
     },
     addImageButtonText: {
@@ -837,8 +858,7 @@ const styles = StyleSheet.create(
     },
     dropdownBar: {
       width: '30%',
-      flexDirection: 'column',
-      backgroundColor: '#dcdcdc'
+      flexDirection: 'column'
     },
     deleteProductContainer:{
       backgroundColor: "#ffff",
@@ -872,6 +892,10 @@ const styles = StyleSheet.create(
       borderColor: '#00d1a3',
       alignSelf: 'center'
     },
+<<<<<<< Updated upstream
+
+  }
+=======
     imageZoomModal: {
       alignItems: 'center',
       justifyContent: 'center',
@@ -888,5 +912,21 @@ const styles = StyleSheet.create(
       alignSelf: 'center',
       justifyContent: 'center',
     },
+    inputDiseaseField:{
+      width: '93%',
+      padding: '1%',
+      height: '23%',
+      borderRadius: 15,
+      borderWidth: 0.75,
+      borderColor: 'black',
+      textAlign: 'center',
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      fontSize: 17,
+      letterSpacing: 1,
+      marginTop: '1%',
+      alignSelf:'center'
+    },
   },
+>>>>>>> Stashed changes
 )

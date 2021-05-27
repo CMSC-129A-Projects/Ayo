@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useState} from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, Alert, Button} from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, Alert, Button, TextInput} from 'react-native'
 
 
 export default function EditQuantity() {
@@ -9,8 +9,8 @@ export default function EditQuantity() {
         setQuantityValue(quantityValue + 1)
     }
     const subtractQuantity = () => { 
-        console.log("add")
-        setQuantityValue(quantityValue - 1)
+        console.log("add");
+        quantityValue > 0 ? setQuantityValue(quantityValue - 1): setQuantityValue(0);
     } 
 return(
     <View style = {styles.quantityContainer}>
@@ -19,13 +19,16 @@ return(
         </View>
        <TouchableOpacity style={styles.minusButton}
          onPress = {() =>{
-        setQuantityValue(quantityValue - 1)
+          quantityValue > 0 ? setQuantityValue(quantityValue - 1) : setQuantityValue(0);
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
         </TouchableOpacity>
-        <View style={styles.quantityNumber}>
+        <TextInput style={styles.quantityNumber}
+            onEndEditing  = {
+              (quantityValue) => quantityValue >= 0 ? setQuantityValue(quantityValue) : setQuantityValue(0)
+            }>
             <Text style={{fontSize:25,fontWeight:'bold'}}>{quantityValue}</Text>
-        </View>
+        </TextInput>
         <TouchableOpacity style={styles.plusButton}
         onPress = {() =>{
           setQuantityValue(quantityValue + 1)
@@ -67,8 +70,8 @@ const styles=StyleSheet.create({
     borderRightWidth:1,
     borderRightColor: '#ffff',
     borderLeftColor: '#ffff',
-    borderLeftWidth: 1
-
+    borderLeftWidth: 1,
+    textAlign:'center'
   }
 
 })
