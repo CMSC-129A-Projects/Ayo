@@ -17,7 +17,9 @@ import {apiTestScreen,
         medItemScreen,
         testingscreen,
         customerVerificationScreen,
-      basketScreen,} from './src/screens/index';
+       basketScreen,
+       profileScreen,
+      mainTabScreen} from './src/screens/index';
 import store from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
@@ -30,7 +32,15 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer initialRouteName= "Log In">
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerStyle:{
+            backgroundColor:'#009387',
+          },
+          headerTintColor:'#ffffff',
+          headerTitleStyle:{
+            fontWeight:'bold',
+          }
+        }}>
           {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
@@ -40,15 +50,16 @@ export default function App() {
           {/* <Stack.Screen options={{headerShown: false}} name="Confirm" component={confirmationScreen} /> */}
           <Stack.Screen options={{headerShown: false}} name="Verify" component={VerifiedModal} />
           <Stack.Screen options={{headerShown: false}} name="Reject" component={RejectModal} />
-          <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
-
-                    <Stack.Screen name="Api" component={apiTestScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Homes" component={mainTabScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
-          <Stack.Screen options={{headerStatusBarHeight: 30}} name="Medicine Basket" component={basketScreen} />
+          <Stack.Screen options={{headerStatusBarHeight: 30}} name="My Basket" component={basketScreen} />
+          
+                    <Stack.Screen name="Api" component={apiTestScreen} />
+
           {/*<Stack.Screen name="ViewMedItems" component={viewMedItemsScreen} />*/}
           <Stack.Screen name="MedItems" component={medItemScreen} />
-        </Stack.Navigator>      
+        </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
