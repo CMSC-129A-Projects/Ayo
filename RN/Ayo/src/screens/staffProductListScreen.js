@@ -397,14 +397,6 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-<<<<<<< Updated upstream
-                    <TextInput
-                      placeholder = "Generic Name"
-                      placeholderTextColor = '#ffffff'
-                      underlineColorAndroid = "transparent"
-                      style = {styles.inputField}
-                    />
-=======
                     <View style = {styles.dropdownField}>
                       <RNPickerSelect
                         placeholder = {{label: 'Generic Name'}}
@@ -480,29 +472,13 @@ const productList = () => {
                     <Text style={styles.addGenericTitleText}>
                       ADD GENERIC MEDICINE
                     </Text>
->>>>>>> Stashed changes
                     <TextInput
                       placeholder = "Price"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-<<<<<<< Updated upstream
-                  </View>
-                  <View style = {styles.addProductDetailsImages}>
-                    <View style = {styles.ImagePreviewContainer}>
-                      {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
-                      <Text style = {styles.PlaceholderText}>
-                        PRODUCT IMAGE
-                      </Text> 
                     </View>
-                    <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
-                      <Text style = {styles.addImageButtonText}>UPLOAD</Text>
-                    </TouchableOpacity>
-                  </View>
-=======
-                    </View>
->>>>>>> Stashed changes
                 </View>
                 <TextInput
                   placeholder = "Add Disease"
@@ -892,10 +868,6 @@ const styles = StyleSheet.create(
       borderColor: '#00d1a3',
       alignSelf: 'center'
     },
-<<<<<<< Updated upstream
-
-  }
-=======
     imageZoomModal: {
       alignItems: 'center',
       justifyContent: 'center',
@@ -928,5 +900,4 @@ const styles = StyleSheet.create(
       alignSelf:'center'
     },
   },
->>>>>>> Stashed changes
 )

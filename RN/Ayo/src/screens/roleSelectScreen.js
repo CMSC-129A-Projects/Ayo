@@ -132,9 +132,6 @@ const styles = StyleSheet.create(
         letterSpacing: 1,
         fontFamily: 'Roboto',
         fontWeight: 'bold'
-<<<<<<< Updated upstream
-      }
-=======
       },
       modal:{
         backgroundColor:"#ffff",
@@ -235,6 +232,5 @@ const styles = StyleSheet.create(
         alignSelf: 'center',
         justifyContent: 'center',
       },
->>>>>>> Stashed changes
     }
   )
