@@ -14,13 +14,14 @@ import {StyleSheet,
         Button,
         ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
+// import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
-import AddtoBasketFail from '../modals/addToBasketFail'
-import AddtoBasketSuccess from '../modals/addToBasketSuccess'
+//  TODO: FIND THIS
+// import AddtoBasketFail from '../modals/addToBasketFail'
+// import AddtoBasketSuccess from '../modals/addToBasketSuccess'
 import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, Entypo} from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from 'react-native-image-picker';
 
 var tmpProducts = [
   {

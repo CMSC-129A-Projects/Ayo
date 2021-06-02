@@ -1,29 +1,49 @@
 import {createSelector} from 'reselect';
 
 // needs to be the same in store.js
-const loginScreenState = (state) => state.loginScreen;
+const userDataState = (state) => state.userData;
 
-export const getLoginDetails = createSelector(
-      loginScreenState,
-      (loginScreen) => [loginScreen.username, loginScreen.password]
+export const getLoginData = createSelector(
+      userDataState,
+      (userData) => [userData.username, userData.password]
 )
 
 export const getUser = createSelector(
-      loginScreenState,
-      (loginScreen) => loginScreen
+      userDataState,
+      (userData) => userData
 )
 // what to pass here?
 export const getUsername = createSelector(
-      loginScreenState,
-      (loginScreenState) => loginScreenState.username
+      userDataState,
+      (userDataState) => userDataState.username
 )
 
 export const getPassword = createSelector(
-      loginScreenState,
-      (loginScreenState) => loginScreenState.password
+      userDataState,
+      (userDataState) => userDataState.password
+)
+
+export const getPasswordConfirm = createSelector(
+      userDataState,
+      (userDataState) => userDataState.password_confirm
+)
+
+export const getAddress= createSelector(
+      userDataState,
+      (userDataState) => {userDataState.address}
+)
+
+export const getContactNumber = createSelector(
+      userDataState,
+      (userDataState) => {userDataState.contact_number}
+)
+
+export const getName = createSelector(
+      userDataState,
+      (userDataState) => {userDataState.name}
 )
 
 export const getJWT = createSelector(
-      loginScreenState,
-      (loginScreenState) => {loginScreenState.JWT_REFRESH, loginScreenState.JWT_ACCESS}
+      userDataState,
+      (userDataState) => {userDataState.JWT_REFRESH, userDataState.JWT_ACCESS}
 )

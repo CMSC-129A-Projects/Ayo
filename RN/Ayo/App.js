@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {Provider} from 'react-redux';
 
-import {apiTestScreen, 
+import { 
         loginScreen, 
         signupScreen, 
         roleSelectScreen, 
@@ -43,7 +43,6 @@ export default function App() {
           
           <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
 
-                    <Stack.Screen name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Medicine Basket" component={basketScreen} />

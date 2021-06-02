@@ -22,7 +22,7 @@ const defaultState = {
 }
 
 
-export default function loginScreenReducer(state = defaultState, action) {
+export default function userReducer(state = defaultState, action) {
       switch(action.type){
             case ActionTypes.SET_USER:
                   return {...state, 

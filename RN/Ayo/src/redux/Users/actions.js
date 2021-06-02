@@ -36,6 +36,16 @@ export function setPasswordConfirm(password_confirm) {
       )
 }
 
+// TODO: EDIT THIS
+export function setJWT(JWT_REFRESH) {
+      return (
+            {
+                  type: ActionTypes.SET_JWT_REFRESH,
+                  payload: JWT_REFRESH
+            }
+      )
+}
+
 export function setJWTRefresh(JWT_REFRESH) {
       return (
             {
@@ -45,7 +55,7 @@ export function setJWTRefresh(JWT_REFRESH) {
       )
 }
 
-export function setJWTRefresh(JWT_ACCESS) {
+export function setJWTAccess(JWT_ACCESS) {
       return (
             {
                   type: ActionTypes.SET_JWT_ACCESS,
