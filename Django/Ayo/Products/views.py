@@ -149,7 +149,7 @@ class NewGenericName(APIView, IsPharmacyStaffOrReadOnly):
         if len(new_data['generic_name']) == 0:
             raise exceptions.APIException('No generic name provided')
 
-        if new_data['diseases'] is None or len(new_data['diseases']) == 0:
+        if new_data['disease'] is None or len(new_data['disease']) == 0:
             raise exceptions.APIException('No disease provided')
         # create disease first if nonexistent
         new_data = disease_check(new_data)
