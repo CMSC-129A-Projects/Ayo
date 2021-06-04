@@ -11,6 +11,7 @@ import customerProductListScreen from './customerProductListScreen';
 import basketScreen from './basketScreen';
 import profileScreen from './profileScreen';
 import notificationScreen from './notificationScreen';
+import editProfileScreen from './editProfileScreen';
 
        const HomeStack = createStackNavigator();
        const ProductsStack = createStackNavigator();
@@ -70,7 +71,7 @@ import notificationScreen from './notificationScreen';
              />
              <Tab.Screen
                name="Profile"
-               component={profileScreen}
+               component={ProfileStackScreen}
                options={{
                  tabBarLabel: 'Profile',
                  tabBarColor: '#FF6347',
@@ -154,3 +155,60 @@ import notificationScreen from './notificationScreen';
                 }} />
         </BasketStack.Navigator>
         );
+
+        const ProfileStackScreen = ({navigation}) => {
+          return (
+            <ProfileStack.Navigator
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: 'white',
+                  shadowColor: 'black', // iOS
+                  elevation: 0, // Android
+                },
+                headerTintColor: 'white',
+              }}>
+              <ProfileStack.Screen
+                name="Profile"
+                component={profileScreen}
+                options={{
+                  title: '',
+                  headerLeft: () => (
+                    <View style={{marginLeft: 10}}>
+                      <Entypo.Button 
+                      name="menu" 
+                      size={25} 
+                      backgroundColor="white" 
+                      color = 'black'
+                      onPress={() => navigation.goBack()}></Entypo.Button>
+                    </View>
+                  ),
+                  headerRight: () => (
+                    <View style={{marginRight: 10}}>
+                      <MaterialCommunityIcons.Button
+                        name="account-edit"
+                        size={25}
+                        backgroundColor= 'white'
+                        color= 'black'
+                        onPress={() => navigation.navigate('EditProfile')}
+                      />
+                    </View>
+                  ),
+                }}
+              />
+              <ProfileStack.Screen
+                name="EditProfile"
+                options={{
+                  title: 'Edit Profile',
+                  headerLeft: () => (
+                 <Ionicons.Button name="arrow-back-circle-outline" 
+                 size={35} 
+                 backgroundColor="white" 
+                 color = 'black'
+                 onPress={() => navigation.goBack()}></Ionicons.Button>
+                )
+                }}
+                component={editProfileScreen}
+              />
+            </ProfileStack.Navigator>
+          );
+        };

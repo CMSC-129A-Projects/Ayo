@@ -8,7 +8,6 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import {icons} from '../constants/icons'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MaterialCommunityIcons, Entypo, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 
 
@@ -68,10 +67,10 @@ const ProfileScreen = () => {
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
             <MaterialCommunityIcons name="credit-card-clock" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Payment History</Text>
+            <Text style={styles.menuItemText}>Summary of Records</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        {/*<TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
             <Entypo name="share" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Tell Your Friends</Text>
@@ -88,7 +87,7 @@ const ProfileScreen = () => {
             <Ionicons name="settings-outline" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Settings</Text>
           </View>
-        </TouchableRipple>
+        </TouchableRipple>*/}
 
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
