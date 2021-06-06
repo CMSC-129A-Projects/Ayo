@@ -1,9 +1,10 @@
 export const ActionTypes = {
       SET_USER: "src/screens/loginScreen/SET_USER",
+      SET_USER_ID: "src/screens/loginScreen/SET_USER_ID",
       SET_USERNAME: "src/screens/loginScreen/SET_USERNAME",
       SET_PASSWORD: "src/screens/loginScreen/SET_PASSWORD",
       SET_PASSWORD_CONFIRM: "src/screens/signupScreen/SET_PASSWORD_CONFIRM",
-      SET_JWT_REFRESH: "src/screens/loginScreen/SET_JWT_ACCESS",
+      SET_JWT_REFRESH: "src/screens/loginScreen/SET_JWT_REFRESH",
       SET_JWT_ACCESS: "src/screens/loginScreen/SET_JWT_ACCESS",
       SET_NAME: "src/screens/signupScreen/SET_NAME",
       SET_NEW_PASSWORD: "src/screens/signupScreen/SET_NEW_PASSWORD",

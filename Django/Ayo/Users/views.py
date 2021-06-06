@@ -108,7 +108,8 @@ class User(APIView):
 
 
 class Users(APIView, IsOwnerOrReadOnly):
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
+    permission_classes = (AllowAny, )
+    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
     queryset = get_user_model().objects.all()
 
     def get(self, request):
@@ -219,6 +220,7 @@ class LoginUser(APIView):
 
             response.data['is_verified'] = customer.is_verified
             response.data['is_rejected'] = customer.is_verified
+            response.data['id'] = user.id
         else:
             response.data['is_staff'] = True
 

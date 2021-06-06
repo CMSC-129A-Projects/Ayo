@@ -9,6 +9,14 @@ export function setUser(details){
       )
 }
 
+export function setUserId(user_id){
+      return (
+            {
+                  type: ActionTypes.SET_USER_ID,
+                  payload: user_id 
+            }
+      )
+}
 export function setUsername(username) {
       return (
             {

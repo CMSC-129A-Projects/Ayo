@@ -24,7 +24,7 @@ import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
 import {Fontisto} from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import RNPickerSelect from 'react-native-image-picker';
 var tmpProducts = [
   {
       name: "biogesic",

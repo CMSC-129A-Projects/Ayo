@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {getUsername, getPassword, getUser} from '../redux/Users/selectors';
-import {setUser, setUsername, setPassword, setJWT} from '../redux/Users/actions' 
+import {setUser, setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId} from '../redux/Users/actions' 
 import usersApi from '../api/Users';
 
 import RejectModal from '../modals/RejectModal';
@@ -23,8 +23,10 @@ import VerifiedModal from '../modals/VerifiedModal';
 const actionDispatch = (dispatch) => ({
   setUsername: (username) => dispatch(setUsername(username)),
   setPassword: (password) => dispatch(setPassword(password)),
-  setJWT: (JWT) => dispatch(setJWT(JWT)),
-  setUser: (details) => dispatch(setUser(details))
+  setUser: (details) => dispatch(setUser(details)),
+  setJWTAccess: (JWTAccess) => dispatch(setJWTAccess(JWTAccess)),
+  setJWTRefresh: (JWTRefresh) => dispatch(setJWTRefresh(JWTRefresh)),
+  setUserId: (id) => dispatch(setUserId(id))
 })
 
 // being consistent with what is in Django const getLoginData = () => {
@@ -38,7 +40,7 @@ const getLoginData = () => {
 }
 
 const LogInScreen = () => {
-  const {setUser ,setUsername, setPassword, setJWT}  = actionDispatch(useDispatch());
+  const {setUser ,setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId}  = actionDispatch(useDispatch());
   const {username, password} = getLoginData(); 
   const User = useSelector(getUser);
   const navigation = useNavigation();
@@ -80,11 +82,13 @@ const LogInScreen = () => {
         has_error = true;
       })
 
-      if(has_error)
-        return null;
-      
-      console.log(response.data.is_staff);
-    // setJWT(response.data.jwt);
+    if(has_error)
+      return null;
+    
+    console.log(response.data.jwt);
+    setUserId(response.data.id);
+    setJWTAccess(response.data.jwt['access']);
+    setJWTRefresh(response.data.jwt['refresh']);
     // const header = {
     //   headers:{
     //     'Authorization': "Bearer " + response.data.jwt 
@@ -101,7 +105,7 @@ const LogInScreen = () => {
       setWaitingVisible(false);
       setRejectVisible(false);
     }
-    else if(secondresponse.data.is_rejected){
+    else if(response.data.is_rejected){
       toggleRejected();
       setWaitingVisible(false);
       setVerifyVisible(false);

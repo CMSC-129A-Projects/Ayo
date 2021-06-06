@@ -12,6 +12,11 @@ export const getUser = createSelector(
       userDataState,
       (userData) => userData
 )
+
+export const getUserId = createSelector(
+      userDataState,
+      (userDataState) => userDataState.customer_id
+)
 // what to pass here?
 export const getUsername = createSelector(
       userDataState,

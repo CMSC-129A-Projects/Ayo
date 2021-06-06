@@ -74,7 +74,9 @@ class RequestItemSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # TODO: check for non-negative values
+        prev_cost = instance.cost / instance.quantity
         instance.quantity = validated_data.get('quantity', instance.quantity)
+        instance.cost = prev_cost * instance.quantity
         instance.save()
         return instance
 
