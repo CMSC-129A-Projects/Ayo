@@ -21,6 +21,7 @@ import {apiTestScreen,
        profileScreen,
       mainTabScreen} from './src/screens/index';
 import store from './src/store';
+import splashScreen from './src/screens/splashScreen'
 
 import VerifiedModal from './src/modals/VerifiedModal';
 import RejectModal from './src/modals/RejectModal';
@@ -31,7 +32,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer initialRouteName= "Log In">
+      <NavigationContainer initialRouteName= "Splash Screen">
         <Stack.Navigator screenOptions={{
           headerStyle:{
             backgroundColor:'#009387',
@@ -41,7 +42,7 @@ export default function App() {
             fontWeight:'bold',
           }
         }}>
-          {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
+          <Stack.Screen options={{headerShown: false}} name ="Splash Screen" component = {splashScreen}/> 
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
