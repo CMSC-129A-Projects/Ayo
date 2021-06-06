@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, TouchableOpacity, StyleSheet} from 'react-native';
 import {
   Avatar,
   Title,
@@ -7,11 +7,12 @@ import {
   Text,
   TouchableRipple,
 } from 'react-native-paper';
+
 import {icons} from '../constants/icons'
 import { MaterialCommunityIcons, Entypo, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,26 +71,8 @@ const ProfileScreen = () => {
             <Text style={styles.menuItemText}>Summary of Records</Text>
           </View>
         </TouchableRipple>
-        {/*<TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Entypo name="share" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Tell Your Friends</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <MaterialCommunityIcons name="account-check-outline" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Support</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons name="settings-outline" color="#FF6347" size={25}/>
-            <Text style={styles.menuItemText}>Settings</Text>
-          </View>
-        </TouchableRipple>*/}
 
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => {navigation.navigate('Splash Screen')}}>
           <View style={styles.menuItem}>
             <MaterialCommunityIcons name="logout-variant" color="#FF6347" size={25}/>
             <Text style={styles.menuItemText}>Logout</Text>
