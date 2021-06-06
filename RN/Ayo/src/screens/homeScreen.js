@@ -4,13 +4,10 @@ import {useSelector} from 'react-redux';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
-import { getSelectLogin } from '../redux/loginScreen/selectors';
-import {getSelectSignup} from '../redux/signupScreen/selectors';
-import {getUser} from '../redux/loginScreen/selectors';
+import {getUser} from '../redux/Users/selectors';
 
 export default function homeScreen({navigation}) {
       const user = useSelector(getUser);
-      const signupval = useSelector(getSelectSignup);
       console.log("Final signup vals ", user);
 
       return (

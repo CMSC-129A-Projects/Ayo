@@ -8,10 +8,8 @@ import {StyleSheet,
         BackHandler,
         Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
-
-import {getRole, getSelectSignup} from '../redux/signupScreen/selectors';
-import {setRole} from '../redux/signupScreen/actions';
+import {useDispatch} from 'react-redux';
+import {setRole} from '../redux/Users/actions';
 
 const actionDispatch = (dispatch) => ({
   setRole: (role) => dispatch(setRole(role)),
@@ -132,9 +130,6 @@ const styles = StyleSheet.create(
         letterSpacing: 1,
         fontFamily: 'Roboto',
         fontWeight: 'bold'
-<<<<<<< Updated upstream
-      }
-=======
       },
       modal:{
         backgroundColor:"#ffff",
@@ -235,6 +230,5 @@ const styles = StyleSheet.create(
         alignSelf: 'center',
         justifyContent: 'center',
       },
->>>>>>> Stashed changes
     }
   )

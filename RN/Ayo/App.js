@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {Provider} from 'react-redux';
 
-import {apiTestScreen, 
+import { 
         loginScreen, 
         signupScreen, 
         roleSelectScreen, 
@@ -13,6 +13,7 @@ import {apiTestScreen,
         homeScreen,
         customerProductListScreen,
         staffProductListScreen, 
+        apiTestScreen,
         /* viewMedItemsScreen,*/
         medItemScreen,
         testingscreen,
@@ -32,6 +33,7 @@ export default function App() {
       <NavigationContainer initialRouteName= "Log In">
         <Stack.Navigator>
           {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
+          <Stack.Screen options={{headerShown: false}} name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
@@ -40,9 +42,9 @@ export default function App() {
           {/* <Stack.Screen options={{headerShown: false}} name="Confirm" component={confirmationScreen} /> */}
           <Stack.Screen options={{headerShown: false}} name="Verify" component={VerifiedModal} />
           <Stack.Screen options={{headerShown: false}} name="Reject" component={RejectModal} />
+          
           <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
 
-                    <Stack.Screen name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Medicine Basket" component={basketScreen} />

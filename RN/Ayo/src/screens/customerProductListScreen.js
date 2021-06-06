@@ -14,13 +14,14 @@ import {StyleSheet,
         Button,
         ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
+// import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
-import AddtoBasketFail from '../modals/addToBasketFail'
-import AddtoBasketSuccess from '../modals/addToBasketSuccess'
+//  TODO: FIND THIS
+// import AddtoBasketFail from '../modals/addToBasketFail'
+// import AddtoBasketSuccess from '../modals/addToBasketSuccess'
 import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, Entypo} from '@expo/vector-icons';
-import DropDownPicker from 'react-native-dropdown-picker';
+import RNPickerSelect from 'react-native-image-picker';
 
 var tmpProducts = [
   {
@@ -149,21 +150,15 @@ const productList = () => {
             style = {styles.searchBar}
           />
           <View style = {styles.dropdownBar}>
-            <DropDownPicker
+            <RNPickerSelect
+                pickerProps={{ style: {overflow: 'scroll' } }}
+                onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
                 items={[
-                  {label: 'Brand Name', value: 'brandname'},
-                  {label: 'Generic Name', value: 'genericname'},
-                  {label: 'Lowest Price', value: 'priceasc'},
-                  {label: 'Highest Price', value: 'pricedesc'},
+                    { label: 'Brand Name', value: 'brandname'},
+                    { label: 'Lowest Price', value: 'priceasc' },
+                    { label: 'Highest Price', value: 'pricedesc' },
                 ]}
-                placeholder = {"Sort"}
-                containerStyle={{height: 40}}
-                itemStyle={{
-                    justifyContent: 'flex-start'
-                }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
-                onChangeItem={item => setDropdownBar(item.value)}
-            />
+              />
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
@@ -463,7 +458,8 @@ const styles = StyleSheet.create(
     },
     dropdownBar: {
       width: '30%',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      backgroundColor: '#dcdcdc'
     },
     basket:{
       width: 45,

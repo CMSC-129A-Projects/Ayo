@@ -6,6 +6,7 @@ TODO:
 import {ActionTypes} from './constants';
 
 const defaultState = {
+      customer_id : '',
       username : '',
       password : '',
       password_confirm : '',
@@ -22,7 +23,7 @@ const defaultState = {
 }
 
 
-export default function loginScreenReducer(state = defaultState, action) {
+export default function userReducer(state = defaultState, action) {
       switch(action.type){
             case ActionTypes.SET_USER:
                   return {...state, 
@@ -35,6 +36,8 @@ export default function loginScreenReducer(state = defaultState, action) {
                         business_permit:action.payload.business_permit,
                         medical_license:action.payload.medical_license,
                   }
+            case ActionTypes.SET_USER_ID:
+                  return {...state, customer_id:action.payload}
             case ActionTypes.SET_USERNAME:
                   return {...state, username:action.payload}
             case ActionTypes.SET_PASSWORD:

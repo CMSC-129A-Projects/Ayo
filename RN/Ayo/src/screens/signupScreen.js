@@ -16,9 +16,9 @@ import * as Location from 'expo-location';
 import axios from 'axios';
 import locApi from '../api/Location';
 
-import {getSelectSignup, getUsername, getName, getPassword, getPasswordConfirm, getContactNumber, getAddress} from '../redux/UserDetails/selectors';
+import {getUser, getUsername, getName, getPassword, getPasswordConfirm, getContactNumber, getAddress} from '../redux/Users/selectors';
 
-import {setUsername, setPassword, setName, setPasswordConfirm, setContactNumber, setAddress} from '../redux/UserDetails/actions' 
+import {setUsername, setPassword, setName, setPasswordConfirm, setContactNumber, setAddress} from '../redux/Users/actions' 
 
 const actionDispatch = (dispatch) => ({
   setUsername: (username) => dispatch(setUsername(username)),
@@ -44,7 +44,7 @@ const getLoginData = () => {
 }
 
 const SignUpScreen = () => {
-    const signupData = useSelector(getSelectSignup);
+    const signupData = useSelector(getUser);
     const {setUsername, setName, setPassword, setPasswordConfirm, setContactNumber, setAddress} = actionDispatch(useDispatch());
     const {username, name, password, password_confirm, contact_number, address} = getLoginData(); 
     const navigation = useNavigation();

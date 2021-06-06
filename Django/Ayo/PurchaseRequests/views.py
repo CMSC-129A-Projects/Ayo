@@ -190,7 +190,7 @@ class Order(APIView):
         if not RequestItem.objects.filter(Q(user_id=data['customer_id']) & Q(request_id=None)).exists():
             raise exceptions.APIException('No items to order')
 
-        if data['type'] == "Prescription":
+        if data['request_type'] == "Prescription":
             if data['prescription_id'] is None:
                 raise exceptions.APIException(
                     'Prescription-type Order without Prescription')
