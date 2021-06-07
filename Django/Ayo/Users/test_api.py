@@ -4,20 +4,17 @@ from rest_framework import status
 from django.urls import reverse
 import subprocess
 from django.contrib.auth.models import Group
-from Users.models import User
+from Users.models import User, Owner
 
 # Define this after the ModelTestCase
 
 
 class CreateUserTestCase(TestCase):
     """Test suite for the api views."""
+    fixtures = ['ayofixture.json']
 
     def setUp(self):
         """Define the test client and other test variables."""
-        Group.objects.get_or_create(name="Customer")
-        Group.objects.get_or_create(name="Worker")
-        Group.objects.get_or_create(name="Owner")
-        print(Group.objects.all())
         self.client = APIClient()
         self.customer_data = {
             "username": "customer",
@@ -39,49 +36,96 @@ class CreateUserTestCase(TestCase):
             "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
             "address": "yep"
         }
-        self.response = self.client.post(
+        self.pharmacist_data = {
+            "username": "pharma",
+            "name": "own",
+            "password": "yep",
+            "password_confirm": "yep",
+            "role": "Worker",
+            "contact_number": "234421132",
+            "medical_license": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+            "address": "yep"
+        }
+
+    def test_api_can_create_users(self):
+        """Database does not accept more than one owner"""
+        owner_data2 = {
+            "username": "owner2",
+            "name": "own",
+            "password": "yep",
+            "password_confirm": "yep",
+            "role": "Owner",
+            "contact_number": "234421132",
+            "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+            "address": "yep"
+        }
+        response2 = self.client.post(
             reverse('register'),
-            self.owner_data,
+            owner_data2,
             format="json",
         )
 
-    def test_api_can_create_a_user(self):
-        """Test the api has user creation capability."""
-        self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response2.data['status_code'], 400)
+
+        """Test the api can create an customer account."""
+        response3 = self.client.post(reverse('register'),
+                                     self.customer_data,
+                                     format="json",
+                                     )
+        self.assertEqual(response3.status_code, status.HTTP_201_CREATED)
+
+        """Test the api can create a worker account."""
+        response4 = self.client.post(
+            reverse('register'),
+            self.pharmacist_data,
+            format="json",
+        )
+        self.assertEqual(response4.status_code, status.HTTP_201_CREATED)
 
     def test_api_login(self):
         """Test the api has user creation capability."""
-        self.response2 = self.client.post(
-            reverse('register'),
-            self.customer_data,
-            format="json",
-        )
-
         response = self.client.post(
             reverse('login'),
-            self.customer_data,
+            {"username": "test_customer", "password": "yep"},
             format="json",
         )
-
-        response2 = self.client.post(
-            reverse('login'),
-            self.owner_data,
-            format="json",
-        )
-        print(response2.data)
 
         self.assertEquals(list(response.data['jwt'].keys()), [
                           'refresh', 'access'])
-        self.assertEquals(list(response2.data['jwt'].keys()), [
-                          'refresh', 'access'])
 
-        self.customer_refresh = response.data['jwt']['refresh']
-        self.customer_access = response.data['jwt']['access']
-        self.owner_refresh = response2.data['jwt']['refresh']
-        self.owner_access = response2.data['jwt']['access']
 
-    # def test_api_can_get_all_users(self):
-    #     response = self.client.get(
-    #         reverse('get_users'),
-    #     )
-    #     self.assertIsInstance(response.data, type([]))
+class CreateUserTestCase(TestCase):
+    """Test suite for the api views."""
+    fixtures = ['ayofixture.json']
+
+    def setUp(self):
+        """Define the test client and other test variables."""
+        self.client = APIClient()
+        self.logindetails = self.client.post(reverse('login'),
+                                             {"username": "test_owner",
+                                                 "password": "yep"},
+                                             format="json",
+                                             )
+        self.jwt_access = self.logindetails.data['jwt']['access']
+        self.jwt_refresh = self.logindetails.data['jwt']['refresh']
+        self.client.credentials(
+            HTTP_AUTHORIZATION="Bearer " + self.jwt_access)
+
+    def test_api_access(self):
+        """Api should generate an access token from a refresh token."""
+        response = self.client.post(
+            reverse('token_refresh'),
+            {"refresh": self.jwt_refresh},
+            format="json",
+        )
+
+        self.assertEqual(list(response.data.keys()), ['access'])
+
+    def test_get_users(self):
+        response = self.client.get(
+            reverse('unverified_customers'),
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # self.assertEqual(list(response.data.keys()), ['access'])

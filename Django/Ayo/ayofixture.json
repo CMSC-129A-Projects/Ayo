@@ -1,0 +1,1863 @@
+[
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2021-05-13T07:37:20.483Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 12,
+        "object_id": "daf2ab8e-b573-483a-9db2-30a5a54a3531",
+        "object_repr": "MedicineRecord object (daf2ab8e-b573-483a-9db2-30a5a54a3531)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2021-05-13T07:55:01.354Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 13,
+        "object_id": "6efa1f7e-5464-4667-a50b-dae9dd8a079d",
+        "object_repr": "Prescription object (6efa1f7e-5464-4667-a50b-dae9dd8a079d)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2021-05-13T07:55:22.914Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 13,
+        "object_id": "12ca3b02-cfc9-4ef4-96e4-115d9694a256",
+        "object_repr": "Prescription object (12ca3b02-cfc9-4ef4-96e4-115d9694a256)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2021-05-15T01:42:58.453Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "56e3cc34-388b-40b4-b81b-a4dfc3c90b7d",
+        "object_repr": "RequestItem object (56e3cc34-388b-40b4-b81b-a4dfc3c90b7d)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Request id\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2021-05-15T01:43:14.233Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 10,
+        "object_id": "d6ec6c73-351d-4489-9fa3-b0462471393d",
+        "object_repr": "PurchaseRequest object (d6ec6c73-351d-4489-9fa3-b0462471393d)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2021-05-20T08:40:55.708Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "09f0f5ca-87b7-48da-bc2d-eb6313de57b7",
+        "object_repr": "own",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2021-05-24T01:09:39.727Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "a76034be-cc88-42b3-9562-ef0aa4290dae",
+        "object_repr": "own",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2021-05-24T01:10:02.355Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "6409c058-e191-4b59-a7a3-5cd78fb63017",
+        "object_repr": "Saridon",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2021-05-24T01:10:02.357Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "3cfc5404-1875-4479-b2d7-f72ac9cb2a67",
+        "object_repr": "Alaxan FR",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2021-05-24T01:10:12.234Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 15,
+        "object_id": "d49a275a-0a5a-4e34-be57-f2d7e1f5d1b6",
+        "object_repr": "body ache",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2021-05-24T01:10:12.237Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 15,
+        "object_id": "4172874e-a521-4214-a87d-0c771ec73b52",
+        "object_repr": "muscle ache",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2021-05-24T01:10:12.240Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 15,
+        "object_id": "171a635c-3cfd-43c1-87e9-913afeb98662",
+        "object_repr": "headache",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2021-05-24T01:10:21.056Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 16,
+        "object_id": "f551358c-b8ae-4b76-9bcb-b5af18d018f4",
+        "object_repr": "Ibuprofen",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2021-05-24T01:10:21.058Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 16,
+        "object_id": "b0c21f26-fbab-4f47-8f04-587f21ccee10",
+        "object_repr": "Paracetamol",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2021-05-24T01:10:21.062Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 16,
+        "object_id": "66dd367b-5ecf-4d12-b953-af3b2c471aa2",
+        "object_repr": "Amlodepine",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2021-05-27T06:44:11.143Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "f3a11f66-3aa1-44e1-8d3a-16b32e1395cb",
+        "object_repr": "own",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2021-05-27T06:44:24.800Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "31d5b2f8-aff3-40ed-b685-2bdf25de3caa",
+        "object_repr": "Saridon",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2021-05-27T06:44:33.665Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 16,
+        "object_id": "87fe0526-be2d-40a2-8c69-8a2a1c6e6508",
+        "object_repr": "Amlodepine",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2021-05-27T06:44:43.028Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 15,
+        "object_id": "4d104500-e1c9-469d-95b8-347a4d0e4709",
+        "object_repr": "muscle ache",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2021-05-27T06:44:43.030Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 15,
+        "object_id": "308c5853-6990-4483-b199-6195e4ee309f",
+        "object_repr": "headache",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2021-05-27T06:44:53.330Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 12,
+        "object_id": "d4282c4e-c0cb-4f05-b263-095fff3a1784",
+        "object_repr": "MedicineRecord object (d4282c4e-c0cb-4f05-b263-095fff3a1784)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2021-06-03T02:40:58.424Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 8,
+        "object_id": "f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8",
+        "object_repr": "Customer object (f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Is verified\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2021-06-03T06:29:58.698Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "d61f78be-475b-4eb2-93bc-8c7b9e8ef0f7",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2021-06-03T06:29:58.701Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "d4929dde-190d-49b8-99ea-8b27b3300a3a",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+        "action_time": "2021-06-03T06:32:02.237Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "8fe4dc22-6f06-42e3-8206-96138be1608a",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+        "action_time": "2021-06-03T06:32:02.239Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "7e2b48ca-2254-4dd3-859f-168cf5d79963",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+        "action_time": "2021-06-03T06:35:47.231Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "f3fa4c18-6d34-4180-9425-a83a71178728",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+        "action_time": "2021-06-03T06:35:47.234Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "e70dec7d-cbbf-4b82-8a73-fcb657160922",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+        "action_time": "2021-06-03T06:35:47.236Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "804adf4b-ae65-42aa-b95c-ba3545fc4f05",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+        "action_time": "2021-06-03T06:35:47.239Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "7b5fb42f-ffa8-4f7b-b61e-66728a66d9fe",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2021-06-03T06:35:47.241Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "3d19dc7f-23a8-4efa-8bc1-b3e79b1b453a",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+        "action_time": "2021-06-03T06:53:36.018Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "68b79ecb-7b52-45c8-9419-04240b406e23",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+        "action_time": "2021-06-03T06:53:48.544Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "466c70ea-7bdf-4422-8461-75d05aa64b71",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+        "action_time": "2021-06-03T06:55:07.411Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "2f041113-fc48-4ead-82e3-c996c3c8ea5c",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+        "action_time": "2021-06-05T02:33:46.474Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "af77f2aa-ec64-4b9e-b3e0-414a8c94bd4f",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+        "action_time": "2021-06-05T02:34:09.414Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "f3648215-6801-4319-80e3-943adf9e7fef",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+        "action_time": "2021-06-05T03:02:43.878Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "4e9317f7-b670-4cdd-be07-848ee3435fcd",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+        "action_time": "2021-06-05T03:02:43.881Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "1bbb91b3-6eeb-4af7-a71d-5797c7f5b110",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+        "action_time": "2021-06-05T03:03:26.048Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "e1f5acb9-dd46-4a20-9305-598c7db64d2e",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+        "action_time": "2021-06-05T03:03:26.051Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "b7fb347f-08ae-4e86-b67c-ec7437f9928e",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+        "action_time": "2021-06-05T03:04:02.349Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "74575751-3c0f-4591-b53a-2d8dc74ed3d9",
+        "object_repr": "test_medicine3",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+        "action_time": "2021-06-05T03:04:02.352Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "54df800f-8a6b-4525-bd9f-c6ae2a73486e",
+        "object_repr": "test_medicine3",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+        "action_time": "2021-06-05T03:36:25.059Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "fac95698-a923-45ea-8560-4daabd6e0554",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+        "action_time": "2021-06-05T03:42:59.532Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "e8eb6d1b-42d5-4d85-9d0a-5319fc15cd75",
+        "object_repr": "test_medicine2",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+        "action_time": "2021-06-05T03:42:59.534Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 14,
+        "object_id": "0ed83640-43be-44ab-a475-9b92fecfa95b",
+        "object_repr": "test_medicine4",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+        "action_time": "2021-06-06T00:45:47.987Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "c683370f-bebf-4bd6-a5a3-8c1a48ed5382",
+        "object_repr": "RequestItem object (c683370f-bebf-4bd6-a5a3-8c1a48ed5382)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+        "action_time": "2021-06-06T00:46:35.547Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "b185a111-7c0d-430b-aa4d-e7ab8e330205",
+        "object_repr": "RequestItem object (b185a111-7c0d-430b-aa4d-e7ab8e330205)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+        "action_time": "2021-06-06T00:46:35.548Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "77d8e807-9c41-4829-8ed2-15d1afc6d5b4",
+        "object_repr": "RequestItem object (77d8e807-9c41-4829-8ed2-15d1afc6d5b4)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+        "action_time": "2021-06-06T01:20:36.471Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "d3f52b0b-6e4b-43fe-8899-f19763e516d5",
+        "object_repr": "RequestItem object (d3f52b0b-6e4b-43fe-8899-f19763e516d5)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+        "action_time": "2021-06-06T01:20:36.473Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "a58ec6e8-7e58-4603-bb50-929deb1d4667",
+        "object_repr": "RequestItem object (a58ec6e8-7e58-4603-bb50-929deb1d4667)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+        "action_time": "2021-06-06T01:20:36.475Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "56db1472-0d17-49e0-94ca-c69455bb86ec",
+        "object_repr": "RequestItem object (56db1472-0d17-49e0-94ca-c69455bb86ec)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+        "action_time": "2021-06-06T01:38:43.809Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "67ce16ca-8f44-48de-b4e1-82a7ab18591b",
+        "object_repr": "RequestItem object (67ce16ca-8f44-48de-b4e1-82a7ab18591b)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+        "action_time": "2021-06-07T09:36:36.568Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "b3124569-5d09-4376-bb81-bb90e45399fa",
+        "object_repr": "test staff",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+        "action_time": "2021-06-07T09:36:36.571Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "21b53bea-aaf6-42b8-b109-d2f65bb031c5",
+        "object_repr": "test staff",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+        "action_time": "2021-06-07T11:42:41.914Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "e6d18d34-9fe0-4cab-9203-28189d5901ae",
+        "object_repr": "test owner",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Password\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+        "action_time": "2021-06-07T11:45:19.873Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "e6d18d34-9fe0-4cab-9203-28189d5901ae",
+        "object_repr": "test owner",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+        "action_time": "2021-06-07T11:49:30.117Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "e6d18d34-9fe0-4cab-9203-28189d5901ae",
+        "object_repr": "test owner",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+        "action_time": "2021-06-07T11:49:30.121Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "875b4f79-99df-416a-a0a6-cccdfd6256e2",
+        "object_repr": "test staff",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+        "action_time": "2021-06-07T11:50:13.189Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "ff68efe7-21e2-4a42-a853-67c962dcdd99",
+        "object_repr": "test staff",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+        "action_time": "2021-06-07T11:50:13.192Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "9b284169-4d70-4cde-8b2f-f97614acba07",
+        "object_repr": "test staff",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+        "action_time": "2021-06-07T12:04:31.320Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 8,
+        "object_id": "f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8",
+        "object_repr": "Customer object (f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Is verified\"]}}]"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 1,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 2,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 3,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 4,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 4,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 4,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 4,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 5,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 5,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 5,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 5,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 6,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 6,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 6,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view user",
+        "content_type": 6,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add Pharmacy Owner",
+        "content_type": 7,
+        "codename": "add_owner"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change Pharmacy Owner",
+        "content_type": 7,
+        "codename": "change_owner"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete Pharmacy Owner",
+        "content_type": 7,
+        "codename": "delete_owner"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view Pharmacy Owner",
+        "content_type": 7,
+        "codename": "view_owner"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can add Customer",
+        "content_type": 8,
+        "codename": "add_customer"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can change Customer",
+        "content_type": 8,
+        "codename": "change_customer"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can delete Customer",
+        "content_type": 8,
+        "codename": "delete_customer"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can view Customer",
+        "content_type": 8,
+        "codename": "view_customer"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can add Pharmacy Worker",
+        "content_type": 9,
+        "codename": "add_pharmacyworker"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can change Pharmacy Worker",
+        "content_type": 9,
+        "codename": "change_pharmacyworker"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can delete Pharmacy Worker",
+        "content_type": 9,
+        "codename": "delete_pharmacyworker"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can view Pharmacy Worker",
+        "content_type": 9,
+        "codename": "view_pharmacyworker"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add purchase request",
+        "content_type": 10,
+        "codename": "add_purchaserequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change purchase request",
+        "content_type": 10,
+        "codename": "change_purchaserequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete purchase request",
+        "content_type": 10,
+        "codename": "delete_purchaserequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can view purchase request",
+        "content_type": 10,
+        "codename": "view_purchaserequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can add request item",
+        "content_type": 11,
+        "codename": "add_requestitem"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can change request item",
+        "content_type": 11,
+        "codename": "change_requestitem"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can delete request item",
+        "content_type": 11,
+        "codename": "delete_requestitem"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can view request item",
+        "content_type": 11,
+        "codename": "view_requestitem"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can add medicine record",
+        "content_type": 12,
+        "codename": "add_medicinerecord"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can change medicine record",
+        "content_type": 12,
+        "codename": "change_medicinerecord"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can delete medicine record",
+        "content_type": 12,
+        "codename": "delete_medicinerecord"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can view medicine record",
+        "content_type": 12,
+        "codename": "view_medicinerecord"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+        "name": "Can add prescription",
+        "content_type": 13,
+        "codename": "add_prescription"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+        "name": "Can change prescription",
+        "content_type": 13,
+        "codename": "change_prescription"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+        "name": "Can delete prescription",
+        "content_type": 13,
+        "codename": "delete_prescription"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+        "name": "Can view prescription",
+        "content_type": 13,
+        "codename": "view_prescription"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+        "name": "Can add product",
+        "content_type": 14,
+        "codename": "add_product"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+        "name": "Can change product",
+        "content_type": 14,
+        "codename": "change_product"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+        "name": "Can delete product",
+        "content_type": 14,
+        "codename": "delete_product"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+        "name": "Can view product",
+        "content_type": 14,
+        "codename": "view_product"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+        "name": "Can add disease",
+        "content_type": 15,
+        "codename": "add_disease"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+        "name": "Can change disease",
+        "content_type": 15,
+        "codename": "change_disease"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+        "name": "Can delete disease",
+        "content_type": 15,
+        "codename": "delete_disease"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+        "name": "Can view disease",
+        "content_type": 15,
+        "codename": "view_disease"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+        "name": "Can add generic name",
+        "content_type": 16,
+        "codename": "add_genericname"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+        "name": "Can change generic name",
+        "content_type": 16,
+        "codename": "change_genericname"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+        "name": "Can delete generic name",
+        "content_type": 16,
+        "codename": "delete_genericname"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+        "name": "Can view generic name",
+        "content_type": 16,
+        "codename": "view_genericname"
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "Owner",
+        "permissions": [
+            48,
+            52,
+            53,
+            54,
+            55,
+            56,
+            38,
+            40,
+            42,
+            44,
+            30,
+            32,
+            25,
+            26,
+            27,
+            28,
+            33,
+            34,
+            35,
+            36,
+            21,
+            22,
+            23,
+            24
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+        "name": "PharmacyWorker",
+        "permissions": [
+            48,
+            52,
+            53,
+            54,
+            55,
+            56,
+            38,
+            40,
+            42,
+            44,
+            32,
+            33,
+            34,
+            36,
+            21,
+            22,
+            24
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+        "name": "Customer",
+        "permissions": [
+            45,
+            46,
+            48,
+            49,
+            50,
+            52,
+            53,
+            54,
+            55,
+            56,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            44,
+            32,
+            21,
+            22,
+            24
+        ]
+    }
+},
+{
+    "model": "auth.group",
+    "pk": 4,
+    "fields": {
+        "name": "Worker",
+        "permissions": []
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "Users",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "Users",
+        "model": "owner"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "Users",
+        "model": "customer"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "Users",
+        "model": "pharmacyworker"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "PurchaseRequests",
+        "model": "purchaserequest"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "PurchaseRequests",
+        "model": "requestitem"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "Prescriptions",
+        "model": "medicinerecord"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "Prescriptions",
+        "model": "prescription"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+        "app_label": "Products",
+        "model": "product"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+        "app_label": "Products",
+        "model": "disease"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+        "app_label": "Products",
+        "model": "genericname"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "7pe8s16t6rblr7drisp17nhnyn0ojpy0",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lkz2B:IsyXpVM7c3WLkiqQ38f82wxtI9ouWUWbDk1ebSJprhA",
+        "expire_date": "2021-06-07T01:05:31.399Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "iqmgqcyodahz0ch9f0zda3uduj1vlqcj",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lqDks:HVYEqZMNG-rwtWV6PV-LSLKVMCE05H1E4QZuJOG1nXk",
+        "expire_date": "2021-06-21T11:49:18.896Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "m06uxtxary3039ey3i2yjukweqoef29c",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lh5ss:ycz5RSFeyg5mzEjyHO4wEjYJB5JDmj0MVD0iS_uGrxk",
+        "expire_date": "2021-05-27T07:35:50.908Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "nenvxsxbse43gil5ia6npzy17ttt7ygv",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1ljeET:hyFsZjJ6Skgvp0iIDz75XYEKbRWrGZhf9sN3IbPrYd0",
+        "expire_date": "2021-06-03T08:40:41.901Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "usomakeb9mwcamnwelzh0b6vvhxcxi62",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lhjFC:22P4A8LOWjLNxNW2XxLsWeXhu7NsuMmCs41u5TmS8zA",
+        "expire_date": "2021-05-29T01:37:30.187Z"
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "17118ef3-e1db-4e44-968b-88710f5f05a6",
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "name": "test staff",
+        "contact_number": "272110101",
+        "address": "yep",
+        "registration": "2021-06-07T11:50:24.107Z",
+        "password": "pbkdf2_sha256$260000$fO7StQi3KGvGh8rnP7fL6I$TxMRNhiKd4G1StQhKwR++B12KQpEHQ8/pkFmEx1sIG0=",
+        "role": "Worker",
+        "username": "test_staff",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "4988f11b-e937-4192-8606-90654ac7f2eb",
+    "fields": {
+        "last_login": "2021-06-07T11:49:18.893Z",
+        "is_superuser": true,
+        "name": "ayo",
+        "contact_number": "ayo",
+        "address": "ayo",
+        "registration": "2021-05-13T07:35:46.161Z",
+        "password": "pbkdf2_sha256$260000$Fpnsfsw3YXRWARqztrMRjp$iyKmFcH32Yh7CqnCM6uEZlVC+Je4msuJmAWTh0X9WAg=",
+        "role": "ayo",
+        "username": "ayo",
+        "is_active": true,
+        "is_staff": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "name": "test_customer",
+        "contact_number": "272110101",
+        "address": "yep",
+        "registration": "2021-05-27T06:36:29.269Z",
+        "password": "pbkdf2_sha256$260000$zAAPFOPs6SD1tPJ7zdhZxY$vUKhHAd+4dbi3O9HS9097gJaamsrPIdEwuAxRQ/6dYs=",
+        "role": "Customer",
+        "username": "test_customer",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "f95c56a3-5371-466c-9541-9ba5a86c3f95",
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "name": "test owner",
+        "contact_number": "272110101",
+        "address": "yep",
+        "registration": "2021-06-07T11:50:36.077Z",
+        "password": "pbkdf2_sha256$260000$ZWLBTcAJZ8xuAn2e4u139U$gyl2si4NXxgR2cTZw1afU4JS9lQ9nNsOeo29D6rjJ4E=",
+        "role": "Owner",
+        "username": "test_owner",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.owner",
+    "pk": "e1351387-c324-454f-9803-06eb10f84621",
+    "fields": {
+        "owner_user": "f95c56a3-5371-466c-9541-9ba5a86c3f95",
+        "business_permit": "business_permit/test_ownerpermit_IoELYc2.png"
+    }
+},
+{
+    "model": "Users.customer",
+    "pk": "f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8",
+    "fields": {
+        "customer_user": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
+        "valid_id1": "customer_ids/test_customerid1.png",
+        "medical_record": "",
+        "is_verified": false,
+        "is_rejected": false
+    }
+},
+{
+    "model": "Users.pharmacyworker",
+    "pk": "27fa3512-4287-46bc-b740-2e1ac6fa247f",
+    "fields": {
+        "worker_user": "17118ef3-e1db-4e44-968b-88710f5f05a6",
+        "medical_license": "medical_licences/test_stafflicense_n1d6dfx.png",
+        "is_available": true
+    }
+},
+{
+    "model": "PurchaseRequests.purchaserequest",
+    "pk": "f742f524-c9da-48dc-8650-ad7622524f9b",
+    "fields": {
+        "customer_id": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "is_confirmed": false,
+        "is_cancelled": false,
+        "is_fulfilled": false,
+        "request_date": "2021-06-06T03:08:03.145Z",
+        "request_type": "Order",
+        "total_cost": 67.5,
+        "prescription_id": null,
+        "note": null
+    }
+},
+{
+    "model": "PurchaseRequests.requestitem",
+    "pk": "d9353849-eb4e-4cee-95e7-cccbea95a67d",
+    "fields": {
+        "quantity": 5,
+        "product_id": "3fbf2bc5-3b56-4075-a188-b51c1934dad4",
+        "request_id": "f742f524-c9da-48dc-8650-ad7622524f9b",
+        "user_id": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "cost": 67.5
+    }
+},
+{
+    "model": "Products.disease",
+    "pk": "2fa6a825-a806-47cc-9bff-195b0aeeb419",
+    "fields": {
+        "disease_name": "test_disease5"
+    }
+},
+{
+    "model": "Products.disease",
+    "pk": "3a477721-cb02-4483-803f-c4e5ed0721df",
+    "fields": {
+        "disease_name": "test_disease4"
+    }
+},
+{
+    "model": "Products.disease",
+    "pk": "5cc79466-f231-4cc7-820f-b4dbd410375d",
+    "fields": {
+        "disease_name": "test_disease3"
+    }
+},
+{
+    "model": "Products.disease",
+    "pk": "5d3f1dbd-76aa-4071-9e4b-e75bfb1a989c",
+    "fields": {
+        "disease_name": "test_disease2"
+    }
+},
+{
+    "model": "Products.disease",
+    "pk": "d0bdbd19-3540-4dfc-988e-0ac451df1126",
+    "fields": {
+        "disease_name": "test_disease1"
+    }
+},
+{
+    "model": "Products.genericname",
+    "pk": "245c31ff-8105-48d0-8791-24f0c5c3ce29",
+    "fields": {
+        "generic_name": "test_generic2",
+        "disease": [
+            "3a477721-cb02-4483-803f-c4e5ed0721df",
+            "5cc79466-f231-4cc7-820f-b4dbd410375d"
+        ]
+    }
+},
+{
+    "model": "Products.genericname",
+    "pk": "d4594267-25b4-4934-95cb-bd1103c0eec2",
+    "fields": {
+        "generic_name": "test_generic3",
+        "disease": [
+            "2fa6a825-a806-47cc-9bff-195b0aeeb419",
+            "5cc79466-f231-4cc7-820f-b4dbd410375d"
+        ]
+    }
+},
+{
+    "model": "Products.genericname",
+    "pk": "dfc02eab-0894-40a6-990c-9f57f8d7971e",
+    "fields": {
+        "generic_name": "edited_test_gen_2",
+        "disease": [
+            "3a477721-cb02-4483-803f-c4e5ed0721df",
+            "5cc79466-f231-4cc7-820f-b4dbd410375d"
+        ]
+    }
+},
+{
+    "model": "Products.genericname",
+    "pk": "f467119f-89df-48ba-bbaf-048b5d4445ec",
+    "fields": {
+        "generic_name": "test_generic3",
+        "disease": [
+            "2fa6a825-a806-47cc-9bff-195b0aeeb419",
+            "5cc79466-f231-4cc7-820f-b4dbd410375d"
+        ]
+    }
+},
+{
+    "model": "Products.product",
+    "pk": "3fbf2bc5-3b56-4075-a188-b51c1934dad4",
+    "fields": {
+        "name": "test_medicine2",
+        "description": "test description",
+        "price": 13.5,
+        "quantity": 1495,
+        "product_img": "products/test_medicine2_eAGLNMT.png",
+        "generic_name": "245c31ff-8105-48d0-8791-24f0c5c3ce29"
+    }
+}
+]

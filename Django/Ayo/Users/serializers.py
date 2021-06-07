@@ -17,24 +17,24 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        try:
-            password = validated_data.pop('password', None)
-            instance = self.Meta.model(**validated_data)
-            if password is not None:
-                instance.set_password(password)
-            instance.save()
-            if validated_data['role'] == 'Customer':
-                assigned_group = Group.objects.get(name='Customer')
-                assigned_group.user_set.add(instance)
-            elif validated_data['role'] == 'Owner':
-                assigned_group = Group.objects.get(name='Owner')
-                assigned_group.user_set.add(instance)
-            elif validated_data['role'] == 'Worker':
-                assigned_group = Group.objects.get(name='PharmacyWorker')
-                assigned_group.user_set.add(instance)
-            return instance
-        except:
-            raise(AttributeError)
+        # try:
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        if validated_data['role'] == 'Customer':
+            assigned_group = Group.objects.get(name='Customer')
+            assigned_group.user_set.add(instance)
+        elif validated_data['role'] == 'Owner':
+            assigned_group = Group.objects.get(name='Owner')
+            assigned_group.user_set.add(instance)
+        elif validated_data['role'] == 'Worker':
+            assigned_group = Group.objects.get(name='PharmacyWorker')
+            assigned_group.user_set.add(instance)
+        return instance
+        # except:
+        #     raise(AttributeError)
 
     def update(self, instance, validated_data):
         # TODO: what do we need to checl jere?

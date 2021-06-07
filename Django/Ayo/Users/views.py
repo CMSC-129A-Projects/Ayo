@@ -108,8 +108,8 @@ class User(APIView):
 
 
 class Users(APIView, IsOwnerOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
+    # permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
     queryset = get_user_model().objects.all()
 
     def get(self, request):
@@ -167,6 +167,9 @@ class RegisterUser(APIView):
             serializer_img = PharmacyWorkerSerializer(data=new_data)
 
         elif data['role'] == 'Owner':
+            if len(Owner.objects.all()):
+                return Response({"status_code": 400, "detail": "Owner already exists."})
+
             new_data['business_permit'] = uri_to_img(data['role'],
                                                      data['business_permit'], data['username'])
             new_data['owner_user'] = new_data['id']
@@ -198,7 +201,6 @@ class LoginUser(APIView):
 
         # used filter as to check if user exists
         user = get_user_model().objects.filter(username=username).first()
-        print("PRE USER IS ", user)
 
         if user is None:
             raise exceptions.AuthenticationFailed("User not found")
@@ -212,6 +214,7 @@ class LoginUser(APIView):
         response.data = {
             'jwt': token
         }
+
         if user.role == "Customer":
             customer = Customer.objects.filter(customer_user=user.id).first()
 
@@ -233,7 +236,6 @@ class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
     def get(self, request):
         unverified = Customer.objects.filter(
             Q(is_verified=False) & Q(is_rejected=False)).values()
-        print(unverified)
         serializer = CustomerViewSerializer(
             unverified, many=True, context={'request': request})
         return Response(serializer.data)
