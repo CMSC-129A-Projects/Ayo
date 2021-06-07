@@ -9,7 +9,7 @@ export default function EditQuantity() {
         setQuantityValue(quantityValue + 1)
     }
     const subtractQuantity = () => { 
-        setQuantityValue(quantityValue - 1)
+        quantityValue > 0 ? setQuantityValue(quantityValue - 1): setQuantityValue(0);
     } 
 return(
     <View style = {styles.quantityContainer}>

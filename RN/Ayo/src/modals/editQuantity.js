@@ -9,7 +9,6 @@ export default function EditQuantity() {
         setQuantityValue(quantityValue + 1)
     }
     const subtractQuantity = () => { 
-        console.log("add");
         quantityValue > 0 ? setQuantityValue(quantityValue - 1): setQuantityValue(0);
     } 
 return(
