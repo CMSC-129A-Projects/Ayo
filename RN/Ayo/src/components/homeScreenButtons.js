@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
       container : {
             flexDirection: "row",
             justifyContent: "center",
-            marginVertical: '2%'
+            margin: '2%'
       },
       icon : {
             height: 100,

@@ -22,10 +22,9 @@ import DeleteProductModal from '../modals/deleteProduct'
 import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
-import EditQuantity from '../modals/editQuantity'
 import {Fontisto} from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
-
+import DropDownPicker from 'react-native-dropdown-picker';
+import RNPickerSelect from 'react-native-image-picker';
 var tmpProducts = [
   {
       name: "biogesic",
@@ -96,7 +95,6 @@ const productList = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [modal3Visible, setModal3Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -174,15 +172,21 @@ const productList = () => {
             style = {styles.searchBar}
           />
           <View style = {styles.dropdownBar}>
-            <RNPickerSelect
-                pickerProps={{ style: {overflow: 'scroll' } }}
-                onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
+            <DropDownPicker
                 items={[
-                    { label: 'Brand Name', value: 'brandname'},
-                    { label: 'Lowest Price', value: 'priceasc' },
-                    { label: 'Highest Price', value: 'pricedesc' },
+                  {label: 'Brand Name', value: 'brandname'},
+                  {label: 'Generic Name', value: 'genericname'},
+                  {label: 'Lowest Price', value: 'priceasc'},
+                  {label: 'Highest Price', value: 'pricedesc'},
                 ]}
-              />
+                placeholder = {"Sort"}
+                containerStyle={{height: 40}}
+                itemStyle={{
+                    justifyContent: 'flex-start'
+                }}
+                dropDownStyle={{backgroundColor: '#fafafa'}}
+                onChangeItem={item => setDropdownBar(item.value)}
+            />
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
@@ -830,8 +834,7 @@ const styles = StyleSheet.create(
     },
     dropdownBar: {
       width: '30%',
-      flexDirection: 'column',
-      backgroundColor: '#dcdcdc'
+      flexDirection: 'column'
     },
     deleteProductContainer:{
       backgroundColor: "#ffff",

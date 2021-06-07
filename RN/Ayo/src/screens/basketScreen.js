@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet,
-        Alert, 
+import {StyleSheet, 
         Text, 
         View,
         TextInput,
@@ -22,8 +21,7 @@ import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import DeleteProductModal from '../modals/deleteProduct'
 import EditQuantity1 from '../modals/editQuantity1'
-import {Fontisto, MaterialIcons,AntDesign, FontAwesome} from '@expo/vector-icons';
-import CheckBox from '@react-native-community/checkbox';
+import {Fontisto, MaterialIcons,AntDesign} from '@expo/vector-icons';
 
 var tmpProducts = [
     {
@@ -31,64 +29,56 @@ var tmpProducts = [
         description: "biogesic",
         price: 10,
         //in_stock: true , 
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
     {
         name: "bioflu",
         description: "bioflue",
         price: 15,
         //in_stock: true ,
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
     {
         name: "maryjane",
         description: "maryjane",
         price: 100,
         //in_stock: true ,
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
       {
         name: "paracetamol",
         description: "paracetamol",
         price: 20,
         //in_stock: true ,
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
       {
         name: "mefenamic",
         description: "mefenamic",
         price: 25,
         //in_stock: true ,
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
       {
         name: "alaxan",
         description: "alaxan",
         price: 10,
         //in_stock: true ,
-        product_img: require("../assets/favicon.png"),
-        selected:false,
+        product_img: require("../assets/favicon.png")
     },
     {
       name: "extrajoss",
       description: "extrajoss",
         price: 1,
         //in_stock: true ,
-      product_img: require("../assets/favicon.png"),
-      selected:false,
+      product_img: require("../assets/favicon.png")
   },
   {
     name: "elixir",
     description: "elixir",
     price: 200,
     //in_stock: true ,
-    product_img: require("../assets/favicon.png"),
-    selected:false,
+    product_img: require("../assets/favicon.png")
   }
 ]
 
@@ -108,52 +98,17 @@ const basketList = () => {
     const [deleteVisible, setDeleteVisible] = useState(false);
     const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
     const [deleteFailVisible, setDeleteFailVisible] = useState(false);
-    const [itemData, setItemData] = useState([tmpProducts]);
+    const [itemData, setItemData] = useState(null);
     const [name, setname] = useState(null);
     const [description, setDescription] = useState(null);
     const [price, setPrice] = useState(null);
     const [image, setImage] = useState(null);
-    const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-    const onToggle = () => {
-        setToggleCheckBox(!toggleCheckBox)
-    }
-
-   const onChangeValue = (itemSelected, index) => {
-        const newData = itemData.map(item =>{
-            if (item.name==itemSelected.name){
-                return {
-                    ...item,
-                    selected:!item.selected
-                }
-            }
-            return{
-                ...item,
-                selected: !item.selected
-            }
-        })
-        setItemData(newData)
-    }
-    const onShowSelectedItem =() =>{
-        const listSelected=itemData.filter(item=> item.selected ==true);
-        let contentAlert ='';
-        listSelected.forEach(item=> {
-            contentAlert=contentAlert + item.name + '\n';
-        })
-        Alert.alert(contentAlert);
-    }
-
-    const renderItem = ({ item,index }) => {
+    const renderItem = ({ item }) => {
         const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
         const color = item.name === selectedId ? 'white' : 'black';
-
         return (
             <View style={styles.touchablesContainer}>
-            <CheckBox
-            style = {styles.checkItem}
-            value={toggleCheckBox}
-            onValueChange={(newValue) => setToggleCheckBox(!newValue)}
-            />
             <TouchableOpacity style = {styles.touchables} item={item} backgroundColor = {{backgroundColor}} textColor = {{color}} onPress = {() => {
                 setItemData(item);
                 setModalVisible(!modalVisible); 
@@ -194,15 +149,23 @@ const basketList = () => {
                             keyExtractor={item => item.description}
                     />
                     <View style ={styles.totalSection}>
-                    <Text style={{fontSize: 30, fontStyle:'normal', fontWeight:'bold', fontFamily:'sans-serif-condensed'}}>Total</Text>
-                        <View style={{flexDirection:'row',marginHorizontal:5}}>
-                        <Text style={{ fontSize: 20, fontFamily:'normal'}}>Sub total</Text>
+                        <View style={{flexDirection:'row',marginHorizontal:5, marginTop: '3%'}}>
+                        <Text style={{ fontSize: 20, fontWeight:'bold'}}>Total</Text>
                         <View style = {styles.divider}/>
-                        <Text style={{fontSize:25,color:'#ffffff', fontWeight:'bold'}}>₱376.00</Text>
+                        <Text style={{fontSize:25, fontWeight:'bold'}}>₱376.00</Text>
+                    </View>
+
+                      {/*  <View style={styles.couponSection}>
+                        <TextInput 
+                        placeholderTextColor = "#ffffff"
+                        placeHolder="Enter Voucher Code"
+                        style={styles.placeHolder}/>
+                        <View style={{height:'90%', width: 2, marginBottom:10, marginVertical:10, backgroundColor:'white'}}/>
+                        <Text style={{fontSize:23, fontWeight:'bold', color:'white'}}>APPLY</Text>
                         </View>
 
-                        <TouchableOpacity style={styles.buttonCheckout}
-                        >
+                        <View/>*/}
+                        <TouchableOpacity style={styles.buttonCheckout}>
                             <Text style={{fontSize:25, fontWeight: 'bold',color:'#ffffff'}}>CHECKOUT</Text>
                         </TouchableOpacity>
 
@@ -219,7 +182,9 @@ const basketList = () => {
                             <View style={{flexDirection:"row-reverse",margin:10}}>
                             <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
                             onPress={() => {
-                                setDeleteSuccessVisible(!deleteSuccessVisible)}}>
+                            //setDeleteFailVisible(!deleteFailVisible)
+                            setDeleteSuccessVisible(!deleteSuccessVisible)
+                            }}>
                             <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginVertical: 5, paddingVertical:10,paddingHorizontal:30, backgroundColor:'lightgray'}} 
@@ -322,13 +287,7 @@ const styles = StyleSheet.create(
             marginVertical: '5.2%',
             alignSelf: 'center',
             alignItems: 'center',
-            elevation: 5,
-            shadowColor:'#000000',
-            shadowOffset:{
-                width:0, height:2
-            },
-            shadowOpacity:0.25,
-            shadowRadius: 5
+            elevation: 2
         },
         itemText: {
             fontSize: 17,
@@ -349,7 +308,7 @@ const styles = StyleSheet.create(
             marginBottom:10,
         },
         totalSection:{
-            marginTop:10,
+            marginTop:'3%',
             marginHorizontal:5,
             borderTopWidth:2,
             borderTopColor:'white',
@@ -383,14 +342,14 @@ const styles = StyleSheet.create(
         borderWidth: 3,
         borderColor: '#00d1a3',
         backgroundColor:  '#00d1a3',
+        borderRadius: 23,
         width: '70%',
-        borderRadius:10,
         alignSelf:'center',
         alignItems:'center',
         marginTop: '10%',
         padding: '2%',
         marginBottom: '8%',
-        paddingVertical:10,
+        paddingHorizontal: 50,
         width:'90%',
         marginHorizontal:10,
        },
@@ -413,12 +372,6 @@ const styles = StyleSheet.create(
         marginTop: 'auto',
         alignSelf: 'center',
         flexDirection:'row',
-      },
-      checkItem:{  
-        height: 15,
-        width: 15,
-        marginTop: 10,
-        marginLeft: 5,
       },
     }   
 )
