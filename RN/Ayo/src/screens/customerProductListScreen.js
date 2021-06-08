@@ -100,6 +100,8 @@ const productList = () => {
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState(null);
   const [dropdownBar, setDropdownBar] = useState('brandname');
+  const [searchBar, setSearchBar] = useState('')
+
 
 
   const renderItem = ({ item }) => {
@@ -136,6 +138,24 @@ const productList = () => {
       </View>
     );
   };
+
+  const SortFlatlist = (dropOption, searchItem) => {
+    var returnProducts = tmpProducts;
+    if(searchItem != ''){
+      returnProducts = returnProducts.filter(item => {      
+        const itemData = `${item.name.toLowerCase()}`;
+        const search = searchItem.toLowerCase();
+        return itemData.indexOf(search) > -1;    
+      });
+    }
+    switch(dropOption) {
+      case 'brandname':   return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+      //case 'genericname' return tmpProducts.sort((a, b) => a.genericname.localeCompare(b.genericname))
+      case 'priceasc': return returnProducts.sort((a, b) => (a.price > b.price) ? 1 : -1);
+      case 'pricedesc':  return returnProducts.sort((a, b) => (a.price < b.price) ? 1 : -1);
+      default: return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }
   
   return(
     <SafeAreaView style= {styles.Container}>
@@ -147,11 +167,13 @@ const productList = () => {
             placeholderTextColor = '#dcdcdc'
             underlineColorAndroid = "transparent"
             style = {styles.searchBar}
+            onChangeText = {searchBar => setSearchBar(searchBar)}
           />
           <View style = {styles.dropdownBar}>
             <RNPickerSelect
                 pickerProps={{ style: {overflow: 'scroll' } }}
                 onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
+                placeholder = {{label: 'Sort' , color: 'gray'}}
                 items={[
                     { label: 'Brand Name', value: 'brandname'},
                     { label: 'Lowest Price', value: 'priceasc' },
@@ -161,7 +183,8 @@ const productList = () => {
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
-          <FlatList data={tmpProducts}
+          <FlatList data={SortFlatlist(dropdownBar, searchBar)}
+                    extraData = {dropdownBar, searchBar}
                     renderItem={renderItem}
                     keyExtractor={item => item.description}
           />
