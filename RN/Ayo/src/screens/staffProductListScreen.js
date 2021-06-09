@@ -75,14 +75,21 @@ var tmpProducts = [
       price: 1,
       //in_stock: true ,
     product_img: require("../assets/favicon.png")
-},
-{
-  name: "elixir",
-  description: "elixir",
-  price: 200,
-  //in_stock: true ,
-  product_img: require("../assets/favicon.png")
-}
+  },
+  {
+    name: "elixir",
+    description: "elixir",
+    price: 200,
+    //in_stock: true ,
+    product_img: require("../assets/favicon.png")
+  }
+]
+
+var tmpGenerics = [
+  { label: 'valproic acid', value: 'valproic acid' },
+  { label: 'fenofibrate', value: 'fenofibrate' },
+  { label: 'olanzapine', value: 'olanzapine' },
+  { label: 'rufinamide', value: 'rufinamide' },
 ]
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -109,8 +116,8 @@ const productList = () => {
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState(null);
   const [dropdownBar, setDropdownBar] = useState('brandname');
-  const [dropdownBar2, setDropdownBar2] = useState(null);
-  const [searchBar, setSearchBar] = useState('')
+  const [searchBar, setSearchBar] = useState('');
+  const [genericSearchBar, setGenericSearchBar] = useState('');
   const [enteredDisease, setEnteredDisease] = useState('');
   const [diseasesList, setDiseasesList] = useState([]);
 
@@ -179,6 +186,10 @@ const productList = () => {
       case 'pricedesc':  return returnProducts.sort((a, b) => (a.price < b.price) ? 1 : -1);
       default: return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
     }
+  }
+
+  const SortGenerics = (searchItem) => {
+
   }
   
   return(
@@ -416,20 +427,29 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-                    <View style = {styles.dropdownField}>
-                      <RNPickerSelect
-                        placeholder = {{label: 'Generic Name'}}
-                        pickerProps={{ style: {overflow: 'scroll' } }}
-                        onValueChange={(dropdownBar2) => dropdownBar2 != 'add' ? setDropdownBar2(dropdownBar2) : setModal3Visible(true)}
-                        items={[
-                            { label: 'fenofibrate', value: 'fenofibrate' },
-                            { label: 'olanzapine', value: 'olanzapine' },
-                            { label: 'rufinamide', value: 'rufinamide' },
-                            { label: 'valproic acid', value: 'valproic acid' },
-                            { label: 'Add...', value: 'add' }
-                        ]}
-                      />
+                    <View style = {styles.genericNameField}>
+                      <TextInput 
+                        placeholder = "Generic Name"
+                        placeholderTextColor = '#ffffff'
+                        underlineColorAndroid = "transparent"
+                        value = {genericSearchBar}
+                        style = {styles.genericNameInputField}
+                        onChangeText = {genericSearchBar => setGenericSearchBar(genericSearchBar)}>
+                      </TextInput>
+                      <View style = {styles.dropdownField}>
+                        <RNPickerSelect
+                          placeholder = {{label: ''}}
+                          pickerProps={{ style: {overflow: 'scroll' } }}
+                          onValueChange={(toGenericField) => toGenericField!= 'add' ? setGenericSearchBar(toGenericField) : setModal3Visible(true)}
+                          items={[
+                              { label: 'Add...', value: 'add' },
+                              ...tmpGenerics.sort((a, b) => a.label.localeCompare(b.name))
+                          ]}
+                        />
                     </View>
+
+                    </View>
+                    
                     <TextInput
                         placeholder = "Price"
                         placeholderTextColor = '#ffffff'
@@ -492,7 +512,7 @@ const productList = () => {
                       ADD GENERIC MEDICINE
                     </Text>
                     <TextInput
-                      placeholder = "Price"
+                      placeholder = "Generic Name"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
@@ -575,9 +595,8 @@ const styles = StyleSheet.create(
     },
     touchablesContainer: {
       alignSelf:'center',
-      width: '95%',
-      margin: '1.5%',
-      borderRadius: 15,
+      width: '100%',
+      margin: '.5%',
       backgroundColor: 'white',
     },
     touchables: {
@@ -661,15 +680,27 @@ const styles = StyleSheet.create(
       margin: "3.5%",
       alignSelf:'center'
     },
-    dropdownField:{
+    genericNameField: {
+      flexDirection:'row', 
       width: '100%',
       borderRadius: 17,
       borderWidth: 0.75,
       borderColor: 'black',
       backgroundColor: '#dcdcdc',
+    },
+    genericNameInputField: {
+      width: '80%',
+      padding: '1%',
       textAlign: 'center',
       fontFamily: 'Roboto',
-      fontWeight: 'bold',      
+      fontWeight: 'bold',
+      fontSize: 17,
+      letterSpacing: 1,
+      alignSelf:'center'
+    },
+    dropdownField:{
+      width: '20%',
+      height: '100%',
       alignSelf:'center'
     },
     inputDescriptionField: {

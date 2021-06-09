@@ -255,9 +255,8 @@ const styles = StyleSheet.create(
         },
         touchablesContainer: {
             alignSelf:'center',
-            width: '95%',
-            margin: '1.5%',
-            borderRadius: 15,
+            width: '100%',
+            margin: '0.5%',
             backgroundColor: 'white',
         },
         touchables: {
