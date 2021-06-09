@@ -84,7 +84,7 @@ class PharmacyWorkerViewSerializer(PharmacyWorkerSerializer):
 
     class Meta:
         model = PharmacyWorker
-        fields = ['worker_user', 'medical_license']
+        fields = ['worker_user', 'medical_license', 'is_available']
 
 
 class CustomerSerializer(serializers.ModelSerializer):

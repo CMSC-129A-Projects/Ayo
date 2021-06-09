@@ -10,5 +10,5 @@ urlpatterns = [
          name='unverified_customers'),
     path('approve', ApproveCustomer.as_view(), name='approve_application'),
     path('reject', RejectCustomer.as_view(), name='reject_application'),
-    path('user', User.as_view(), name='account'),
+    path('user/<str:username>', User.as_view(), name='account'),
 ]

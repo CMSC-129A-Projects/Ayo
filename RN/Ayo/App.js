@@ -41,10 +41,10 @@ export default function App() {
           }
         }}>
           {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
+          <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
 
-          <Stack.Screen options={{headerShown: false}} name="Api" component={apiTestScreen} />
-          <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
           {/*<Stack.Screen options={{headerShown: false}} name="Verify Customers" component={customerVerificationScreen} />*/}

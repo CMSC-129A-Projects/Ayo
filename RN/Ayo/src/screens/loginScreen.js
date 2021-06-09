@@ -10,15 +10,15 @@ import {StyleSheet,
         ImageBackground, 
         SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
 
-import {getUsername, getPassword, getUser} from '../redux/Users/selectors';
-import {setUser, setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId} from '../redux/Users/actions' 
+import {setUser, setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId, setCustomer, setWorker, setOwner} from '../redux/Users/actions' 
 import usersApi from '../api/Users';
 
 import RejectModal from '../modals/RejectModal';
 import WaitingModal from '../modals/WaitingModal';
 import VerifiedModal from '../modals/VerifiedModal'; 
+import { fetchUserDetails } from '../redux/Users/services';
+import {connect} from 'react-redux';
 
 const actionDispatch = (dispatch) => ({
   setUsername: (username) => dispatch(setUsername(username)),
@@ -30,33 +30,21 @@ const actionDispatch = (dispatch) => ({
 })
 
 // being consistent with what is in Django const getLoginData = () => {
-const getLoginData = () => {
-  return (
-    {
-      username: useSelector(getUsername),
-      password: useSelector(getPassword),
-    }
-  )
-}
 
-const LogInScreen = () => {
-  const {setUser ,setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId}  = actionDispatch(useDispatch());
-  const {username, password} = getLoginData(); 
-  const User = useSelector(getUser);
+function LogInScreen ({dispatch, username, password}) {
   const navigation = useNavigation();
   const [verifyVisible, setVerifyVisible] = useState(false);
   const [rejectVisible, setRejectVisible] = useState(false);
   const [waitingVisible, setWaitingVisible] = useState(false);
-  const [userData, setUserData] = useState(); //temporary
   const [wrongPassword, setWrongPasword] = useState(false);
   const [wrongUser, setWrongUser] = useState(false);
   const [connectivityIssue, setConnectivityIssue] = useState(false);
   const [filledFields, setFilledFields] = useState(0); // scoring style: 3 - all unfilled, 2- password filled, 1 - username filled, 0 - all filld
 
-  const login = async (formdata) => {
+  const login = async (values) => {
     var has_error = false;
-    const response = await usersApi.post('login', formdata, {headers : {
-      'Content-Type': 'multipart/form-data',
+    const response = await usersApi.post('login', values, {headers : {
+      'Content-Type': 'application/json',
       }})
       .catch((error) => {
         if(error.response){
@@ -84,23 +72,29 @@ const LogInScreen = () => {
 
     if(has_error)
       return null;
-    
-    console.log(response.data.jwt);
-    setUserId(response.data.id);
-    setJWTAccess(response.data.jwt['access']);
-    setJWTRefresh(response.data.jwt['refresh']);
-    // const header = {
-    //   headers:{
-    //     'Authorization': "Bearer " + response.data.jwt 
-    //   }
-    // }
-    // const payload = {
-    // }
-    // const secondresponse = await usersApi.get('user', payload, header);
-    // console.log(secondresponse.data.data);
-    // setUser(secondresponse.data.data)
+
+
+    dispatch(setJWTAccess(response.data.jwt['access']));
+    dispatch(setJWTRefresh(response.data.jwt['refresh']));
+
     // SUUUUUPER EXPLICIT
     if(response.data.is_staff || response.data.is_verified){
+      const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
+      dispatch(setUser(details.data));
+      switch(response.data.role){
+        case "Customer":
+          dispatch(setCustomer(details.data));
+          break;
+        case "Worker":
+          dispatch(setWorker(details.data));
+          break;
+        case "Owner":
+          dispatch(setOwner(details.data));
+          break;
+        default:
+          break;
+      }
+      // dispatch(set(details.data));
       toggleVerify();
       setWaitingVisible(false);
       setRejectVisible(false);
@@ -120,7 +114,6 @@ const LogInScreen = () => {
   const toggleVerify = () => {setVerifyVisible(!verifyVisible)};
   const toggleRejected = () => {setRejectVisible(!rejectVisible)};
   const toggleWaiting = () => {setWaitingVisible(!waitingVisible)};
-  console.log("Field day " ,filledFields);
 
   return (
     <SafeAreaView style= {styles.Container}>
@@ -137,7 +130,7 @@ const LogInScreen = () => {
                 placeholder = "Username"
                 placeholderTextColor = '#dcdcdc'
                 underlineColorAndroid = "transparent"
-                onChangeText = {(usernameInput) => setUsername(usernameInput)}
+                onChangeText = {(usernameInput) => dispatch(setUsername(usernameInput))}
                 style = { filledFields == 3 || filledFields ==1 ? [styles.UsernameField, styles.unFilledField] : styles.UsernameField}/>
           </View>
           <View>
@@ -146,7 +139,7 @@ const LogInScreen = () => {
                 placeholderTextColor = '#dcdcdc'
                 underlineColorAndroid = "transparent"
                 secureTextEntry
-                onChangeText = {(passwordInput) => setPassword(passwordInput)}
+                onChangeText = {(passwordInput) => dispatch(setPassword(passwordInput))}
                 style = { filledFields == 3 || filledFields == 2 ? [styles.PasswordField, styles.unFilledField] : styles.PasswordField}/>
           </View>
           <View>
@@ -158,10 +151,7 @@ const LogInScreen = () => {
               console.log(username.length, password.length);
               console.log(username, password);
               if((username.length) > 0 && (password.length) > 0){ 
-                const formdata = new FormData();
-                formdata.append('username', username); 
-                formdata.append('password', password); 
-                login(formdata);
+                login({username, password});
               }
               else{
                 if(username.length === 0 && password.length === 0)
@@ -183,7 +173,15 @@ const LogInScreen = () => {
   );
 }
 
-export default LogInScreen;
+
+const mapStateToProps = (state) => { 
+      return {
+            username: state.userData.username,
+            password: state.userData.password
+      }
+};
+
+export default connect(mapStateToProps)(LogInScreen);
 
 const styles = StyleSheet.create(
   {

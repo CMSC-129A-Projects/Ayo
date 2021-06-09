@@ -1,5 +1,9 @@
 export const ActionTypes = {
+      SET_USERS_LIST: "src/screens/loginScreen/SET_USERS_LIST",
       SET_USER: "src/screens/loginScreen/SET_USER",
+      SET_CUSTOMER: "src/screens/loginScreen/SET_CUSTOMER",
+      SET_WORKER: "src/screens/loginScreen/SET_WORKER",
+      SET_OWNER: "src/screens/loginScreen/SET_OWNER",
       SET_USER_ID: "src/screens/loginScreen/SET_USER_ID",
       SET_USERNAME: "src/screens/loginScreen/SET_USERNAME",
       SET_PASSWORD: "src/screens/loginScreen/SET_PASSWORD",

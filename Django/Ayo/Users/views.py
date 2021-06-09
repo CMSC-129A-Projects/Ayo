@@ -47,24 +47,29 @@ def uri_to_img(role, uri, username):
 
 
 class User(APIView):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (AllowAny, )
 
-    def get(self, request):
-        user = get_user_model().objects.filter(id=request.user.id).values()[0]
+    def get(self, request, username):
+        user = get_user_model().objects.filter(username=username).first()
+
+        if user is None:
+            raise exceptions.APIException("User does not exist!")
+
         serializer = UserViewSerializer(user)
         serializer2 = None
-        if request.user.role == "Customer":
+        if serializer.data['role'] == "Customer":
             val = Customer.objects.filter(
-                customer_user_id=user['id']).values()[0]
+                customer_user_id=serializer.data['id']).values()[0]
             serializer2 = CustomerViewSerializer(
                 val, context={'request': request})
-        elif request.user.role == "Owner":
-            val = Owner.objects.filter(owner_user=user['id']).values()[0]
+        elif serializer.data['role'] == "Owner":
+            val = Owner.objects.filter(
+                owner_user=serializer.data['id']).values()[0]
             serializer2 = OwnerViewSerializer(
                 val, context={'request': request})
-        elif request.user.role == "Worker":
+        elif serializer.data['role'] == "Worker":
             val = PharmacyWorker.objects.filter(
-                worker_user=user['id']).values()[0]
+                worker_user=serializer.data['id']).values()[0]
             serializer2 = PharmacyWorkerViewSerializer(
                 val, context={'request': request})
 
@@ -108,8 +113,8 @@ class User(APIView):
 
 
 class Users(APIView, IsOwnerOrReadOnly):
-    # permission_classes = (AllowAny, )
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
+    permission_classes = (AllowAny, )
+    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
     queryset = get_user_model().objects.all()
 
     def get(self, request):
@@ -196,6 +201,7 @@ class LoginUser(APIView):
     permission_classes = (AllowAny, )
 
     def post(self, request):
+        print("request is", request.data)
         username = request.data.get('username')
         password = request.data.get('password')
 
@@ -212,7 +218,9 @@ class LoginUser(APIView):
         token = get_tokens_for_user(user)
 
         response.data = {
-            'jwt': token
+            'jwt': token,
+            'role': user.role,
+            'username': user.username
         }
 
         if user.role == "Customer":

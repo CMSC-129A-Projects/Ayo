@@ -3,6 +3,11 @@ import {createSelector} from 'reselect';
 // needs to be the same in store.js
 const userDataState = (state) => state.userData;
 
+export const getUsersList = createSelector(
+      userDataState,
+      (userData) => userData.users_list
+)
+
 export const getLoginData = createSelector(
       userDataState,
       (userData) => [userData.username, userData.password]
