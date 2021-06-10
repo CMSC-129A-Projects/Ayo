@@ -13,22 +13,15 @@ import {StyleSheet,
         Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import {useSelector, useDispatch} from 'react-redux';
+import {connect} from 'react-redux';
 import json2formdata from 'json2formdata'
 
-import {getSelectSignup, getMedicalLicense} from '../redux/Users/selectors';
 import {setMedicalLicense} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
-const actionDispatch = (dispatch) => ({
-  setMedicalLicense: (valid_id1) => dispatch(setMedicalLicense(valid_id1)),
-})
 
-const pharmacyStaffSignUpScreen = () => { 
+const pharmacyStaffSignUpScreen = ({dispatch, medical_license, user}) => { 
     const navigation = useNavigation();
-    const {setMedicalLicense} = actionDispatch(useDispatch());
-    const finalval = useSelector(getSelectSignup);
-    const medical_license = useSelector(getMedicalLicense);
     const [image, setImage] = useState(null);
 
     useEffect(() => {
@@ -55,7 +48,7 @@ const pharmacyStaffSignUpScreen = () => {
         return null;
 
       setImage(result.uri);
-      setMedicalLicense(result.uri);
+      dispatch(setMedicalLicense(result.uri));
       // setMedicalLicense({ uri: localUri, name: filename, type });
     };
 
@@ -74,9 +67,8 @@ const pharmacyStaffSignUpScreen = () => {
                   <Text style = {styles.ButtonText}>UPLOAD MED LICENSE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                  const formdata = json2formdata(JSON.stringify(finalval))
-                  usersApi.post('register', formdata, {headers : {
-                    'Content-Type': 'multipart/form-data',
+                  usersApi.post('register', user, {headers : {
+                    'Content-Type': 'application/json',
                   }}).then(err => console.log(err))
                   navigation.navigate("Homes");
                 }}>
@@ -88,7 +80,12 @@ const pharmacyStaffSignUpScreen = () => {
     );
 }
 
-export default pharmacyStaffSignUpScreen;
+const mapStateToProps = (state) => ({
+  medical_license: state.userData.medical_license,
+  user: state.userData
+})
+
+export default connect(mapStateToProps)(pharmacyStaffSignUpScreen);
 
 const styles = StyleSheet.create(
     {

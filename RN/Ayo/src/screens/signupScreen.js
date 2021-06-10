@@ -10,43 +10,16 @@ import {Platform,
         Modal} from 'react-native';
 import Constants from 'expo-constants';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
-import {createSelector} from 'reselect';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import * as Location from 'expo-location';
 import axios from 'axios';
 import locApi from '../api/Location';
 
-import {getUser, getUsername, getName, getPassword, getPasswordConfirm, getContactNumber, getAddress} from '../redux/Users/selectors';
-
 import {setUsername, setPassword, setName, setPasswordConfirm, setContactNumber, setAddress} from '../redux/Users/actions' 
 
-const actionDispatch = (dispatch) => ({
-  setUsername: (username) => dispatch(setUsername(username)),
-  setName: (name) => dispatch(setName(name)),
-  setPassword: (password) => dispatch(setPassword(password)),
-  setPasswordConfirm: (password_confirm) => dispatch(setPasswordConfirm(password_confirm)),
-  setContactNumber: (contact_number) => dispatch(setContactNumber(contact_number)),
-  setAddress: (address) => dispatch(setAddress(address))
-})
-
 // being consistent with what is in Django
-const getLoginData = () => {
-  return (
-    {
-      username: useSelector(getUsername),
-      name: useSelector(getName),
-      password: useSelector(getPassword),
-      password_confirm: useSelector(getPasswordConfirm),
-      contact_number: useSelector(getContactNumber),
-      address: useSelector(getAddress),
-    }
-  )
-}
 
-const SignUpScreen = () => {
-    const signupData = useSelector(getUser);
-    const {setUsername, setName, setPassword, setPasswordConfirm, setContactNumber, setAddress} = actionDispatch(useDispatch());
-    const {username, name, password, password_confirm, contact_number, address} = getLoginData(); 
+const SignUpScreen = ({dispatch, user, username, password, password_confirm, name, contact_number, address}) => {
     const navigation = useNavigation();
     const [firstStep, setFirstStepVisible] = useState(true);
     const [secondStep, setSecondStepVisible] = useState(false);
@@ -54,6 +27,8 @@ const SignUpScreen = () => {
     const [filledFields2, setFilledFields3] = useState(0);
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+
+    console.log("USER IS", user);
 
     const getLocation = async () => {
         if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -102,7 +77,7 @@ const SignUpScreen = () => {
                         placeholder = "Username"
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
-                        onChangeText = {(usernameInput) => setUsername(usernameInput)}
+                        onChangeText = {(usernameInput) => dispatch(setUsername(usernameInput))}
                         style = {styles.UsernameField}/>
                   </View>
                   <View>
@@ -111,7 +86,7 @@ const SignUpScreen = () => {
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         secureTextEntry
-                        onChangeText = {(passwordInput) => setPassword(passwordInput)}
+                        onChangeText = {(passwordInput) => dispatch(setPassword(passwordInput))}
                         style = {styles.OtherFields}/>
                   </View>
                   <View>
@@ -120,7 +95,7 @@ const SignUpScreen = () => {
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         secureTextEntry
-                        onChangeText = {(passwordInput) => setPasswordConfirm(passwordInput)}
+                        onChangeText = {(passwordInput) => dispatch(setPasswordConfirm(passwordInput))}
                         style = {styles.OtherFields}/>
                   </View>
                   <View>
@@ -146,7 +121,7 @@ const SignUpScreen = () => {
                         placeholder = "Full name"
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
-                        onChangeText = {(nameInput) => setName(nameInput)}
+                        onChangeText = {(nameInput) => dispatch(setName(nameInput))}
                         style = {styles.UsernameField}/>
                   </View>
                   <View>
@@ -154,7 +129,7 @@ const SignUpScreen = () => {
                         placeholder = "Contact Number"
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
-                        onChangeText = {(contactNumberInput) => setContactNumber(contactNumberInput)}
+                        onChangeText = {(contactNumberInput) => dispatch(setContactNumber(contactNumberInput))}
                         style = {styles.OtherFields}/>
                   </View>
                   <View>
@@ -166,12 +141,12 @@ const SignUpScreen = () => {
                   </View>
                   <View>
                     <TextInput 
-                        placeholder = {signupData.address} 
+                        placeholder = {address} 
                         placeholderTextColor = '#000000'
                         fontSize = {10}
                         // placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
-                        onChangeText = {(addressInput) => setAddress(addressInput)}
+                        onChangeText = {(addressInput) => dispatch(setAddress(addressInput))}
                         style = {styles.OtherFields}/>
                   </View>
                   <View>
@@ -185,7 +160,6 @@ const SignUpScreen = () => {
                   <View>
                     <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                       setSecondStepVisible(!secondStep);
-                      console.log("Signup data is: ", signupData);                  
                       navigation.navigate("Select Role")
                     }}>
                       <Text style = {styles.ButtonText}>SIGN UP</Text>
@@ -198,7 +172,20 @@ const SignUpScreen = () => {
     );
 }
 
-export default SignUpScreen;
+const mapStateToProps = (state) => { 
+      return {
+            user: state.userData,
+            username: state.userData.username,
+            password: state.userData.password,
+            name: state.userData.name,
+            password_confirm: state.userData.password_confirm,
+            contact_number: state.userData.contact_number,
+            address: state.userData.address
+      }
+};
+
+
+export default connect(mapStateToProps)(SignUpScreen);
 
 const styles = StyleSheet.create(
     {

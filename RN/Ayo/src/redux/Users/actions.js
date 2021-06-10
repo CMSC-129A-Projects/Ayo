@@ -1,5 +1,15 @@
 import {ActionTypes} from './constants';
-import {fetchUsers, fetchUserDetails} from './services';
+import {fetchUsers, fetchUserDetails, fetchUnverifiedCustomers} from './services';
+
+export const setUnverifiedCustomers= (jwt_access, jwt_refresh) => async (dispatch, getState) => {
+      const users_list = await fetchUnverifiedCustomers(jwt_access,jwt_refresh);
+      dispatch(
+            {
+                  type: ActionTypes.SET_USERS_LIST,
+                  payload: {users_list}
+            }
+      )
+}
 
 export const setUsersList = () => async (dispatch, getState) => {
       const users_list = await fetchUsers();

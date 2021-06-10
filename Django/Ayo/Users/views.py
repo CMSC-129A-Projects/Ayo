@@ -3,7 +3,7 @@ TODO:
 - reconfigure api for possible roles
 """
 
-
+from django.core.exceptions import SynchronousOnlyOperation
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
@@ -20,12 +20,13 @@ import uuid
 
 from .serializers import PharmacyWorkerSerializer, UserSerializer, UserViewSerializer, OwnerSerializer, CustomerSerializer, CustomerViewSerializer, PharmacyWorkerViewSerializer, OwnerViewSerializer
 from .models import PharmacyWorker, Customer, Owner
-from permissionfunctions import *
-
+from .permissions import *
 
 # Create your views here.
 
 # helper function to convert uri from RN to django-file for storage
+
+
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
@@ -46,8 +47,11 @@ def uri_to_img(role, uri, username):
     return img_file
 
 
+def merge(a, b): return {**a, **b}
+
+
 class User(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, username):
         user = get_user_model().objects.filter(username=username).first()
@@ -73,7 +77,6 @@ class User(APIView):
             serializer2 = PharmacyWorkerViewSerializer(
                 val, context={'request': request})
 
-        def merge(a, b): return {**a, **b}
         return Response({
             'data': merge(serializer.data, serializer2.data)
         })
@@ -242,11 +245,19 @@ class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
 
     def get(self, request):
+        values = []
         unverified = Customer.objects.filter(
             Q(is_verified=False) & Q(is_rejected=False)).values()
-        serializer = CustomerViewSerializer(
-            unverified, many=True, context={'request': request})
-        return Response(serializer.data)
+        for customer in unverified:
+            userval = get_user_model().objects.filter(
+                id=customer['customer_user_id']).first()
+            print(userval)
+            serializer1 = CustomerViewSerializer(
+                customer, context={'request': request})
+            serializer2 = UserViewSerializer(userval)
+            values.append(merge(serializer1.data, serializer2.data))
+
+        return Response(values)
 
 
 class ApproveCustomer(APIView, IsOwnerOrReadOnly):

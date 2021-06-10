@@ -12,6 +12,8 @@ import {useNavigation} from '@react-navigation/native';
 import VerificationScreen from '../modals/verificationScreen';
 
 import usersApi from '../api/Users';
+import { connect } from 'react-redux';
+import { setUnverifiedCustomers } from '../redux/Users/actions';
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -19,7 +21,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const confirmationScreen = () => {
+const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false); 
   const [selectedId, setSelectedId] = useState(null);
@@ -34,17 +36,9 @@ const confirmationScreen = () => {
     }
   };
 
-  const fetchUsers = async () => {
-      // const response = await testScreen.get('http://localhost:8000/users/users').catch((err) => {
-      const response = await usersApi.get('unverifiedcustomers').catch( (err) => {
-              console.log("Error occured: ", err);
-      })
-      setUsers(response.data);
-      // setUser(response.data);
-  }
    
   useEffect(() => {
-    fetchUsers()
+    dispatch(setUnverifiedCustomers(jwt_access, jwt_refresh));
   }, [modalVisible]);
 
   const renderItem = ({ item }) => {
@@ -96,7 +90,15 @@ const confirmationScreen = () => {
   );
 }
 
-export default confirmationScreen;
+const mapStateToProps = (state) => {
+    return{
+        products_list: state.productData.products_list,
+        jwt_access: state.userData.JWT_ACCESS,
+        jwt_refresh: state.userData.JWT_REFRESH,
+    }
+}
+
+export default connect(mapStateToProps)(confirmationScreen);
 
 const styles = StyleSheet.create(
   {

@@ -9,22 +9,16 @@ import {StyleSheet,
         Platform,} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import json2formdata from 'json2formdata'
 
-import {getSelectSignup, getBusinessPermit} from '../redux/Users/selectors';
 import {setBusinessPermit} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
-const actionDispatch = (dispatch) => ({
-  setBusinessPermit: (valid_id1) => dispatch(setBusinessPermit(valid_id1)),
-})
 
-const pharmacyOwnerSignUpScreen = () => { 
+
+const pharmacyOwnerSignUpScreen = ({dispatch, business_permit, user}) => { 
     const navigation = useNavigation();
-    const {setBusinessPermit} = actionDispatch(useDispatch());
-    const finalval = useSelector(getSelectSignup);
-    const business_permit = useSelector(getBusinessPermit);
     const [image, setImage] = useState(null);
 
 
@@ -54,7 +48,7 @@ const pharmacyOwnerSignUpScreen = () => {
         return null;
 
       //setImage(result.uri);
-      //setBusinessPermit(result.uri);
+      dispatch(setBusinessPermit(result.uri));
     };
 
     
@@ -73,11 +67,10 @@ const pharmacyOwnerSignUpScreen = () => {
                   <Text style = {styles.ButtonText}>UPLOAD PERMIT</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                  const formdata = json2formdata(JSON.stringify(finalval));
-                  // usersApi.post('register', formdata, {headers : {
-                  //   'Content-Type': 'multipart/form-data',
-                  // }}).then(err => console.log(err))
-                  navigation.navigate("Confirm");
+                  usersApi.post('register', user, {headers : {
+                    'Content-Type': 'application/json',
+                  }}).then(err => console.log(err))
+                  navigation.navigate("Homes");
                 }}>
               <Text style = {styles.ButtonText}>SIGN UP</Text>
             </TouchableOpacity>
@@ -87,7 +80,12 @@ const pharmacyOwnerSignUpScreen = () => {
     );
 }
 
-export default pharmacyOwnerSignUpScreen;
+const mapStateToProps = (state) => ({
+  business_permit: state.userData.business_permit,
+  user: state.userData
+});
+
+export default connect(mapStateToProps)(pharmacyOwnerSignUpScreen);
 
 const styles = StyleSheet.create(
     {

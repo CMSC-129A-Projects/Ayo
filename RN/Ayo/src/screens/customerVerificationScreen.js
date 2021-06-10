@@ -8,6 +8,7 @@ import VerificationScreen from '../modals/verificationScreen';
 //tarongonon pa ang style maybe di rounded para different siya ug nawng sa buttons
 //ug ang alignment sad diay
 
+//mao ba ni ang gamiton para sa approval?
 const customerVerificationScreen = () => {
     const navigation = useNavigation();
     // contains: username, name, valid_id1 (uri), contact_number, address

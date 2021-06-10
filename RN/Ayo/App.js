@@ -9,6 +9,7 @@ import {
         loginScreen, 
         signupScreen, 
         roleSelectScreen, 
+        customerSignUpScreen,
         confirmationScreen,
         homeScreen,
         customerProductListScreen,
@@ -18,7 +19,9 @@ import {
         medItemScreen,
         testingscreen,
         customerVerificationScreen,
-      basketScreen,} from './src/screens/index';
+      basketScreen,
+      pharmacyStaffSignUpScreen,
+      pharmacyOwnerSignUpScreen,} from './src/screens/index';
 import store from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
@@ -47,6 +50,9 @@ export default function App() {
 
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Customer Sign Up" component={customerSignUpScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Staff Sign Up" component={pharmacyStaffSignUpScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Owner Sign Up" component={pharmacyOwnerSignUpScreen} />
           {/*<Stack.Screen options={{headerShown: false}} name="Verify Customers" component={customerVerificationScreen} />*/}
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Verify Customers" component={confirmationScreen} />
           {/* <Stack.Screen options={{headerShown: false}} name="Confirm" component={confirmationScreen} /> */}

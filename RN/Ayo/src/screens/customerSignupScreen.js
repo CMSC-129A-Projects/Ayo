@@ -13,23 +13,15 @@ import {StyleSheet,
         Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import {useSelector, useDispatch} from 'react-redux';
-import json2formdata from 'json2formdata';
+import {connect} from 'react-redux';
 
-import {getSelectSignup, getValidId} from '../redux/Users/selectors';
 import {setValidId} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
-const actionDispatch = (dispatch) => ({
-  setValidId: (valid_id1) => dispatch(setValidId(valid_id1)),
-})
 
-const customerSignUpScreen = () => { 
+const customerSignUpScreen = ({dispatch, valid_id1, user}) => { 
     const navigation = useNavigation();
-    const {setValidId} = actionDispatch(useDispatch());
     const [image, setImage] = useState(null);
-    const finalval = useSelector(getSelectSignup);
-    const valid_id1 = useSelector(getValidId);
   
     useEffect(() => {
       (async () => {
@@ -55,8 +47,10 @@ const customerSignUpScreen = () => {
         return null;
 
       setImage(result.uri); //Do not remove this as this is to display the image
-      setValidId(result.uri);
+      dispatch(setValidId(result.uri));
     };
+
+    console.log(valid_id1);
 
     return (
         <SafeAreaView style= {styles.Container}>
@@ -73,9 +67,8 @@ const customerSignUpScreen = () => {
                   <Text style = {styles.ButtonText}>UPLOAD ID</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                  const formdata = json2formdata(JSON.stringify(finalval))
-                  usersApi.post('register', formdata, {headers : {
-                    'Content-Type': 'multipart/form-data',
+                  usersApi.post('register', user, {headers : {
+                    'Content-Type': 'application/json',
                   }}).then(err => console.log(err))
                   navigation.navigate("Homes");
                   }
@@ -88,7 +81,12 @@ const customerSignUpScreen = () => {
     );
 }
 
-export default customerSignUpScreen;
+const mapStateToProps = (state) => ({  
+  valid_id1: state.userData.valid_id1,
+  user: state.userData
+})
+
+export default connect(mapStateToProps)(customerSignUpScreen);
 
 const styles = StyleSheet.create(
     {

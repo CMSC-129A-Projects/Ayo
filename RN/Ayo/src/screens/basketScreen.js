@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, 
         Text, 
         View,
@@ -22,6 +22,8 @@ import DeleteProductFail from '../modals/deleteProductFail'
 import DeleteProductModal from '../modals/deleteProduct'
 import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, MaterialIcons,AntDesign} from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { setProductsList } from '../redux/Products/actions';
 
 var tmpProducts = [
     {
@@ -88,7 +90,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     </TouchableOpacity>
   );
   
-const basketList = () => {
+const basketList = ({dispatch, products_list, jwt_access, jwt_refresh}) => {
     const navigation = useNavigation();
     const [selectedId, setSelectedId] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -103,6 +105,12 @@ const basketList = () => {
     const [description, setDescription] = useState(null);
     const [price, setPrice] = useState(null);
     const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        dispatch(setProductsList(jwt_access,jwt_refresh));
+    }, [])
+
+    console.log("PRODUCTS LIST ARE", products_list);
 
     const renderItem = ({ item }) => {
         const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
@@ -142,90 +150,19 @@ const basketList = () => {
     return(
         <SafeAreaView style= {styles.Container}>
             <ImageBackground source={require('../backgrounds/AyoDefaultBG.png')} style={styles.Background}/>
-            <View style = {styles.ContentContainer}>
-                <SafeAreaView style = {styles.ListContainer}>
-                    <FlatList data={tmpProducts}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.description}
-                    />
-                    <View style ={styles.totalSection}>
-                        <View style={{flexDirection:'row',marginHorizontal:5, marginTop: '3%'}}>
-                        <Text style={{ fontSize: 20, fontWeight:'bold'}}>Total</Text>
-                        <View style = {styles.divider}/>
-                        <Text style={{fontSize:25, fontWeight:'bold'}}>₱376.00</Text>
-                    </View>
-
-                      {/*  <View style={styles.couponSection}>
-                        <TextInput 
-                        placeholderTextColor = "#ffffff"
-                        placeHolder="Enter Voucher Code"
-                        style={styles.placeHolder}/>
-                        <View style={{height:'90%', width: 2, marginBottom:10, marginVertical:10, backgroundColor:'white'}}/>
-                        <Text style={{fontSize:23, fontWeight:'bold', color:'white'}}>APPLY</Text>
-                        </View>
-
-                        <View/>*/}
-                        <TouchableOpacity style={styles.buttonCheckout}>
-                            <Text style={{fontSize:25, fontWeight: 'bold',color:'#ffffff'}}>CHECKOUT</Text>
-                        </TouchableOpacity>
-
-                        <Modal //Delete Product Modal
-                                animationType = "slide"
-                                style = {styles.modal}
-                                transparent = {true}
-                                visible={deleteVisible}
-                                onRequestClose = {() => {
-                                        setDeleteVisible(false); 
-                                }}>
-                        <View style={styles.deleteProductContainer}>
-                        <DeleteProductModal/>
-                            <View style={{flexDirection:"row-reverse",margin:10}}>
-                            <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
-                            onPress={() => {
-                            //setDeleteFailVisible(!deleteFailVisible)
-                            setDeleteSuccessVisible(!deleteSuccessVisible)
-                            }}>
-                            <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginVertical: 5, paddingVertical:10,paddingHorizontal:30, backgroundColor:'lightgray'}} 
-                            onPress={() => {
-                                setDeleteVisible(!deleteVisible)
-                            }}>
-                            <Text style={{color:'gray'}}>CANCEL</Text>
-                            </TouchableOpacity>
-                        </View>
-                        </View>
-                        </Modal>
-
-                        <Modal //Delete Success Modal
-                                animationType = "slide"
-                                style = {styles.modal}
-                                transparent = {true}
-                                visible={deleteSuccessVisible}
-                                onRequestClose = {() => {
-                                        setDeleteSuccessVisible(false); 
-                                }}>
-                        <View style={styles.deleteSuccessContainer}>
-                            <DeleteProductSuccess/>
-                            <View style={{ marginLeft:100, marginTop: 40}}>
-                            <TouchableOpacity>
-                            <Text style={{fontSize: 25, color: 'dodgerblue', fontWeight: 'bold'}} 
-                            onPress ={() => setDeleteSuccessVisible(!deleteSuccessVisible)}>
-                                OK
-                            </Text>
-                            </TouchableOpacity>
-                            </View>
-                        </View>
-                        </Modal>
-                </View>
-                </SafeAreaView>
-
-            </View>
         </SafeAreaView>
     );
 }
 
-export default basketList;
+const mapStateToProps = (state) => {
+    return{
+        products_list: state.productData.products_list,
+        jwt_access: state.userData.JWT_ACCESS,
+        jwt_refresh: state.userData.JWT_REFRESH,
+    }
+}
+
+export default connect(mapStateToProps)(basketList);
 
 const styles = StyleSheet.create(
     {

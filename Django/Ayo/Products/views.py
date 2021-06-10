@@ -15,7 +15,7 @@ import sys
 
 from .serializers import ProductSerializer, ProductViewSerializer, GenericNameSerializer, GenericNameViewSerializer, DiseaseSerializer
 from .models import Product, Disease, GenericName
-from permissionfunctions import IsPharmacyStaffOrReadOnly
+from Users.permissions import IsPharmacyStaffOrReadOnly
 
 # Create your views here.
 
@@ -73,9 +73,11 @@ class NewProduct(APIView, IsPharmacyStaffOrReadOnly):
 
 
 class Products(APIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Product.objects.all()
 
     def get(self, request):
+        print("REQUEST TIME", request.data)
         serializer = ProductViewSerializer(
             Product.objects.all().values(), many=True, context={'request': request})
         return Response(serializer.data)

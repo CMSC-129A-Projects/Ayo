@@ -21,6 +21,9 @@ import AddtoBasketSuccess from '../modals/addToBasketSuccess'
 import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, Entypo} from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
+import { fetchProducts } from '../redux/Products/services';
+import { setProductsList } from '../redux/Products/actions';
 
 var tmpProducts = [
   {
@@ -87,7 +90,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const productList = () => {
+const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -102,6 +105,9 @@ const productList = () => {
   const [dropdownBar, setDropdownBar] = useState('brandname');
   const [searchBar, setSearchBar] = useState('')
 
+  useEffect(() => {
+    dispatch(setProductsList(jwt_access, jwt_refresh));
+  }, [])
 
 
   const renderItem = ({ item }) => {
@@ -140,7 +146,7 @@ const productList = () => {
   };
 
   const SortFlatlist = (dropOption, searchItem) => {
-    var returnProducts = tmpProducts;
+    var returnProducts = products_list;
     if(searchItem != ''){
       returnProducts = returnProducts.filter(item => {      
         const itemData = `${item.name.toLowerCase()}`;
@@ -274,7 +280,16 @@ const productList = () => {
   );
 }
 
-export default productList;
+
+const mapStateToProps = (state) => {
+    return{
+        products_list: state.productData.products_list,
+        jwt_access: state.userData.JWT_ACCESS,
+        jwt_refresh: state.userData.JWT_REFRESH,
+    }
+}
+
+export default connect(mapStateToProps)(productList);
 
 const styles = StyleSheet.create(
   {
