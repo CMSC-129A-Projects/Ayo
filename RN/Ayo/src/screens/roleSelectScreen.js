@@ -6,10 +6,23 @@ import {StyleSheet,
         ImageBackground, 
         SafeAreaView,
         BackHandler,
-        Alert} from 'react-native';
+        Alert,
+        Modal,
+        Image,
+        Platform,
+        Touchable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
-import {setRole} from '../redux/Users/actions';
+import {useSelector, useDispatch} from 'react-redux';
+import * as ImagePicker from 'expo-image-picker';
+import json2formdata from 'json2formdata';
+
+import {setValidId} from '../redux/signupScreen/actions';
+import usersApi from '../api/Users';
+
+import {getRole, getSelectSignup} from '../redux/signupScreen/selectors';
+import {setRole} from '../redux/signupScreen/actions';
+import {Fontisto} from '@expo/vector-icons';
+
 
 const actionDispatch = (dispatch) => ({
   setRole: (role) => dispatch(setRole(role)),
@@ -18,6 +31,12 @@ const actionDispatch = (dispatch) => ({
 const roleSelectScreen = () => {
     const {setRole} = actionDispatch(useDispatch());
     const navigation = useNavigation();
+    const [customerVisible, setCustomerVisible] = useState(false);
+    const [staffVisible, setStaffVisible] = useState(false);
+    const [ownerVisible, setOwnerVisible] = useState(false);
+    const [image, setImage] = useState(null);
+    const [viewImage, setViewImage] = useState(false);
+
 
     useEffect(() => {
       const backAction = () => {
@@ -40,6 +59,32 @@ const roleSelectScreen = () => {
       return () => backHandler.remove();
     }, []);
   
+    useEffect(() => {
+      (async () => {
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+      })();
+    }, []);
+
+    const pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        quality: 1,
+      });
+
+      console.log(result); //Details of the uploaded image
+
+      if (result.cancelled)
+        return null;
+
+      setImage(result.uri); //Do not remove this as this is to display the image
+      setValidId(result.uri);
+    };
 
     return (
         <SafeAreaView style= {styles.Container}>
@@ -49,24 +94,164 @@ const roleSelectScreen = () => {
               <View style = {styles.ButtonContainer}>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
                   setRole("Customer");
-                  navigation.navigate("Customer Sign Up")
+                  setCustomerVisible(true);
                 }}>
                   <Text style = {styles.ButtonText}>CUSTOMER</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
-                  setRole("Worker")
-                  navigation.navigate("Staff Sign Up")
+                  setRole("Pharmacy Worker")
+                  setStaffVisible(true);
                 }}>
                   <Text style = {styles.ButtonText}>PHARMACY STAFF</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
                   setRole("Owner")
-                  navigation.navigate("Owner Sign Up")}
-                }>
+                  setOwnerVisible(true);
+                }}>
                   <Text style = {styles.ButtonText}>PHARMACY OWNER</Text>
                 </TouchableOpacity>
               </View>
             </View>
+
+        <Modal //Customer Upload ID Modal
+          animationType = "slide"
+          style = {styles.modal}
+          transparent = {true}
+          visible={customerVisible}
+          onRequestClose = {() => {
+                  setCustomerVisible(false); 
+          }}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+              <TouchableOpacity style={{margin:10, alignSelf:'flex-end', position: 'relative'}} onPress = {() => setCustomerVisible(false)}>
+                      <Fontisto name="close" size={30}/>
+              </TouchableOpacity>
+              <View style={styles.ModalButtonContainer}>
+                <View>
+                  <Text style={styles.ModalTitle}>CUSTOMER SIGN UP</Text>
+                  <TouchableOpacity style = {styles.ImagePreviewContainer} onPress = {() => setViewImage(true)}>
+                    {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+                    <Text style = {styles.PlaceholderText}>
+                      ID Photo
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.UploadButton} onPress = {pickImage}>
+                    <Text style = {styles.UploadButtonText}>UPLOAD ID</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
+                   {/* const formdata = json2formdata(JSON.stringify(finalval))
+                    usersApi.post('register', formdata, {headers : {
+                      'Content-Type': 'multipart/form-data',
+                    }}).then(err => console.log(err)) */}
+                    navigation.navigate("Customer Homes");
+                    }
+                  }>
+                    <Text style = {styles.ButtonText}>SIGN UP</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal //Staff Upload Med License Modal
+          animationType = "slide"
+          style = {styles.modal}
+          transparent = {true}
+          visible={staffVisible}
+          onRequestClose = {() => {
+                  setStaffVisible(false); 
+          }}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+                <TouchableOpacity style={{margin:10, alignSelf:'flex-end', position: 'relative'}} onPress = {() => setStaffVisible(false)}>
+                        <Fontisto name="close" size={30}/>
+                </TouchableOpacity>
+                <View style={styles.ModalButtonContainer}>
+                  <View>
+                  <Text style={styles.ModalTitle}>STAFF SIGN UP</Text>
+                  <TouchableOpacity style = {styles.ImagePreviewContainer} onPress = {() => setViewImage(true)}>
+                    {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+                    <Text style = {styles.PlaceholderText}>
+                      Medical License
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.UploadButton} onPress = {pickImage}>
+                    <Text style = {styles.UploadButtonText}>UPLOAD LICENSE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
+                   {/* const formdata = json2formdata(JSON.stringify(finalval))
+                    usersApi.post('register', formdata, {headers : {
+                      'Content-Type': 'multipart/form-data',
+                    }}).then(err => console.log(err)) */}
+                    navigation.navigate("Pharmacy Homes");
+                    }
+                  }>
+                    <Text style = {styles.ButtonText}>SIGN UP</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        
+        <Modal //Owner Upload Permit Modal
+          animationType = "slide"
+          style = {styles.modal}
+          transparent = {true}
+          visible={ownerVisible}
+          onRequestClose = {() => {
+                  setOwnerVisible(false); 
+          }}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+                <TouchableOpacity style={{margin:10, alignSelf:'flex-end', position: 'relative'}} onPress = {() => setOwnerVisible(false)}>
+                        <Fontisto name="close" size={30}/>
+                </TouchableOpacity>
+                <View style={styles.ModalButtonContainer}>
+                <View>
+                  <Text style={styles.ModalTitle}>OWNER SIGN UP</Text>
+                  <TouchableOpacity style = {styles.ImagePreviewContainer} onPress = {() => setViewImage(true)}>
+                    {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+                    <Text style = {styles.PlaceholderText}>
+                      Business Permit
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.UploadButton} onPress = {pickImage}>
+                    <Text style = {styles.UploadButtonText}>UPLOAD PERMIT</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
+                    {/* const formdata = json2formdata(JSON.stringify(finalval))
+                    usersApi.post('register', formdata, {headers : {
+                      'Content-Type': 'multipart/form-data',
+                    }}).then(err => console.log(err)) */}
+                    navigation.navigate("Owner Homes");
+                    }
+                  }>
+                    <Text style = {styles.ButtonText}>SIGN UP</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal //Image Zoom View
+            animationType = "slide"
+            visible={viewImage}
+            transparent={true}
+            onRequestClose = {() => {
+                    setViewImage(false); 
+            }}>
+          <View style = {styles.imageZoomModal}>
+            <TouchableOpacity style={{margin:15 , alignSelf:'flex-end'}} onPress = {() => setViewImage(false)}>
+              <Fontisto name="close" size={30}/>
+            </TouchableOpacity>
+            <View style = {styles.imageZoom}>
+              {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+            </View>
+          </View>
+      </Modal>
         </SafeAreaView>
     );
 }
@@ -213,6 +398,9 @@ const styles = StyleSheet.create(
         fontWeight: 'bold',
         alignSelf: 'center',
         marginBottom: '2%',
+        textShadowRadius: 5,
+        textShadowOffset: {width: 0, height: 2},
+        textShadowColor: 'grey'
       },
       imageZoomModal: {
         alignItems: 'center',
