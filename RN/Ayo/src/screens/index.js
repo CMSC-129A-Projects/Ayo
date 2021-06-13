@@ -1,33 +1,30 @@
 import loginScreen from './loginScreen';
 import signupScreen from './signupScreen';
 import roleSelectScreen from './roleSelectScreen';
-import customerSignUpScreen from './customerSignupScreen';
-import pharmacyStaffSignUpScreen from './pharmacyStaffSignupScreen';
-import pharmacyOwnerSignUpScreen from './pharmacyOwnerSignupScreen';
 import confirmationScreen from './ownerConfirmationScreen';
-import homeScreen from './homeScreen';
 import customerProductListScreen from './customerProductListScreen';
 import staffProductListScreen from './staffProductListScreen';
-/* import viewMedItemsScreen from './viewMedItemsScreen';*/
 import medItemScreen from './medItemScreen';
+import apiTestScreen from './apiTestScreen';
 import testingscreen from './testingscreen';
 import customerVerificationScreen from './customerVerificationScreen';
-import basketScreen from './basketScreen';
-import apiTestScreen from './apiTestScreen';
+import splashScreen from './splashScreen';
+import customerTabScreen from './customerTabScreen';
+import pharmacyTabScreen from './pharmacyTabScreen';
+import ownerTabScreen from './ownerTabScreen';
 
-export {loginScreen, 
+
+export {splashScreen,
+        loginScreen, 
         signupScreen, 
         roleSelectScreen,
-        customerSignUpScreen,
         confirmationScreen,
-        homeScreen, 
         customerProductListScreen,
         staffProductListScreen, 
         medItemScreen, 
+        apiTestScreen,
         testingscreen,
         customerVerificationScreen,
-        basketScreen,
-        apiTestScreen,
-        pharmacyStaffSignUpScreen,
-        pharmacyOwnerSignUpScreen
-};
+        customerTabScreen,
+        pharmacyTabScreen,
+        ownerTabScreen};
