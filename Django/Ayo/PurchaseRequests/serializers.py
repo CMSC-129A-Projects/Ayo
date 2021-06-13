@@ -46,9 +46,6 @@ class PurchaseRequestViewSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # TODO: what do we need to checl jere?
-        print("IN UPDATE")
-        print(validated_data)
-        print(instance)
         instance.note = validated_data.get('note', instance.note)
         instance.is_fulfilled = validated_data.get(
             'is_fulfilled', instance.is_fulfilled)
@@ -66,7 +63,6 @@ class RequestItemSerializer(serializers.ModelSerializer):
         fields = ['quantity', 'product_id', 'user_id']
 
     def create(self, validated_data):
-        print("Inside damn", validated_data)
         instance = self.Meta.model(**validated_data)
         instance.cost = instance.product_id.price * instance.quantity
         instance.save()

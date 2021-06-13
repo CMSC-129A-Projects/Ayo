@@ -3,7 +3,7 @@ TODO:
 - reconfigure api for possible roles
 """
 
-
+from django.core.exceptions import SynchronousOnlyOperation
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
@@ -20,12 +20,13 @@ import uuid
 
 from .serializers import PharmacyWorkerSerializer, UserSerializer, UserViewSerializer, OwnerSerializer, CustomerSerializer, CustomerViewSerializer, PharmacyWorkerViewSerializer, OwnerViewSerializer
 from .models import PharmacyWorker, Customer, Owner
-from permissionfunctions import *
-
+from .permissions import *
 
 # Create your views here.
 
 # helper function to convert uri from RN to django-file for storage
+
+
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
@@ -46,29 +47,36 @@ def uri_to_img(role, uri, username):
     return img_file
 
 
+def merge(a, b): return {**a, **b}
+
+
 class User(APIView):
     permission_classes = (IsAuthenticated, )
 
-    def get(self, request):
-        user = get_user_model().objects.filter(id=request.user.id).values()[0]
+    def get(self, request, username):
+        user = get_user_model().objects.filter(username=username).first()
+
+        if user is None:
+            raise exceptions.APIException("User does not exist!")
+
         serializer = UserViewSerializer(user)
         serializer2 = None
-        if request.user.role == "Customer":
+        if serializer.data['role'] == "Customer":
             val = Customer.objects.filter(
-                customer_user_id=user['id']).values()[0]
+                customer_user_id=serializer.data['id']).values()[0]
             serializer2 = CustomerViewSerializer(
                 val, context={'request': request})
-        elif request.user.role == "Owner":
-            val = Owner.objects.filter(owner_user=user['id']).values()[0]
+        elif serializer.data['role'] == "Owner":
+            val = Owner.objects.filter(
+                owner_user=serializer.data['id']).values()[0]
             serializer2 = OwnerViewSerializer(
                 val, context={'request': request})
-        elif request.user.role == "Worker":
+        elif serializer.data['role'] == "Worker":
             val = PharmacyWorker.objects.filter(
-                worker_user=user['id']).values()[0]
+                worker_user=serializer.data['id']).values()[0]
             serializer2 = PharmacyWorkerViewSerializer(
                 val, context={'request': request})
 
-        def merge(a, b): return {**a, **b}
         return Response({
             'data': merge(serializer.data, serializer2.data)
         })
@@ -108,13 +116,11 @@ class User(APIView):
 
 
 class Users(APIView, IsOwnerOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
     queryset = get_user_model().objects.all()
 
     def get(self, request):
         serializer = UserSerializer(get_user_model().objects.all(), many=True)
-        print(type(serializer))
         return Response({
             "data": serializer.data
         })
@@ -140,8 +146,9 @@ class RegisterUser(APIView):
         if not data['contact_number'].isnumeric():
             raise exceptions.APIException('Contact number contains letters')
 
-        if len(data['contact_number']) > 10:
-            raise exceptions.APIException('Contact number exceeds 10 numbers')
+        if len(data['contact_number']) != 9:
+            raise exceptions.APIException(
+                'Contact number is more/less than 9 numbers')
 
         if data['role'] not in ('Customer', 'Owner', 'Worker'):
             raise exceptions.APIException('Incorrect Role')
@@ -167,6 +174,9 @@ class RegisterUser(APIView):
             serializer_img = PharmacyWorkerSerializer(data=new_data)
 
         elif data['role'] == 'Owner':
+            if len(Owner.objects.all()):
+                return Response({"status_code": 400, "detail": "Owner already exists."})
+
             new_data['business_permit'] = uri_to_img(data['role'],
                                                      data['business_permit'], data['username'])
             new_data['owner_user'] = new_data['id']
@@ -198,7 +208,6 @@ class LoginUser(APIView):
 
         # used filter as to check if user exists
         user = get_user_model().objects.filter(username=username).first()
-        print("PRE USER IS ", user)
 
         if user is None:
             raise exceptions.AuthenticationFailed("User not found")
@@ -210,8 +219,11 @@ class LoginUser(APIView):
         token = get_tokens_for_user(user)
 
         response.data = {
-            'jwt': token
+            'jwt': token,
+            'role': user.role,
+            'username': user.username
         }
+
         if user.role == "Customer":
             customer = Customer.objects.filter(customer_user=user.id).first()
 
@@ -231,12 +243,18 @@ class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
 
     def get(self, request):
+        values = []
         unverified = Customer.objects.filter(
             Q(is_verified=False) & Q(is_rejected=False)).values()
-        print(unverified)
-        serializer = CustomerViewSerializer(
-            unverified, many=True, context={'request': request})
-        return Response(serializer.data)
+        for customer in unverified:
+            userval = get_user_model().objects.filter(
+                id=customer['customer_user_id']).first()
+            serializer1 = CustomerViewSerializer(
+                customer, context={'request': request})
+            serializer2 = UserViewSerializer(userval)
+            values.append(merge(serializer1.data, serializer2.data))
+
+        return Response(values)
 
 
 class ApproveCustomer(APIView, IsOwnerOrReadOnly):

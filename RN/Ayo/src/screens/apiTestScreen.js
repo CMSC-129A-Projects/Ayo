@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react'
-import { View, Text, Button } from 'react-native'
+import React, {useEffect, useState} from 'react';
+import { View, Text, Button } from 'react-native';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import ProductApi from '../api/Products';
 import UserApi from '../api/Users';
 import BasketApi from '../api/Requests';
 import PrescriptionApi from '../api/Prescriptions';
-
+import {setUser, setWorker, setUsersList} from '../redux/Users/actions';
+import {getUser, getUsersList} from '../redux/Users/selectors';
 // path('users', Users.as_view(), name='get_users'),
 // path('register', RegisterUser.as_view(), name='register'),
 // path('login', LoginUser.as_view(), name='login'),
@@ -20,8 +22,13 @@ import PrescriptionApi from '../api/Prescriptions';
       // path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
       // path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
       // path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify') VERIFY IF OKAY RA SIYA, IF code : "token_not_valid" CALL REFRESH AND ACCESS
+// const actionDispatch = (dispatch) => ({
+//       setUser: (user) => dispatch(setUser(user)),
+//       setWorker: (worker) => dispatch(setWorker(worker)),
+// })
 
-export default function apiTestScreen() {
+function apiTestScreen({dispatch, userslist, user}) {
+      // const {setUser, setWorker} = actionDispatch(useDispatch());
       const [products, setProducts] = useState();
       const [oneprod, setOneprod] = useState();
       const [generics, setGenerics] = useState();
@@ -30,20 +37,29 @@ export default function apiTestScreen() {
       const [onereq, setOnereq] = useState();
       const [reqitems, setReqitems] = useState();
 
-      useEffect(async () => {
-            fetchUsers();
+      useEffect(() => {
+            dispatch(setUsersList());
       }, [])
 
-      const fetchUsers = async () => {
-            const response = await UserApi.get('users');
-            console.log("Users are", response.data);
-            setUsers(response.data);
+      console.log("THIS IS THE USERSLIST", userslist);
+      console.log("USER IS ", user);
+
+      const pharmacist_data = {
+            "username": "pharma",
+            "name": "own",
+            "password": "yep",
+            "password_confirm": "yep",
+            "role": "Worker",
+            "contact_number": "234421132",
+            "medical_license": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+            "address": "yep"
       }
 
       // path('product/all', Products.as_view()),
       // path('product/add', NewProduct.as_view()),
       // path('product/instance/<str:product>', ProductView.as_view()),
       // path('product/multidelete', DeletedProductList.as_view()),
+
       const fetchProducts = async () => {
             const response = await ProductApi.get('product/all');
             console.log("Products are", response.data);
@@ -332,6 +348,11 @@ export default function apiTestScreen() {
       return (
             <View>
                   <View>
+                        <Button title="testuser" onPress= {() => {
+                              dispatch(setUser(pharmacist_data));
+                              dispatch(setWorker(pharmacist_data));
+                        }} style={{alignSelf: 'center'}}/>
+                        <Button title="testuserlist" onPress= {() => fetch_Users()} style={{alignSelf: 'center'}}/>
                         <Text>Products</Text>
                         <Button title="getproducts" onPress= {() => fetchProducts()} style={{alignSelf: 'center'}}/>
                         <Button title="addproduct1" onPress= {() => add_product(test_med2)} style={{alignSelf: 'center'}}/>
@@ -397,3 +418,12 @@ export default function apiTestScreen() {
             </View>
       )
 }
+
+const mapStateToProps = (state) => { 
+      return {
+            userslist: state.userData.users_list,
+            user: state.userData
+      }
+};
+
+export default connect(mapStateToProps)(apiTestScreen);

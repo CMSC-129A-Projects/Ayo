@@ -22,9 +22,10 @@ import DeleteProductModal from '../modals/deleteProduct'
 import DeleteProductSuccess from '../modals/deleteProductSuccess'
 import DeleteProductFail from '../modals/deleteProductFail'
 import EditProductModal from '../modals/editProduct'
+import EditQuantity from '../modals/editQuantity'
 import {Fontisto} from '@expo/vector-icons';
-import DropDownPicker from 'react-native-dropdown-picker';
-import RNPickerSelect from 'react-native-image-picker';
+import RNPickerSelect from 'react-native-picker-select';
+
 var tmpProducts = [
   {
       name: "biogesic",
@@ -74,14 +75,21 @@ var tmpProducts = [
       price: 1,
       //in_stock: true ,
     product_img: require("../assets/favicon.png")
-},
-{
-  name: "elixir",
-  description: "elixir",
-  price: 200,
-  //in_stock: true ,
-  product_img: require("../assets/favicon.png")
-}
+  },
+  {
+    name: "elixir",
+    description: "elixir",
+    price: 200,
+    //in_stock: true ,
+    product_img: require("../assets/favicon.png")
+  }
+]
+
+var tmpGenerics = [
+  { label: 'valproic acid', value: 'valproic acid' },
+  { label: 'fenofibrate', value: 'fenofibrate' },
+  { label: 'olanzapine', value: 'olanzapine' },
+  { label: 'rufinamide', value: 'rufinamide' },
 ]
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -95,6 +103,7 @@ const productList = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
+  const [modal3Visible, setModal3Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -107,7 +116,8 @@ const productList = () => {
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState(null);
   const [dropdownBar, setDropdownBar] = useState('brandname');
-  const [dropdownBar2, setDropdownBar2] = useState(null);
+  const [searchBar, setSearchBar] = useState('');
+  const [genericSearchBar, setGenericSearchBar] = useState('');
   const [enteredDisease, setEnteredDisease] = useState('');
   const [diseasesList, setDiseasesList] = useState([]);
 
@@ -159,6 +169,28 @@ const productList = () => {
       </View>
     );
   };
+
+  const SortFlatlist = (dropOption, searchItem) => {
+    var returnProducts = tmpProducts;
+    if(searchItem != ''){
+      returnProducts = returnProducts.filter(item => {      
+        const itemData = `${item.name.toLowerCase()}`;
+        const search = searchItem.toLowerCase();
+        return itemData.indexOf(search) > -1;    
+      });
+    }
+    switch(dropOption) {
+      case 'brandname':   return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+      //case 'genericname' return tmpProducts.sort((a, b) => a.genericname.localeCompare(b.genericname))
+      case 'priceasc': return returnProducts.sort((a, b) => (a.price > b.price) ? 1 : -1);
+      case 'pricedesc':  return returnProducts.sort((a, b) => (a.price < b.price) ? 1 : -1);
+      default: return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }
+
+  const SortGenerics = (searchItem) => {
+
+  }
   
   return(
     <SafeAreaView style= {styles.Container}>
@@ -170,27 +202,25 @@ const productList = () => {
             placeholderTextColor = '#dcdcdc'
             underlineColorAndroid = "transparent"
             style = {styles.searchBar}
+            onChangeText = {searchBar => setSearchBar(searchBar)}
           />
           <View style = {styles.dropdownBar}>
-            <DropDownPicker
+            <RNPickerSelect
+                pickerProps={{ style: {overflow: 'scroll' } }}
+                onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
+                placeholder = {{label: 'Sort' , color: 'gray'}}
                 items={[
-                  {label: 'Brand Name', value: 'brandname'},
-                  {label: 'Generic Name', value: 'genericname'},
-                  {label: 'Lowest Price', value: 'priceasc'},
-                  {label: 'Highest Price', value: 'pricedesc'},
+                    { label: 'Brand Name', value: 'brandname'},
+                    //{ label: 'Generic Name', value: 'genericname'},
+                    { label: 'Lowest Price', value: 'priceasc' },
+                    { label: 'Highest Price', value: 'pricedesc' },
                 ]}
-                placeholder = {"Sort"}
-                containerStyle={{height: 40}}
-                itemStyle={{
-                    justifyContent: 'flex-start'
-                }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
-                onChangeItem={item => setDropdownBar(item.value)}
-            />
+              />
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
-          <FlatList data={tmpProducts}
+          <FlatList data={SortFlatlist(dropdownBar, searchBar)}
+                    extraData = {dropdownBar, searchBar}
                     renderItem={renderItem}
                     keyExtractor={item => item.description}
           />
@@ -397,20 +427,29 @@ const productList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
-                    <View style = {styles.dropdownField}>
-                      <RNPickerSelect
-                        placeholder = {{label: 'Generic Name'}}
-                        pickerProps={{ style: {overflow: 'scroll' } }}
-                        onValueChange={(dropdownBar2) => dropdownBar2 != 'add' ? setDropdownBar2(dropdownBar2) : setModal3Visible(true)}
-                        items={[
-                            { label: 'fenofibrate', value: 'fenofibrate' },
-                            { label: 'olanzapine', value: 'olanzapine' },
-                            { label: 'rufinamide', value: 'rufinamide' },
-                            { label: 'valproic acid', value: 'valproic acid' },
-                            { label: 'Add...', value: 'add' }
-                        ]}
-                      />
+                    <View style = {styles.genericNameField}>
+                      <TextInput 
+                        placeholder = "Generic Name"
+                        placeholderTextColor = '#ffffff'
+                        underlineColorAndroid = "transparent"
+                        value = {genericSearchBar}
+                        style = {styles.genericNameInputField}
+                        onChangeText = {genericSearchBar => setGenericSearchBar(genericSearchBar)}>
+                      </TextInput>
+                      <View style = {styles.dropdownField}>
+                        <RNPickerSelect
+                          placeholder = {{label: ''}}
+                          pickerProps={{ style: {overflow: 'scroll' } }}
+                          onValueChange={(toGenericField) => toGenericField!= 'add' ? setGenericSearchBar(toGenericField) : setModal3Visible(true)}
+                          items={[
+                              { label: 'Add...', value: 'add' },
+                              ...tmpGenerics.sort((a, b) => a.label.localeCompare(b.name))
+                          ]}
+                        />
                     </View>
+
+                    </View>
+                    
                     <TextInput
                         placeholder = "Price"
                         placeholderTextColor = '#ffffff'
@@ -473,7 +512,7 @@ const productList = () => {
                       ADD GENERIC MEDICINE
                     </Text>
                     <TextInput
-                      placeholder = "Price"
+                      placeholder = "Generic Name"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
@@ -556,9 +595,8 @@ const styles = StyleSheet.create(
     },
     touchablesContainer: {
       alignSelf:'center',
-      width: '95%',
-      margin: '1.5%',
-      borderRadius: 15,
+      width: '100%',
+      margin: '.5%',
       backgroundColor: 'white',
     },
     touchables: {
@@ -642,15 +680,27 @@ const styles = StyleSheet.create(
       margin: "3.5%",
       alignSelf:'center'
     },
-    dropdownField:{
+    genericNameField: {
+      flexDirection:'row', 
       width: '100%',
       borderRadius: 17,
       borderWidth: 0.75,
       borderColor: 'black',
       backgroundColor: '#dcdcdc',
+    },
+    genericNameInputField: {
+      width: '80%',
+      padding: '1%',
       textAlign: 'center',
       fontFamily: 'Roboto',
-      fontWeight: 'bold',      
+      fontWeight: 'bold',
+      fontSize: 17,
+      letterSpacing: 1,
+      alignSelf:'center'
+    },
+    dropdownField:{
+      width: '20%',
+      height: '100%',
       alignSelf:'center'
     },
     inputDescriptionField: {
@@ -834,7 +884,8 @@ const styles = StyleSheet.create(
     },
     dropdownBar: {
       width: '30%',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      backgroundColor: '#dcdcdc'
     },
     deleteProductContainer:{
       backgroundColor: "#ffff",

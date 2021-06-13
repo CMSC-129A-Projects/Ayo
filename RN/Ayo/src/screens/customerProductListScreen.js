@@ -14,14 +14,16 @@ import {StyleSheet,
         Button,
         ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-// import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
-//  TODO: FIND THIS
-// import AddtoBasketFail from '../modals/addToBasketFail'
-// import AddtoBasketSuccess from '../modals/addToBasketSuccess'
+import AddtoBasketFail from '../modals/addToBasketFail'
+import AddtoBasketSuccess from '../modals/addToBasketSuccess'
 import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, Entypo} from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-image-picker';
+import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
+import { fetchProducts } from '../redux/Products/services';
+import { setProductsList } from '../redux/Products/actions';
 
 var tmpProducts = [
   {
@@ -88,7 +90,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const productList = () => {
+const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -101,6 +103,11 @@ const productList = () => {
   const [price, setPrice] = useState(null);
   const [image, setImage] = useState(null);
   const [dropdownBar, setDropdownBar] = useState('brandname');
+  const [searchBar, setSearchBar] = useState('')
+
+  useEffect(() => {
+    dispatch(setProductsList(jwt_access, jwt_refresh));
+  }, [])
 
 
   const renderItem = ({ item }) => {
@@ -137,6 +144,24 @@ const productList = () => {
       </View>
     );
   };
+
+  const SortFlatlist = (dropOption, searchItem) => {
+    var returnProducts = products_list;
+    if(searchItem != ''){
+      returnProducts = returnProducts.filter(item => {      
+        const itemData = `${item.name.toLowerCase()}`;
+        const search = searchItem.toLowerCase();
+        return itemData.indexOf(search) > -1;    
+      });
+    }
+    switch(dropOption) {
+      case 'brandname':   return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+      //case 'genericname' return tmpProducts.sort((a, b) => a.genericname.localeCompare(b.genericname))
+      case 'priceasc': return returnProducts.sort((a, b) => (a.price > b.price) ? 1 : -1);
+      case 'pricedesc':  return returnProducts.sort((a, b) => (a.price < b.price) ? 1 : -1);
+      default: return returnProducts.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }
   
   return(
     <SafeAreaView style= {styles.Container}>
@@ -148,11 +173,13 @@ const productList = () => {
             placeholderTextColor = '#dcdcdc'
             underlineColorAndroid = "transparent"
             style = {styles.searchBar}
+            onChangeText = {searchBar => setSearchBar(searchBar)}
           />
           <View style = {styles.dropdownBar}>
             <RNPickerSelect
                 pickerProps={{ style: {overflow: 'scroll' } }}
                 onValueChange={(dropdownBar) => setDropdownBar(dropdownBar)}
+                placeholder = {{label: 'Sort' , color: 'gray'}}
                 items={[
                     { label: 'Brand Name', value: 'brandname'},
                     { label: 'Lowest Price', value: 'priceasc' },
@@ -162,7 +189,8 @@ const productList = () => {
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
-          <FlatList data={tmpProducts}
+          <FlatList data={SortFlatlist(dropdownBar, searchBar)}
+                    extraData = {dropdownBar, searchBar}
                     renderItem={renderItem}
                     keyExtractor={item => item.description}
           />
@@ -252,7 +280,16 @@ const productList = () => {
   );
 }
 
-export default productList;
+
+const mapStateToProps = (state) => {
+    return{
+        products_list: state.productData.products_list,
+        jwt_access: state.userData.JWT_ACCESS,
+        jwt_refresh: state.userData.JWT_REFRESH,
+    }
+}
+
+export default connect(mapStateToProps)(productList);
 
 const styles = StyleSheet.create(
   {
@@ -299,9 +336,8 @@ const styles = StyleSheet.create(
     },
     touchablesContainer: {
       alignSelf:'center',
-      width: '95%',
-      margin: '1.5%',
-      borderRadius: 15,
+      width: '100%',
+      margin: '0.5%',
       backgroundColor: 'white',
     },
     touchables: {

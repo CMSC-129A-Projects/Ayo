@@ -9,6 +9,7 @@ import {
         loginScreen, 
         signupScreen, 
         roleSelectScreen, 
+        customerSignUpScreen,
         confirmationScreen,
         homeScreen,
         customerProductListScreen,
@@ -18,7 +19,9 @@ import {
         medItemScreen,
         testingscreen,
         customerVerificationScreen,
-      basketScreen,} from './src/screens/index';
+      basketScreen,
+      pharmacyStaffSignUpScreen,
+      pharmacyOwnerSignUpScreen,} from './src/screens/index';
 import store from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
@@ -31,19 +34,31 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer initialRouteName= "Log In">
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerStyle:{
+            backgroundColor:'#009387',
+          },
+          headerTintColor:'#ffffff',
+          headerTitleStyle:{
+            fontWeight:'bold',
+          }
+        }}>
           {/* <Stack.Screen name ="Testing Screen" component = {testingscreen}/> */}
-          <Stack.Screen options={{headerShown: false}} name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Api" component={apiTestScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
+
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
           <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Customer Sign Up" component={customerSignUpScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Staff Sign Up" component={pharmacyStaffSignUpScreen} />
+          <Stack.Screen options={{headerShown: false}} name="Owner Sign Up" component={pharmacyOwnerSignUpScreen} />
           {/*<Stack.Screen options={{headerShown: false}} name="Verify Customers" component={customerVerificationScreen} />*/}
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Verify Customers" component={confirmationScreen} />
           {/* <Stack.Screen options={{headerShown: false}} name="Confirm" component={confirmationScreen} /> */}
           <Stack.Screen options={{headerShown: false}} name="Verify" component={VerifiedModal} />
           <Stack.Screen options={{headerShown: false}} name="Reject" component={RejectModal} />
           
-          <Stack.Screen options={{headerShown: false}} name="Homes" component={homeScreen} />
 
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />

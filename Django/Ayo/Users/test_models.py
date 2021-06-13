@@ -7,6 +7,7 @@ import django.core.exceptions
 
 
 class UserModelTest(TestCase):
+
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(
@@ -22,6 +23,7 @@ class UserModelTest(TestCase):
         )
 
     def test_string(self):
+        """Test if Model string is name"""
         self.assertEquals(str(self.user), "own")
 
     def register_same(self):

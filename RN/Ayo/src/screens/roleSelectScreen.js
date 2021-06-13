@@ -54,7 +54,7 @@ const roleSelectScreen = () => {
                   <Text style = {styles.ButtonText}>CUSTOMER</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
-                  setRole("Pharmacy Worker")
+                  setRole("Worker")
                   navigation.navigate("Staff Sign Up")
                 }}>
                   <Text style = {styles.ButtonText}>PHARMACY STAFF</Text>

@@ -1,10 +1,59 @@
 import {ActionTypes} from './constants';
+import {fetchUsers, fetchUserDetails, fetchUnverifiedCustomers} from './services';
 
-export function setUser(details){
-      return (
+export const setUnverifiedCustomers= (jwt_access, jwt_refresh) => async (dispatch, getState) => {
+      const users_list = await fetchUnverifiedCustomers(jwt_access,jwt_refresh);
+      dispatch(
+            {
+                  type: ActionTypes.SET_USERS_LIST,
+                  payload: {users_list}
+            }
+      )
+}
+
+export const setUsersList = () => async (dispatch, getState) => {
+      const users_list = await fetchUsers();
+      dispatch(
+            {
+                  type: ActionTypes.SET_USERS_LIST,
+                  payload: {users_list}
+            }
+      )
+}
+
+export function setUser(user){
+      console.log("INNSIDE SETUSER", user);
+      return(
             {
                   type: ActionTypes.SET_USER,
-                  payload: details
+                  payload: user 
+            }
+      )
+}
+
+export function setCustomer(customer){
+      return(
+            {
+                  type: ActionTypes.SET_CUSTOMER,
+                  payload: customer 
+            }
+      )
+}
+
+export function setWorker(worker){
+      return(
+            {
+                  type: ActionTypes.SET_WORKER,
+                  payload: worker 
+            }
+      )
+}
+
+export function setOwner(owner){
+      return(
+            {
+                  type: ActionTypes.SET_OWNER,
+                  payload: owner 
             }
       )
 }

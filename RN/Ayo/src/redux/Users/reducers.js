@@ -6,12 +6,13 @@ TODO:
 import {ActionTypes} from './constants';
 
 const defaultState = {
+      users_list : [],
       customer_id : '',
       username : '',
       password : '',
       password_confirm : '',
       JWT_REFRESH : '',
-      JWT_ACCESS : '',
+      JWT_ACCESS : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIzMjIzNDc4LCJqdGkiOiJkYTBkZDAyNjJmNTg0NTdmOTFhMWY1Yjg0YWE1ZjI5NCIsInVzZXJfaWQiOiI4YmY3NGJmMC0wODRmLTQyMDUtYTg5Mi1kOGU3MWRkOTlkMmQifQ.j1z4mCjDSZwtFnN2lzjPXb3FCErkLumn_L6X4D5ebm8',
       name: '',
       new_password: '',
       contact_number: '',
@@ -20,11 +21,19 @@ const defaultState = {
       valid_id1: null,
       business_permit: null,
       medical_license: null,
+      medical_record: null,
+      is_verified: false,
+      is_rejected: false,
+      is_available: false,
 }
 
 
 export default function userReducer(state = defaultState, action) {
       switch(action.type){
+            case ActionTypes.SET_USERS_LIST:
+                  return {...state,
+                        users_list:action.payload.users_list
+                  }
             case ActionTypes.SET_USER:
                   return {...state, 
                         username:action.payload.username,
@@ -32,9 +41,22 @@ export default function userReducer(state = defaultState, action) {
                         address:action.payload.address,
                         contact_number:action.payload.contact_number,
                         role:action.payload.role,
-                        valid_id1:action.payload.valid_id1,
-                        business_permit:action.payload.business_permit,
+                        valid_id1:action.payload.valid_id1
+                  }
+            case ActionTypes.SET_CUSTOMER:
+                  return {...state,
+                        medical_record:action.payload.medical_record,
+                        is_verified:action.payload.is_verified,
+                        is_rejected:action.payload.is_rejected
+                  }
+            case ActionTypes.SET_WORKER:
+                  return {...state,
                         medical_license:action.payload.medical_license,
+                        is_available:action.payload.is_available,
+                  }
+            case ActionTypes.SET_OWNER:
+                  return {...state,
+                        business_permit:action.payload.business_permit,
                   }
             case ActionTypes.SET_USER_ID:
                   return {...state, customer_id:action.payload}

@@ -1,4 +1,6 @@
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+
 
 import userData from './redux/Users/reducers';
 import productData from './redux/Products/reducers';
@@ -16,4 +18,4 @@ const reducers = combineReducers({
       medicineRecordData
 });
 
-export default createStore(reducers);
+export default createStore(reducers, applyMiddleware(thunk));

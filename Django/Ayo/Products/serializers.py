@@ -34,13 +34,13 @@ class ProductSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProductViewSerializer(ProductSerializer):
+class ProductViewSerializer(serializers.ModelSerializer):
     product_img = serializers.SerializerMethodField('get_url')
     generic_name = serializers.SerializerMethodField('get_name')
 
     def get_name(self, obj):
         gen = GenericName.objects.filter(id=obj['generic_name_id']).first()
-        return (gen.generic_name)
+        return gen.generic_name
 
     def get_url(self, obj):
         preurl = settings.MEDIA_URL + obj['product_img']

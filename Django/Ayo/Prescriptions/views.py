@@ -46,9 +46,9 @@ class NewMedicineRecord(APIView):
 class MedicineRecordView(APIView):
     permission_classes = (AllowAny, )
 
-    def patch(self, request, medid):
+    def patch(self, request, prescitem):
         med = MedicineRecord.objects.filter(
-            id=medid).first()
+            id=prescitem).first()
 
         if med is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -65,16 +65,16 @@ class MedicineRecordView(APIView):
             status=status.HTTP_202_ACCEPTED
         )
 
-    def delete(self, request, medid):
+    def delete(self, request, prescitem):
         record = MedicineRecord.objects.filter(
-            id=medid).first()
+            id=prescitem).first()
 
         if record is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         record.delete()
 
         return Response(
-            status=status.HTTP_200_OK
+            "Deleted"
         )
 
 
@@ -149,9 +149,9 @@ class NewPrescription(APIView):
 class PrescriptionView(APIView):
     permission_classes = (AllowAny, )
 
-    def patch(self, request, presid):
+    def patch(self, request, prescription):
         med = Prescription.objects.filter(
-            id=presid).first()
+            id=prescription).first()
 
         if med is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -168,9 +168,9 @@ class PrescriptionView(APIView):
             status=status.HTTP_202_ACCEPTED
         )
 
-    def delete(self, request, presid):
+    def delete(self, request, prescription):
         record = Prescription.objects.filter(
-            id=presid).first()
+            id=prescription).first()
 
         if record is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)

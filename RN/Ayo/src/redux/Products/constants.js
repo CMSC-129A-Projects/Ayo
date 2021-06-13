@@ -1,4 +1,5 @@
 export const ActionTypes = {
+      SET_PRODUCTS_LIST : "product/SET_PRODUCTS_LIST",
       SET_NAME: "product/SET_NAME",
       SET_DESCRIPTION: "product/SET_DESCRIPTION",
       SET_PRICE : "product/SET_PRICE", 

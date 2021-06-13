@@ -66,10 +66,15 @@ class MedicineRecordSerializer(serializers.ModelSerializer):
         except:
             print("Error occured 1")
 
+# TODO: CHECK THIS
     def update(self, instance, validated_data):
         # TODO: what do we need to checl jere?
         instance.quantity_to_buy = validated_data.get(
             'quantity_to_buy', instance.quantity_to_buy)
+        instance.quantity_to_take = validated_data.get(
+            'quantity_to_take', instance.quantity_to_take)
+        instance.first_dose = validated_data.get(
+            'starting_date', instance.first_dose)
         instance.save()
         return instance
 

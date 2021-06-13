@@ -9,19 +9,19 @@ export default function EditQuantity() {
         setQuantityValue(quantityValue + 1)
     }
     const subtractQuantity = () => { 
-        setQuantityValue(quantityValue - 1)
+        quantityValue > 1 ? setQuantityValue(quantityValue - 1): setQuantityValue(1);
     } 
 return(
     <View style = {styles.quantityContainer}>
        <TouchableOpacity style={styles.minusButton}
          onPress = {() =>{
-          quantityValue > 0 ? setQuantityValue(quantityValue - 1) : setQuantityValue(0);
+          quantityValue > 1 ? setQuantityValue(quantityValue - 1) : setQuantityValue(1);
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
         </TouchableOpacity>
         <TextInput style={styles.quantityNumber}
             onEndEditing  = {
-              (quantityValue) => quantityValue >= 0 ? setQuantityValue(quantityValue) : setQuantityValue(0)
+              (quantityValue) => quantityValue >= 1 ? setQuantityValue(quantityValue) : setQuantityValue(1)
             }>
             <Text style={{fontSize:25,fontWeight:'bold'}}>{quantityValue}</Text>
         </TextInput>

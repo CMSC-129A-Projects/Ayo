@@ -4,8 +4,9 @@ TODO:
 """
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.http.response import JsonResponse
 from rest_framework.response import Response
-from rest_framework import exceptions
+from rest_framework import exceptions, status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from PIL import Image
@@ -15,7 +16,7 @@ import sys
 
 from .serializers import ProductSerializer, ProductViewSerializer, GenericNameSerializer, GenericNameViewSerializer, DiseaseSerializer
 from .models import Product, Disease, GenericName
-from permissionfunctions import IsPharmacyStaffOrReadOnly
+from Users.permissions import IsPharmacyStaffOrReadOnly
 
 # Create your views here.
 
@@ -49,8 +50,7 @@ def disease_check(data):
 
 
 class NewProduct(APIView, IsPharmacyStaffOrReadOnly):
-    permission_classes = (AllowAny,)
-    # permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def post(self, request):
         data = request.data
@@ -69,10 +69,11 @@ class NewProduct(APIView, IsPharmacyStaffOrReadOnly):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class Products(APIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Product.objects.all()
 
     def get(self, request):
@@ -82,8 +83,7 @@ class Products(APIView):
 
 
 class ProductView(APIView, IsPharmacyStaffOrReadOnly):
-    permission_classes = (AllowAny,)
-    # permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def patch(self, request, product):
         prod = Product.objects.filter(
@@ -109,7 +109,6 @@ class ProductView(APIView, IsPharmacyStaffOrReadOnly):
     def delete(self, request, product):
         product_to_delete = Product.objects.filter(
             id=product).first()
-        print(product_to_delete)
         if product_to_delete != None:
             product_to_delete.delete()
             return Response("Deleted")
@@ -118,11 +117,9 @@ class ProductView(APIView, IsPharmacyStaffOrReadOnly):
 
 
 class DeletedProductList(APIView, IsPharmacyStaffOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def post(self, request):
-        print("INSIDE DELETE", request.data)
         for req_id in request.data['ids']:
             if len(Product.objects.filter(id=req_id)) == 0:
                 return Response("Failed")
@@ -130,7 +127,6 @@ class DeletedProductList(APIView, IsPharmacyStaffOrReadOnly):
         for req_id in request.data['ids']:
             product_to_delete = Product.objects.filter(
                 id=req_id).first()
-            print(product_to_delete)
             if product_to_delete != None:
                 product_to_delete.delete()
             else:
@@ -140,8 +136,7 @@ class DeletedProductList(APIView, IsPharmacyStaffOrReadOnly):
 
 
 class NewGenericName(APIView, IsPharmacyStaffOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def post(self, request):
         data = request.data
@@ -160,7 +155,7 @@ class NewGenericName(APIView, IsPharmacyStaffOrReadOnly):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class GenericNames(APIView):
@@ -174,8 +169,7 @@ class GenericNames(APIView):
 
 
 class GenericNameView(APIView, IsPharmacyStaffOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def patch(self, request, generic):
         gen = GenericName.objects.filter(
@@ -202,7 +196,6 @@ class GenericNameView(APIView, IsPharmacyStaffOrReadOnly):
     def delete(self, request, generic):
         generic_to_delete = GenericName.objects.filter(
             id=generic).first()
-        print(generic_to_delete)
         if generic_to_delete != None:
             generic_to_delete.delete()
             return Response("Deleted")
