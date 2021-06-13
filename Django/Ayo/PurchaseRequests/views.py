@@ -4,6 +4,7 @@ TODO:
 """
 
 
+from Users.permissions import IsPharmacyStaffOrReadOnly
 from urllib.request import Request
 
 from django.contrib.auth import get_user_model
@@ -11,7 +12,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from Prescriptions.models import Prescription
 from rest_framework import exceptions, status
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from Users.models import User
@@ -23,7 +24,7 @@ from .serializers import *
 
 
 class FreeRequestItems(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, userid):
         items = RequestItem.objects.filter(
@@ -37,11 +38,12 @@ class FreeRequestItems(APIView):
 
 
 class NewRequestItem(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
         # DO CHECKS HERE
-        data = request.data
+        data = request.data.copy()
+        data['quantity'] = int(data['quantity'])
 
         if data['quantity'] < 0:
             raise exceptions.APIException('Negative quantity')
@@ -64,7 +66,7 @@ class NewRequestItem(APIView):
 
 
 class RequestItemView(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def patch(self, request, reqitem):
         requestitem = RequestItem.objects.filter(id=reqitem).first()
@@ -93,12 +95,12 @@ class RequestItemView(APIView):
         request.delete()
 
         return Response(
-            status=status.HTTP_200_OK
+            "Deleted"
         )
 
 
 class DeleteMultipleItems(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
         for req_id in request.data['ids']:
@@ -110,7 +112,6 @@ class DeleteMultipleItems(APIView):
         for req_id in request.data['ids']:
             product_to_delete = RequestItem.objects.filter(
                 id=req_id).first()
-            print(product_to_delete)
             if product_to_delete is not None:
                 product_to_delete.delete()
             else:
@@ -124,7 +125,7 @@ class DeleteMultipleItems(APIView):
 
 
 class UserOrders(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, userid):
         user = get_user_model().objects.filter(id=userid).first()
@@ -150,7 +151,7 @@ class UserOrders(APIView):
 
 
 class UnfulfilledOrders(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, IsPharmacyStaffOrReadOnly)
 
     def get(self, request):
         requests = PurchaseRequest.objects.filter(
@@ -160,7 +161,7 @@ class UnfulfilledOrders(APIView):
 
 
 class Orders(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsPharmacyStaffOrReadOnly, )
 
     def get(self, request):
         orders = PurchaseRequest.objects.all()
@@ -177,11 +178,12 @@ class Orders(APIView):
 
 
 class Order(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
     # needs improvement pa ni
 
     def post(self, request):
         # DO CHECKS HERE
+        # TODO: handle non-image files
         data = request.data
 
         if not User.objects.filter(id=data['customer_id']).exists():
@@ -191,7 +193,7 @@ class Order(APIView):
             raise exceptions.APIException('No items to order')
 
         if data['request_type'] == "Prescription":
-            if data['prescription_id'] is None:
+            if "prescription_id" not in data.keys() or data['prescription_id'] is None:
                 raise exceptions.APIException(
                     'Prescription-type Order without Prescription')
             if not Prescription.objects.filter(id=data['prescription_id']).exists():
@@ -208,7 +210,7 @@ class Order(APIView):
 
 
 class OrderView(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def patch(self, request, order):
         orderval = PurchaseRequest.objects.filter(id=order).first()
@@ -219,8 +221,6 @@ class OrderView(APIView):
         # TODO: checks here! or add something to check for
 
         data = request.data.copy()
-        print("Order type is", orderval)
-        print("Passing", data)
         serializer = PurchaseRequestViewSerializer(
             data=request.data, instance=orderval, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -228,7 +228,6 @@ class OrderView(APIView):
 
         return Response(
             serializer.data,
-            status=status.HTTP_202_ACCEPTED
         )
 
     def delete(self, request, order):

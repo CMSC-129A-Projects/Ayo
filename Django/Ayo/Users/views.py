@@ -116,13 +116,11 @@ class User(APIView):
 
 
 class Users(APIView, IsOwnerOrReadOnly):
-    permission_classes = (AllowAny, )
-    # permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly, )
     queryset = get_user_model().objects.all()
 
     def get(self, request):
         serializer = UserSerializer(get_user_model().objects.all(), many=True)
-        print(type(serializer))
         return Response({
             "data": serializer.data
         })
@@ -148,8 +146,9 @@ class RegisterUser(APIView):
         if not data['contact_number'].isnumeric():
             raise exceptions.APIException('Contact number contains letters')
 
-        if len(data['contact_number']) > 10:
-            raise exceptions.APIException('Contact number exceeds 10 numbers')
+        if len(data['contact_number']) != 9:
+            raise exceptions.APIException(
+                'Contact number is more/less than 9 numbers')
 
         if data['role'] not in ('Customer', 'Owner', 'Worker'):
             raise exceptions.APIException('Incorrect Role')
@@ -204,7 +203,6 @@ class LoginUser(APIView):
     permission_classes = (AllowAny, )
 
     def post(self, request):
-        print("request is", request.data)
         username = request.data.get('username')
         password = request.data.get('password')
 
@@ -251,7 +249,6 @@ class UnverifiedCustomers(APIView, IsOwnerOrReadOnly):
         for customer in unverified:
             userval = get_user_model().objects.filter(
                 id=customer['customer_user_id']).first()
-            print(userval)
             serializer1 = CustomerViewSerializer(
                 customer, context={'request': request})
             serializer2 = UserViewSerializer(userval)

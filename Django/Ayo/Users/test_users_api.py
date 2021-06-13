@@ -59,6 +59,7 @@ class CreateUserTestCase(TestCase):
             "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
             "address": "yep"
         }
+
         response2 = self.client.post(
             reverse('register'),
             owner_data2,
@@ -111,6 +112,9 @@ class CreateUserTestCase(TestCase):
         self.client.credentials(
             HTTP_AUTHORIZATION="Bearer " + self.jwt_access)
 
+    def test_edit_user(self):
+        pass
+
     def test_api_access(self):
         """Api should generate an access token from a refresh token."""
         response = self.client.post(
@@ -122,6 +126,7 @@ class CreateUserTestCase(TestCase):
         self.assertEqual(list(response.data.keys()), ['access'])
 
     def test_get_users(self):
+        """Api should allow owner to get list of unverified users."""
         response = self.client.get(
             reverse('unverified_customers'),
             format="json",
@@ -129,3 +134,91 @@ class CreateUserTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # self.assertEqual(list(response.data.keys()), ['access'])
+
+    def test_approve(self):
+        """Api should allow owner to approve unverified users."""
+        userslist = self.client.get(
+            reverse('unverified_customers'),
+            format="json",
+        )
+
+        response = self.client.patch(
+            reverse('approve_application'),
+            {"id": userslist.data[0]['id']},
+            format="json",
+        )
+
+        self.assertEqual("Successful", response.data)
+
+    def test_reject(self):
+        """Api should allow owner to reject unverified users."""
+        userslist = self.client.get(
+            reverse('unverified_customers'),
+            format="json",
+        )
+
+        response = self.client.patch(
+            reverse('reject_application'),
+            {"id": userslist.data[0]['id']},
+            format="json",
+        )
+
+        self.assertEqual("Successful", response.data)
+
+
+class ExtraChecks(TestCase):
+    def setUp(self):
+        """Define the test client and other test variables."""
+        self.client = APIClient()
+
+    def test_incorrect_entries(self):
+        user_data = {
+            "username": "test_customer2",
+            "name": "",
+            "password": "yep",
+            "password_confirm": "yep",
+            "role": "Owner",
+            "contact_number": "234421132",
+            "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+            "address": "yep"
+        }
+
+        response1 = self.client.post(
+            reverse('register'),
+            user_data,
+            format="json",
+        )
+
+        user_data['name'] = "test customer"
+        user_data['password'] = "wrongpassword"
+
+        response2 = self.client.post(
+            reverse('register'),
+            user_data,
+            format="json",
+        )
+
+        user_data['username'] = ""
+        user_data['password'] = "yep"
+
+        response3 = self.client.post(
+            reverse('register'),
+            user_data,
+            format="json",
+        )
+
+        user_data['username'] = "test_customer99"
+        user_data['contact_number'] = "92"
+        response4 = self.client.post(
+            reverse('register'),
+            user_data,
+            format="json",
+        )
+
+        self.assertEquals(response1.data['name']
+                          [0], "This field may not be blank.")
+        self.assertEquals(response2.data['detail'], "Passwords do not match")
+        self.assertEquals(response3.data['username']
+                          [0], "This field may not be blank.")
+        self.assertEquals(
+            response4.data['detail'], "Contact number is more/less than 9 numbers")

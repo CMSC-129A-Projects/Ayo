@@ -793,6 +793,175 @@
     }
 },
 {
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+        "action_time": "2021-06-09T06:39:52.190Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 8,
+        "object_id": "f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8",
+        "object_repr": "Customer object (f9c6cc8a-fe7d-4f26-b42e-ce1c8f1bb2d8)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Is verified\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+        "action_time": "2021-06-09T23:56:49.373Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "f95c56a3-5371-466c-9541-9ba5a86c3f95",
+        "object_repr": "test owner",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+        "action_time": "2021-06-10T00:01:03.334Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "1a1e3ab8-ee71-4219-a5b2-e02ed2ae42c4",
+        "object_repr": "test owner",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+        "action_time": "2021-06-10T02:24:30.007Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 6,
+        "object_id": "da574e1e-96cd-441f-9dbb-1cff33aa5c7c",
+        "object_repr": "test owner",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+        "action_time": "2021-06-13T05:54:32.144Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 12,
+        "object_id": "aec0cd7f-4c46-410c-b75d-cfae2d061b2e",
+        "object_repr": "MedicineRecord object (aec0cd7f-4c46-410c-b75d-cfae2d061b2e)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+        "action_time": "2021-06-13T05:55:04.616Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 12,
+        "object_id": "1efb0693-eb21-4095-b7ca-55a0bf374c51",
+        "object_repr": "MedicineRecord object (1efb0693-eb21-4095-b7ca-55a0bf374c51)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+        "action_time": "2021-06-13T05:55:26.520Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 13,
+        "object_id": "f4ca2a62-ab79-43a1-9be1-a160befbc9dc",
+        "object_repr": "Prescription object (f4ca2a62-ab79-43a1-9be1-a160befbc9dc)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+        "action_time": "2021-06-13T05:55:35.300Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 12,
+        "object_id": "1efb0693-eb21-4095-b7ca-55a0bf374c51",
+        "object_repr": "MedicineRecord object (1efb0693-eb21-4095-b7ca-55a0bf374c51)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Prescription id\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 70,
+    "fields": {
+        "action_time": "2021-06-13T05:56:08.043Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "e246c72d-2b67-4d2e-a5f5-67f5c49c52df",
+        "object_repr": "RequestItem object (e246c72d-2b67-4d2e-a5f5-67f5c49c52df)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 71,
+    "fields": {
+        "action_time": "2021-06-13T05:56:18.353Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "e246c72d-2b67-4d2e-a5f5-67f5c49c52df",
+        "object_repr": "RequestItem object (e246c72d-2b67-4d2e-a5f5-67f5c49c52df)",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 72,
+    "fields": {
+        "action_time": "2021-06-13T05:56:20.576Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 11,
+        "object_id": "e246c72d-2b67-4d2e-a5f5-67f5c49c52df",
+        "object_repr": "RequestItem object (e246c72d-2b67-4d2e-a5f5-67f5c49c52df)",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 73,
+    "fields": {
+        "action_time": "2021-06-13T06:25:33.909Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 10,
+        "object_id": "f742f524-c9da-48dc-8650-ad7622524f9b",
+        "object_repr": "PurchaseRequest object (f742f524-c9da-48dc-8650-ad7622524f9b)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Customer id\", \"Note\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 74,
+    "fields": {
+        "action_time": "2021-06-13T06:25:34.591Z",
+        "user": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "content_type": 10,
+        "object_id": "f742f524-c9da-48dc-8650-ad7622524f9b",
+        "object_repr": "PurchaseRequest object (f742f524-c9da-48dc-8650-ad7622524f9b)",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
     "model": "auth.permission",
     "pk": 1,
     "fields": {
@@ -1595,10 +1764,26 @@
 },
 {
     "model": "sessions.session",
+    "pk": "7gyujfcbbxzzkmake8y87glmomm7f369",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lsJ3y:RSblOBrSD9NyeZMhQD6zLl4w4Nz6dTKBJ7FDRP-DY8k",
+        "expire_date": "2021-06-27T05:53:38.614Z"
+    }
+},
+{
+    "model": "sessions.session",
     "pk": "7pe8s16t6rblr7drisp17nhnyn0ojpy0",
     "fields": {
         "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lkz2B:IsyXpVM7c3WLkiqQ38f82wxtI9ouWUWbDk1ebSJprhA",
         "expire_date": "2021-06-07T01:05:31.399Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "caft34ai6o3rr0pf9s2ecdwj96hxknwl",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHaMFA8umTJ8zWCwscT6yJX-qKHePLblIuifNzHurLq1L362zTN29qLNyFGM1hhuhFhtnyDYxQGgIgncpY7XC6vSbccpPGfa2PNJwG3Ueh2W6s94VfdBZX8cir8vh_h30ae63mgy1XIWLRPRQS7CCCcQTcLQuQCrWEQp6sc4ZENwWBmDxHDPmqD5ffRBAUA:1lqrsL:YU1sambsMG9XT7IMIXhz0yxqhWjoJULIe0t9E_gdQYU",
+        "expire_date": "2021-06-23T06:39:41.727Z"
     }
 },
 {
@@ -1658,7 +1843,7 @@
     "model": "Users.user",
     "pk": "4988f11b-e937-4192-8606-90654ac7f2eb",
     "fields": {
-        "last_login": "2021-06-07T11:49:18.893Z",
+        "last_login": "2021-06-13T05:53:38.610Z",
         "is_superuser": true,
         "name": "ayo",
         "contact_number": "ayo",
@@ -1670,6 +1855,48 @@
         "is_active": true,
         "is_staff": true,
         "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "553a41f3-7f9b-4a63-a413-aeb3a4f0804b",
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "name": "cc cc",
+        "contact_number": "272221144",
+        "address": "xx xx",
+        "registration": "2021-06-09T23:37:41.583Z",
+        "password": "pbkdf2_sha256$260000$YZNPMSaNLxccdV6X3mJjXK$a4JibwBhMZEg6f3DvP2INOkDPkh1jtqA8U3BOJgZgdM=",
+        "role": "Customer",
+        "username": "xx",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [
+            3
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.user",
+    "pk": "61617663-6f28-4e51-8f2e-01dda5c7ad38",
+    "fields": {
+        "last_login": null,
+        "is_superuser": false,
+        "name": "stf",
+        "contact_number": "223112321",
+        "address": "yeee",
+        "registration": "2021-06-09T23:50:32.529Z",
+        "password": "pbkdf2_sha256$260000$RGaE2JSUebnBkkn0POb5zX$AL6YZMMoM6Etg9P43NAK6BTXKXtr+S7mLiYaSrpEtkk=",
+        "role": "Worker",
+        "username": "stf",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [
+            2
+        ],
         "user_permissions": []
     }
 },
@@ -1696,15 +1923,15 @@
 },
 {
     "model": "Users.user",
-    "pk": "f95c56a3-5371-466c-9541-9ba5a86c3f95",
+    "pk": "e414985b-f1d2-4c8c-b082-01abf311b44b",
     "fields": {
         "last_login": null,
         "is_superuser": false,
         "name": "test owner",
-        "contact_number": "272110101",
-        "address": "yep",
-        "registration": "2021-06-07T11:50:36.077Z",
-        "password": "pbkdf2_sha256$260000$ZWLBTcAJZ8xuAn2e4u139U$gyl2si4NXxgR2cTZw1afU4JS9lQ9nNsOeo29D6rjJ4E=",
+        "contact_number": "227773312",
+        "address": "some place",
+        "registration": "2021-06-10T02:25:09.186Z",
+        "password": "pbkdf2_sha256$260000$qLA88MugjjKRlbBNGsBW5K$RK74/9OTg4m2uYxagc2lBKYZwdKl+wuPyeRlEmHKO7Y=",
         "role": "Owner",
         "username": "test_owner",
         "is_active": true,
@@ -1717,10 +1944,21 @@
 },
 {
     "model": "Users.owner",
-    "pk": "e1351387-c324-454f-9803-06eb10f84621",
+    "pk": "79658645-97cb-4f53-aa67-c021158f7db1",
     "fields": {
-        "owner_user": "f95c56a3-5371-466c-9541-9ba5a86c3f95",
-        "business_permit": "business_permit/test_ownerpermit_IoELYc2.png"
+        "owner_user": "e414985b-f1d2-4c8c-b082-01abf311b44b",
+        "business_permit": "business_permit/test_ownerpermit_UJW20Mu.png"
+    }
+},
+{
+    "model": "Users.customer",
+    "pk": "7955c83b-508e-4557-bf0c-9a8f001372e3",
+    "fields": {
+        "customer_user": "553a41f3-7f9b-4a63-a413-aeb3a4f0804b",
+        "valid_id1": "customer_ids/xxid1.png",
+        "medical_record": "",
+        "is_verified": false,
+        "is_rejected": false
     }
 },
 {
@@ -1730,7 +1968,7 @@
         "customer_user": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
         "valid_id1": "customer_ids/test_customerid1.png",
         "medical_record": "",
-        "is_verified": false,
+        "is_verified": true,
         "is_rejected": false
     }
 },
@@ -1744,10 +1982,19 @@
     }
 },
 {
+    "model": "Users.pharmacyworker",
+    "pk": "6a3dbc71-aad5-4993-8b82-6dde41401f48",
+    "fields": {
+        "worker_user": "61617663-6f28-4e51-8f2e-01dda5c7ad38",
+        "medical_license": "medical_licences/stflicense.png",
+        "is_available": true
+    }
+},
+{
     "model": "PurchaseRequests.purchaserequest",
     "pk": "f742f524-c9da-48dc-8650-ad7622524f9b",
     "fields": {
-        "customer_id": "4988f11b-e937-4192-8606-90654ac7f2eb",
+        "customer_id": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
         "is_confirmed": false,
         "is_cancelled": false,
         "is_fulfilled": false,
@@ -1755,7 +2002,7 @@
         "request_type": "Order",
         "total_cost": 67.5,
         "prescription_id": null,
-        "note": null
+        "note": "d"
     }
 },
 {
@@ -1767,6 +2014,56 @@
         "request_id": "f742f524-c9da-48dc-8650-ad7622524f9b",
         "user_id": "4988f11b-e937-4192-8606-90654ac7f2eb",
         "cost": 67.5
+    }
+},
+{
+    "model": "PurchaseRequests.requestitem",
+    "pk": "e246c72d-2b67-4d2e-a5f5-67f5c49c52df",
+    "fields": {
+        "quantity": 10,
+        "product_id": "3fbf2bc5-3b56-4075-a188-b51c1934dad4",
+        "request_id": null,
+        "user_id": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
+        "cost": 0.0
+    }
+},
+{
+    "model": "Prescriptions.prescription",
+    "pk": "f4ca2a62-ab79-43a1-9be1-a160befbc9dc",
+    "fields": {
+        "customer_id": "8bf74bf0-084f-4205-a892-d8e71dd99d2d",
+        "starting_date": "2021-06-13T05:55:26.516Z",
+        "prescription_photo": "prescription_photos/holder.png",
+        "prescription_copy": "prescription_copy/holder.png",
+        "is_finished": false
+    }
+},
+{
+    "model": "Prescriptions.medicinerecord",
+    "pk": "1efb0693-eb21-4095-b7ca-55a0bf374c51",
+    "fields": {
+        "prescription_id": "f4ca2a62-ab79-43a1-9be1-a160befbc9dc",
+        "name": "test med2",
+        "frequency": "twice a day",
+        "quantity_to_buy": 11,
+        "quantity_to_take": 11,
+        "first_dose": "2021-06-13T05:54:58Z",
+        "is_ongoing": true,
+        "customer_id": "8bf74bf0-084f-4205-a892-d8e71dd99d2d"
+    }
+},
+{
+    "model": "Prescriptions.medicinerecord",
+    "pk": "aec0cd7f-4c46-410c-b75d-cfae2d061b2e",
+    "fields": {
+        "prescription_id": null,
+        "name": "test medicine",
+        "frequency": "daily",
+        "quantity_to_buy": 10,
+        "quantity_to_take": 10,
+        "first_dose": "2021-06-13T05:54:24Z",
+        "is_ongoing": true,
+        "customer_id": "8bf74bf0-084f-4205-a892-d8e71dd99d2d"
     }
 },
 {
