@@ -14,8 +14,7 @@ class Prescription(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     customer_id = models.ForeignKey(
         User, default=None, on_delete=models.CASCADE)
-    starting_date = models.DateTimeField(
-        auto_now_add=True, blank=True, null=True)
+    starting_date = models.DateTimeField(blank=True, null=True)
     prescription_photo = models.FileField(
         upload_to='prescription_photos', blank=True, null=True)
     prescription_copy = models.FileField(

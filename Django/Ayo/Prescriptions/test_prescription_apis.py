@@ -63,11 +63,19 @@ class OrderTestCases(TestCase):
             reverse('get_user_prescriptions', kwargs={"userid": self.customervals.data['id']}))
         self.assertEquals(response2.status_code, 200)
 
-    def test_add_ordinary_prescription(self):
+    def test_add_photo_prescription(self):
         response2 = self.customer_client.post(reverse('add_prescription'), {
             "customer_id": self.customervals.data['id'],
             "starting_date": "2021-05-13T07:37:18Z",
-            "prescription_copy": "http://127.0.0.1:8000/media/business_permit/p6.png"
+            "prescription_photo": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+        })
+        self.assertEquals(response2.status_code, 200)
+
+    def test_add_copy_prescription(self):
+        response2 = self.customer_client.post(reverse('add_prescription'), {
+            "customer_id": self.customervals.data['id'],
+            "starting_date": "2021-05-13T07:37:18Z",
+            "prescription_copy": "http://africau.edu/images/default/sample.pdf"
         })
         self.assertEquals(response2.status_code, 200)
 
