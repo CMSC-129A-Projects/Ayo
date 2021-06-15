@@ -12,7 +12,7 @@ import splashScreen from './splashScreen';
 import customerTabScreen from './customerTabScreen';
 import pharmacyTabScreen from './pharmacyTabScreen';
 import ownerTabScreen from './ownerTabScreen';
-
+import staffOrderListScreen from './staffOrderListScreen';
 
 export {splashScreen,
         loginScreen, 
@@ -27,4 +27,5 @@ export {splashScreen,
         customerVerificationScreen,
         customerTabScreen,
         pharmacyTabScreen,
-        ownerTabScreen};
+        ownerTabScreen,
+        staffOrderListScreen};

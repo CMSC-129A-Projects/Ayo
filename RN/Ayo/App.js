@@ -16,7 +16,8 @@ import {splashScreen,
         medItemScreen,
         customerTabScreen,
         pharmacyTabScreen,
-        ownerTabScreen} from './src/screens/index';
+        ownerTabScreen,
+        staffOrderListScreen} from './src/screens/index';
 import store from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
@@ -38,6 +39,7 @@ export default function App() {
             fontWeight:'bold',
           }
         }}>
+          <Stack.Screen options={{headerShown: false}} name ="Order List Screen" component = {staffOrderListScreen}/> 
           <Stack.Screen options={{headerShown: false}} name ="Splash Screen" component = {splashScreen}/> 
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
           <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
