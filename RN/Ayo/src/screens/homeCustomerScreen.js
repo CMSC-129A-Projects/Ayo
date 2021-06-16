@@ -4,15 +4,11 @@ import {useSelector} from 'react-redux';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
-import { getSelectLogin } from '../redux/loginScreen/selectors';
-import {getSelectSignup} from '../redux/signupScreen/selectors';
-import {getUser} from '../redux/loginScreen/selectors';
+import { getSelectLogin } from '../redux/Users/selectors';
+import {getSelectSignup} from '../redux/Users/selectors';
+import {getUser} from '../redux/Users/selectors';
     
 export default function homeScreen({navigation}) {
-      const user = useSelector(getUser);
-      const signupval = useSelector(getSelectSignup);
-      console.log("Final signup vals ", user);
-
       return (
             <SafeAreaView style = {styles.Container}>
                   <ImageBackground source={require('../backgrounds/AyoHomeBG.png')} style={styles.Background}/>
@@ -31,13 +27,13 @@ export default function homeScreen({navigation}) {
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products Staff", img:icons.homeScreenButton1, screen:"Staff Product List"},
-                              {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
+                              {title: "View Products", img:icons.homeScreenButton1, screen:"Product List"},
+                              {title: "View Prescriptions", img:icons.homeScreenButton1, screen:"Prescription List"},
+                              {title: "View Basket", img:icons.homeScreenButton1, screen:"Basket Screen"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
-                              {title: "Card List Screen", img:icons.homeScreenButton1, screen: "CardListScreen" },
+                              {title: "", img:icons.homeScreenButton1, screen:"My Basket"},
+                              {title: "", img:icons.homeScreenButton1, screen: "CardListScreen" },
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>
                   </View>

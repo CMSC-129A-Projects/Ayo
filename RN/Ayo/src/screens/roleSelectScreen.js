@@ -16,11 +16,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import json2formdata from 'json2formdata';
 
-import {setValidId} from '../redux/signupScreen/actions';
+import {setValidId} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
-import {getRole, getSelectSignup} from '../redux/signupScreen/selectors';
-import {setRole} from '../redux/signupScreen/actions';
+import {getRole, getSelectSignup} from '../redux/Users/selectors';
+import {setRole} from '../redux/Users/actions';
 import {Fontisto} from '@expo/vector-icons';
 
 
@@ -36,28 +36,6 @@ const roleSelectScreen = () => {
     const [ownerVisible, setOwnerVisible] = useState(false);
     const [image, setImage] = useState(null);
     const [viewImage, setViewImage] = useState(false);
-
-
-    useEffect(() => {
-      const backAction = () => {
-        Alert.alert("Warning", "Go back the Log In screen? You will lose all your Sign Up information.", [
-          {
-            text: "Cancel",
-            onPress: () => null,
-            style: "cancel"
-          },
-          { text: "YES", onPress: () => navigation.navigate("Log In") }
-        ]);
-        return true;
-      };
-  
-      const backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
-      );
-  
-      return () => backHandler.remove();
-    }, []);
   
     useEffect(() => {
       (async () => {
@@ -143,6 +121,7 @@ const roleSelectScreen = () => {
                     usersApi.post('register', formdata, {headers : {
                       'Content-Type': 'multipart/form-data',
                     }}).then(err => console.log(err)) */}
+                    setCustomerVisible(false);
                     navigation.navigate("Customer Homes");
                     }
                   }>
@@ -184,6 +163,7 @@ const roleSelectScreen = () => {
                     usersApi.post('register', formdata, {headers : {
                       'Content-Type': 'multipart/form-data',
                     }}).then(err => console.log(err)) */}
+                    setStaffVisible(false);
                     navigation.navigate("Pharmacy Homes");
                     }
                   }>
@@ -225,6 +205,7 @@ const roleSelectScreen = () => {
                     usersApi.post('register', formdata, {headers : {
                       'Content-Type': 'multipart/form-data',
                     }}).then(err => console.log(err)) */}
+                    setOwnerVisible(false);
                     navigation.navigate("Owner Homes");
                     }
                   }>

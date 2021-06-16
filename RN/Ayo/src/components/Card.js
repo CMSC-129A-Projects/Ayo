@@ -38,16 +38,9 @@ export default Card;
 const styles = StyleSheet.create({
 touchablesContainer: {
     alignSelf:'center',
-    width: '95%',
-    margin: '1.5%',
-    borderRadius: 15,
+    width: '100%',
+    margin: '.5%',
     backgroundColor: 'white',
-    shadowColor: '#999',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    flexDirection: 'row'
 },
 touchables: {
     flex: 1,

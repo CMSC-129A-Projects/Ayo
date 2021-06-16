@@ -12,7 +12,9 @@ import {StyleSheet,
         Platform,
         TouchableHighlight,
         Button,
-        ScrollView} from 'react-native';
+        ScrollView,
+        Dimensions,
+        StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ViewProductDetails from '../modals/viewProductDetails'
@@ -157,9 +159,9 @@ const productList = () => {
           setModalVisible(!modalVisible); 
           
         }}>
-            <View>
+            <View style = {styles.productPreviewTextContainer}>
               <Text style = {styles.productPreviewTextHeavy}>{item.name}</Text>
-              <Text style = {styles.productPreviewText}>$Generic Name$</Text>
+              <Text style = {styles.productPreviewText}>Generic Name: {item.description}</Text>
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
             </View>
             <Image source={item.product_img}
@@ -228,11 +230,11 @@ const productList = () => {
         <TouchableOpacity style = {styles.Button} onPress = {() =>{
           setModal2Visible(!modal2Visible);
         }}>
-         <Text style = {styles.ButtonText}>ADD PRODUCT</Text>
+          <Text style = {styles.ButtonText}>ADD PRODUCT</Text>
         </TouchableOpacity>
       </View>
 
-      <Modal 
+      <Modal //View product details
             animationType = "slide"
             style = {styles.modal}
             transparent = {true}
@@ -403,6 +405,7 @@ const productList = () => {
         </View>
       </View>
       </Modal>
+      
       <Modal //Add Product Modal
             animationType = "slide"
             visible={modal2Visible}
@@ -446,10 +449,8 @@ const productList = () => {
                               ...tmpGenerics.sort((a, b) => a.label.localeCompare(b.name))
                           ]}
                         />
+                      </View>
                     </View>
-
-                    </View>
-                    
                     <TextInput
                         placeholder = "Price"
                         placeholderTextColor = '#ffffff'
@@ -457,25 +458,25 @@ const productList = () => {
                         style = {styles.inputField}
                       />
                     <EditQuantity/>
-                    </View>
-                      <View style = {styles.addProductDetailsImages}>
-                        <TouchableOpacity style = {styles.ImagePreviewContainer} 
-                                          onPress = {() => setViewImage(true)}>
-                          {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
-                          <Text style = {styles.PlaceholderText}>
-                            PRODUCT IMAGE
-                          </Text> 
-                        </TouchableOpacity>
-                        <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
-                          <Text style = {styles.addImageButtonText}>UPLOAD</Text>
-                        </TouchableOpacity>
-                      </View>
+                  </View>
+                  <View style = {styles.addProductDetailsImages}>
+                    <TouchableOpacity style = {styles.ImagePreviewContainer} 
+                                      onPress = {() => setViewImage(true)}>
+                      {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
+                      <Text style = {styles.PlaceholderText}>
+                        PRODUCT IMAGE
+                      </Text> 
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
+                      <Text style = {styles.addImageButtonText}>UPLOAD</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <TextInput
-                placeholder = "Description"
-                placeholderTextColor = '#ffffff'
-                underlineColorAndroid = "transparent"
-                style = {styles.inputDescriptionField}
+                  placeholder = "Description"
+                  placeholderTextColor = '#ffffff'
+                  underlineColorAndroid = "transparent"
+                  style = {styles.inputDescriptionField}
                 />
                 <TouchableOpacity style = {styles.addProductButton}
                                   onPress = {() =>{
@@ -566,7 +567,7 @@ const styles = StyleSheet.create(
     },
     ListContainer:{
       width: '100%',
-      height: '80%',
+      flex: 1,
       borderBottomWidth: 4,
       borderColor: '#ffffff',
       backgroundColor: 'rgba(100, 100, 100, 0.5)',
@@ -577,6 +578,7 @@ const styles = StyleSheet.create(
       justifyContent: 'center'
     },
     addProductDetailsTopField: {
+      flex: 0,
       flexDirection: 'row',
       justifyContent: 'space-around'
     },
@@ -603,7 +605,11 @@ const styles = StyleSheet.create(
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
+    },
+    productPreviewTextContainer: {
+      width: '55%',
+      marginLeft: '7.5%',
     },
     productPreviewText: {
       fontSize: 15,
@@ -612,12 +618,14 @@ const styles = StyleSheet.create(
     productPreviewTextHeavy: {
       fontSize: 18,
       fontFamily: 'Roboto',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      flexWrap: 'nowrap',
     },
     productPreviewImage: {
       width:80, 
       height:80, 
-      marginVertical: '5%'
+      marginVertical: '5%',
+      marginRight: '7.5%'
     },
     item: {
       padding: '2.7%',
@@ -638,12 +646,13 @@ const styles = StyleSheet.create(
     Button: {
       borderWidth: 3,
       borderColor: '#ffffff',
-      borderRadius: 23,
-      width: '70%',
+      borderRadius: 27,
+      width: '100%',
       alignSelf:'center',
       alignItems:'center',
-      marginTop: '4%',
-      padding: '2%'
+      padding: '2%',
+      marginVertical: '1%',
+      backgroundColor: 'rgba(100, 100, 100, 0.3)',
     },
     ButtonText: {
       color: '#ffffff',
@@ -653,7 +662,7 @@ const styles = StyleSheet.create(
       fontWeight: 'bold'
     },
     modalContainer : {
-      height: '85%',
+      height: '90%',
       marginTop: 'auto',
       backgroundColor:'#ffffff',
       borderTopWidth: 7,
@@ -706,7 +715,7 @@ const styles = StyleSheet.create(
     inputDescriptionField: {
       width: '93%',
       padding: '1%',
-      height: '37%',
+      height: '30%',
       borderRadius: 15,
       borderWidth: 0.75,
       borderColor: 'black',
@@ -737,6 +746,7 @@ const styles = StyleSheet.create(
       color: '#2a2a2a',
     },
     addProductButton: {
+      flex: 0,
       borderWidth: 3,
       borderColor: '#00d1a3',
       backgroundColor:  '#00d1a3',
