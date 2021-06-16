@@ -1,15 +1,43 @@
+from django.core.files.base import File
 from django.shortcuts import render
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
-from rest_framework.permissions import AllowAny, IsAdminUser, AllowAny
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from rest_framework.permissions import AllowAny, AllowAny
+from PIL import Image
+from io import BytesIO
+from urllib.request import urlretrieve, urlopen
+from dateutil import parser
+import requests
+import datetime
+import sys
 
 from .models import *
 from .serializers import *
 
 # Create your views here.
+
+
+def uri_to_img(uri, idnum, starting_date):
+    opened_img = urlretrieve(uri)
+    img = Image.open(opened_img[0])
+    img_io = BytesIO()
+    img.save(img_io, format='PNG')
+    img_file = InMemoryUploadedFile(
+        img_io, None, idnum + starting_date + 'prescription_photo.png', 'images/png', sys.getsizeof(img_io), None)
+    return img_file
+
+
+def uri_to_file(uri, idnum, starting_date):
+    opened_file = requests.get(uri)
+    with open("/tmp/"+idnum+starting_date+".pdf", "wb") as f:
+        f.write(opened_file.content)
+    reopen = open("/tmp/"+idnum+starting_date+".pdf", "rb")
+    django_file = File(reopen)
+    return django_file
 
 
 class FreeMedicineRecords(APIView):
@@ -91,7 +119,6 @@ class DeleteMultipleRecords(APIView):
         for req_id in request.data['ids']:
             product_to_delete = MedicineRecord.objects.filter(
                 id=req_id).first()
-            print(product_to_delete)
             if product_to_delete is not None:
                 product_to_delete.delete()
             else:
@@ -136,11 +163,19 @@ class NewPrescription(APIView):
 
     def post(self, request):
         # do checks here
-        print(request.data)
-        serializer = PrescriptionSerializer(data=request.data)
+        new_data = request.data.copy()
+        if "prescription_photo" in new_data.keys():
+            new_data['prescription_photo'] = uri_to_img(
+                new_data['prescription_photo'], new_data['customer_id'], new_data['starting_date'])
+            new_data['prescription_copy'] = None
+        else:
+            new_data['prescription_copy'] = uri_to_file(
+                new_data['prescription_copy'], new_data['customer_id'], new_data['starting_date'])
+            new_data['prescription_photo'] = None
+        new_data['starting_date'] = parser.parse(new_data['starting_date'])
+        serializer = PrescriptionSerializer(data=new_data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 # go for update only?

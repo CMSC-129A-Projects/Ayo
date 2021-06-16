@@ -1,6 +1,13 @@
 import UserApi from '../../api/Users' 
+import getJWTs from '../../authheaders';
 
 // api services 
+
+export const registerUser = async (details) => {
+      const response = await UserApi.post('register', details);
+      return response.data;
+}
+
 
 export const fetchUsers = async () => {
       const response = await UserApi.get('users');
@@ -20,13 +27,15 @@ export const fetchUnverifiedCustomers= async (jwt_access, jwt_refresh) => {
       return response.data;
 }
 
-export const fetchUserDetails = async (username, token) => {
+export const fetchUserDetails = async (username) => {
 
+      const jwts = await getJWTs();
       const header = {
             headers:{
-                  'Authorization': "Bearer " + token 
+                  'Authorization': "Bearer " + jwts['jwt_access'] 
             }
       }
+      console.log("HEADER IS ", header);
 
       const response = await UserApi.get(`user/${username}`, header);
       return response.data;

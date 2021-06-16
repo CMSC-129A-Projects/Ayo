@@ -1,29 +1,35 @@
 
+from django.core.files.base import File
 from rest_framework import serializers
 
 from .models import *
 from django.conf import settings
 from django.db.models import Q
 import urllib
+import datetime
 
 
 class PrescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prescription
         fields = ['customer_id', 'starting_date',
-                  'prescription_photo']
+                  'prescription_photo', 'prescription_copy']
 
     def create(self, validated_data):
-        try:
-            instance = self.Meta.model(**validated_data)
+        presc_copy = validated_data.pop('prescription_copy')
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        # adding pdf files to filefield
+        if presc_copy is not None:
+            with open(presc_copy.name, 'rb') as fl:
+                instance.prescription_copy.save(presc_copy.name[5:], File(fl))
             instance.save()
-            for item in MedicineRecord.objects.filter(Q(customer_id=validated_data['customer_id']) & Q(prescription_id=None)):
-                print(item)
-                item.prescription_id_id = str(instance.id)
-                item.save()
-            return instance
-        except:
-            print("Error occured 1")
+        # getting free prescription items to prescription
+        for item in MedicineRecord.objects.filter(Q(customer_id=validated_data['customer_id']) & Q(prescription_id=None)):
+            item.prescription_id_id = str(instance.id)
+            item.save()
+        instance.save()
+        return instance
 
 
 # do I need this?
@@ -40,7 +46,7 @@ class PrescriptionViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prescription
-        fields = ['id', 'customer_id', 'starting_date',
+        fields = ['id', 'customer_id', 'starting_date', 'prescription_copy',
                   'prescription_photo', 'contents', 'is_finished']
 
     def update(self, instance, validated_data):

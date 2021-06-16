@@ -11,6 +11,7 @@ from rest_framework import exceptions, status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from PIL import Image
 from io import BytesIO
 from urllib.request import urlretrieve
@@ -52,6 +53,7 @@ def merge(a, b): return {**a, **b}
 
 class User(APIView):
     permission_classes = (IsAuthenticated, )
+    authentication_classes = (JWTAuthentication, )
 
     def get(self, request, username):
         user = get_user_model().objects.filter(username=username).first()

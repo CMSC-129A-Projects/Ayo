@@ -5,8 +5,10 @@ import ProductApi from '../api/Products';
 import UserApi from '../api/Users';
 import BasketApi from '../api/Requests';
 import PrescriptionApi from '../api/Prescriptions';
-import {setUser, setWorker, setUsersList} from '../redux/Users/actions';
+import {setUser, setWorker, setUsersList, setJWTAccess, setJWTRefresh} from '../redux/Users/actions';
 import {getUser, getUsersList} from '../redux/Users/selectors';
+import { fetchUserDetails, registerUser } from '../redux/Users/services';
+import  getJWTs from '../authheaders';
 // path('users', Users.as_view(), name='get_users'),
 // path('register', RegisterUser.as_view(), name='register'),
 // path('login', LoginUser.as_view(), name='login'),
@@ -41,27 +43,68 @@ function apiTestScreen({dispatch, userslist, user}) {
             dispatch(setUsersList());
       }, [])
 
-      console.log("THIS IS THE USERSLIST", userslist);
-      console.log("USER IS ", user);
+      console.log("onegen is ", onegen);
 
       const pharmacist_data = {
-            "username": "pharma",
+            "username": "test_owner",
             "name": "own",
             "password": "yep",
             "password_confirm": "yep",
-            "role": "Worker",
+            "role": "Owner",
             "contact_number": "234421132",
-            "medical_license": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
+            "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
             "address": "yep"
       }
 
+
+      const login = async (values) => {
+            var has_error = false;
+            const response = await UserApi.post('login', values, {headers : {
+                  'Content-Type': 'application/json',
+                  }})
+                  .catch((error) => {
+                  if(error.response){
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
+                  console.log(error.response.data);
+                  if(error.response.data.detail === "Password")
+                        setWrongPasword(true);
+                  if(error.response.data.detail === "User")
+                        setWrongUser(true);
+                  }
+                  else if(error.request){
+                  // The request was made but no response was received
+                  // `error.request` is an instance of XMLHttpRequest in the 
+                  // browser and an instance of
+                  // http.ClientRequest in node.js
+                  console.log(error.request);
+                  setConnectivityIssue(true);
+                  }
+                  else{
+                  console.log('Error ', error.message);
+                  }
+                  has_error = true;
+                  })
+
+            if(has_error)
+                  return null;
+
+            dispatch(setJWTAccess(response.data.jwt['access']));
+            dispatch(setJWTRefresh(response.data.jwt['refresh']));
+            const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
+            dispatch(setUser(details.data));
+      }
       // path('product/all', Products.as_view()),
       // path('product/add', NewProduct.as_view()),
       // path('product/instance/<str:product>', ProductView.as_view()),
       // path('product/multidelete', DeletedProductList.as_view()),
 
       const fetchProducts = async () => {
-            const response = await ProductApi.get('product/all');
+            const jwts =  await getJWTs();
+            const headers = {
+                  "Authorization" : "Bearer " + jwts['jwt_access']
+            }
+            const response = await ProductApi.get('product/all', {headers});
             console.log("Products are", response.data);
             setProducts(response.data);
       }
@@ -72,7 +115,7 @@ function apiTestScreen({dispatch, userslist, user}) {
             "description" : "test description",
             "price" : 13.50,
             "quantity" : 1500,
-            "product_img" : "http://127.0.0.1:8000/media/business_permit/p6.png",
+            "product_img": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
             "generic_name" : "245c31ff-8105-48d0-8791-24f0c5c3ce29"
         }
 
@@ -81,7 +124,7 @@ function apiTestScreen({dispatch, userslist, user}) {
             "description" : "test description",
             "price" : 13.50,
             "quantity" : 1500,
-            "product_img" : "http://127.0.0.1:8000/media/business_permit/p6.png",
+            "product_img": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
             "generic_name" : "245c31ff-8105-48d0-8791-24f0c5c3ce29"
       }
 
@@ -90,29 +133,38 @@ function apiTestScreen({dispatch, userslist, user}) {
             "description" : "test description",
             "price" : 13.50,
             "quantity" : 1500,
-            "product_img" : "http://127.0.0.1:8000/media/business_permit/p6.png",
+            "product_img": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
         }
 
       const add_product = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            console.log(arg);
-            const response = await ProductApi.post('product/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            console.log("ARG IS ", arg, headers);
+            const response = await ProductApi.post('product/add', arg, {headers})
             fetchProducts();
       }
 
       const edit_product = async (arg) => { 
-            const response = await ProductApi.patch(`product/instance/${arg['id']}`, {"name" : "edited_test_medicine_2"}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.patch(`product/instance/${arg['id']}`, {"name" : "edited_test_medicine_2"}, {headers})
             fetchProducts();
       }
 
       const delete_product = async (arg) => { 
-            const response = await ProductApi.delete(`product/instance/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.delete(`product/instance/${arg['id']}`, {headers})
             fetchProducts();
       }
 
@@ -121,16 +173,24 @@ function apiTestScreen({dispatch, userslist, user}) {
             arg.forEach((item) => {
                   ids.push(item['id']);
             })
-            const response = await ProductApi.post(`product/multidelete`, {"ids" : ids}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.post(`product/multidelete`, {"ids" : ids}, {headers})
             fetchProducts();
       }
 
       // GENERICS
       // path('generic/all', GenericNames.as_view()),
       const fetchGenerics = async () => {
-            const response = await ProductApi.get('generic/all');
+            const jwts =  await getJWTs();
+            const headers = {
+                  'Content-Type' : 'application/json',
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.get('generic/all', {headers});
             setGenerics(response.data);
       }
 
@@ -147,24 +207,34 @@ function apiTestScreen({dispatch, userslist, user}) {
       // path('generic/add', NewGenericName.as_view()),
       const add_generic= async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await ProductApi.post('generic/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            console.log("HEADERS ARE ", headers);
+            const response = await ProductApi.post('generic/add', arg, {headers})
             fetchGenerics();
       }
 
       // path('generic/instance/<str:generic>', GenericNameView.as_view())
       const edit_generic = async (arg) => { 
-            const response = await ProductApi.patch(`generic/instance/${arg['id']}`, {"generic_name" : "edited_test_gen_2"}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.patch(`generic/instance/${arg['id']}`, {"generic_name" : "edited_test_gen_2"}, {headers})
             fetchGenerics();
       }
 
       const delete_generic = async (arg) => { 
-            const response = await ProductApi.delete(`generic/instance/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await ProductApi.delete(`generic/instance/${arg['id']}`, {"generic_name" : "edited_test_gen_2"}, {headers})
             fetchGenerics();
       }
 
@@ -176,35 +246,47 @@ function apiTestScreen({dispatch, userslist, user}) {
       // path('requestitem/free/<str:userid>', FreeRequestItems.as_view()),
       const fetchUserRequests = async (arg) => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.get(`requestitem/free/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.get(`requestitem/free/${arg['id']}`, {headers})
             setReqitems(response.data)
       }
 
       // path('requestitem/add', NewRequestItem.as_view()),
       const add_request = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.post('requestitem/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.post('requestitem/add', arg, {headers})
             fetchUserRequests(users['data'][0]);
       }
 
       // path('requestitem/instance/<str:reqitem>', RequestItemView.as_view()),
       const edit_request = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.patch(`requestitem/instance/${arg['id']}`, {"quantity" : 10}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.patch(`requestitem/instance/${arg['id']}`, {"quantity" : 10}, {headers})
             fetchUserRequests(users['data'][0]);
       }
 
       const delete_request = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.delete(`requestitem/instance/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.delete(`requestitem/instance/${arg['id']}`, {headers})
             fetchUserRequests(users['data'][0]);
       }
 
@@ -214,36 +296,48 @@ function apiTestScreen({dispatch, userslist, user}) {
             arg.forEach((item) => {
                   ids.push(item['id']);
             })
-            const response = await BasketApi.post(`requestitem/multidelete`, {"ids" : ids}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.post(`requestitem/multidelete`, {"ids" : ids}, {headers})
             fetchUserRequests(users['data'][0]);
       }
 
       // path('orders/all', Orders.as_view()),
       const fetchOrders = async () => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.get(`orders/all`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.get(`orders/all`, {headers})
             console.log("ALL ORDERS", response.data)
       }
 
       // path('orders/user/<str:userid>', UserOrders.as_view()),
       const fetchUserOrders = async (arg) => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.get(`orders/user/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.get(`orders/user/${arg['id']}`, {headers})
             console.log("USER ORDERS", response.data)
       }
 
       // path('orders/unfulfilled', UnfulfilledOrders.as_view()),
       const fetchUnfulfilledOrders = async (arg) => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.get(`orders/unfulfilled`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.get(`orders/unfulfilled`, {headers} )
             console.log("UNFULFILLED ORDERS", response.data)
       }
 
@@ -252,9 +346,12 @@ function apiTestScreen({dispatch, userslist, user}) {
       const add_order = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
             console.log("INSIDE ADD ORDER", arg);
-            const response = await BasketApi.post('orders/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.post('orders/add', arg, {headers})
             fetchUserOrders(users['data'][0]);
       }
 
@@ -262,9 +359,12 @@ function apiTestScreen({dispatch, userslist, user}) {
       // DINHI DAPITA DAGHAN BUHATUNON
       const edit_order = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await BasketApi.post(`order/instance/${arg['id']}`, {}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await BasketApi.post(`order/instance/${arg.id}`, {}, {headers})
             fetchUserRequests(users['data'][0]);
       }
 
@@ -272,35 +372,47 @@ function apiTestScreen({dispatch, userslist, user}) {
       // path('items/free/<str:userid>', FreeMedicineRecords.as_view()),
       const fetchPresItems = async (arg) => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.get(`items/free/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.get(`items/free/${arg['id']}`, {headers})
             console.log("FREE PRESCRIPTION ITEMS ARE", response.data)
       }
 
       // path('items/add', NewMedicineRecord.as_view()),
       const add_pres_item= async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.post('items/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.post('items/add', arg, {headers})
             fetchPresItems(users['data'][0]);
       }
 
       // path('items/instance/<str:medid>', MedicineRecordView.as_view()),
       const edit_pres_item = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.patch(`items/instance/${arg['id']}`, {"quantity" : 10}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.patch(`items/instance/${arg['id']}`, {"quantity" : 10}, {headers})
             fetchPresItems(users['data'][0]);
       }
 
       const delete_pres_item = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.delete(`items/instance/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.delete(`items/instance/${arg['id']}`, {headers})
             fetchPresItems(users['data'][0]);
       }
 
@@ -310,18 +422,24 @@ function apiTestScreen({dispatch, userslist, user}) {
             arg.forEach((item) => {
                   ids.push(item['id']);
             })
-            const response = await PrescriptionApi.post(`requestitem/multidelete`, {"ids" : ids}, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.post(`requestitem/multidelete`, {"ids" : ids}, {headers})
             fetchPresItems(users['data'][0]);
       }
 
       // path('prescription/all/<str:userid>', UserPrescriptions.as_view()),
       const fetchUserPrescriptions = async (arg) => {
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.get(`prescription/all/${arg['id']}`, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.get(`prescription/all/${arg['id']}`, {headers})
             console.log("USER ORDERS", response.data)
       }
 
@@ -329,9 +447,12 @@ function apiTestScreen({dispatch, userslist, user}) {
       const add_prescription = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
             console.log("INSIDE ADD ORDER", arg);
-            const response = await PrescriptionApi.post('orders/add', arg, {headers : {
+            const jwts =  await getJWTs();
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.post('orders/add', arg, {headers})
             fetchUserPrescriptions(users['data'][0]);
       }
 
@@ -339,15 +460,19 @@ function apiTestScreen({dispatch, userslist, user}) {
       // DINHI DAPITA DAGHAN BUHATUNON
       const edit_prescription = async (arg) => { 
             // CHANGE THIS TO FIT THE VALUE
-            const response = await PrescriptionApi.post(`prescription/instance/${arg['id']}`, {}, {headers : {
+            const headers = {
                   'Content-Type' : 'application/json',
-            }})
+                  'Authorization' : 'Bearer ' + jwts['jwt_access']
+            }
+            const response = await PrescriptionApi.post(`prescription/instance/${arg['id']}`, {}, {headers})
             fetchUserPrescriptions(users['data'][0]);
       }
       
       return (
             <View>
                   <View>
+                        <Button title="login" onPress= {() => login({"username" : "test_staff", "password" : "yep"})} style={{alignSelf: 'center'}}/>
+                        <Button title="register" onPress= {() => registerUser(pharmacist_data)} style={{alignSelf: 'center'}}/>
                         <Button title="testuser" onPress= {() => {
                               dispatch(setUser(pharmacist_data));
                               dispatch(setWorker(pharmacist_data));
@@ -376,7 +501,7 @@ function apiTestScreen({dispatch, userslist, user}) {
                   </View>
                   <View>
                         <Text>Basket</Text>
-                        <Button title="getreqs" onPress= {() => fetchUserRequests(users['data'][0])} style={{alignSelf: 'center'}}/>
+                        <Button title="getreqs" onPress= {() => fetchUserRequests(user)} style={{alignSelf: 'center'}}/>
                         <Button title="Addbasket" onPress= {() => add_request({...request1, "product_id" : oneprod['id'], "user_id" : users['data'][0]['id']})} style={{alignSelf: 'center'}}/>
                         <Button title="focusreq" onPress= {() => setOnereq(reqitems[0])} style={{alignSelf: 'center'}}/>
                         <Button title="editreq" onPress= {() => edit_request(onereq)} style={{alignSelf: 'center'}}/>
@@ -385,7 +510,7 @@ function apiTestScreen({dispatch, userslist, user}) {
                   </View>
                   <View>
                         <Text>Orders</Text>
-                        <Button title="getreqs" onPress= {() => fetchUserRequests(users['data'][0])} style={{alignSelf: 'center'}}/>
+                        <Button title="getreqs" onPress= {() => fetchUserRequests(user)} style={{alignSelf: 'center'}}/>
                         <Button title="Addbasket" onPress= {() => add_request({...request1, "product_id" : oneprod['id'], "user_id" : users['data'][0]['id']})} style={{alignSelf: 'center'}}/>
                         <Button title="focusreq" onPress= {() => setOnereq(reqitems[0])} style={{alignSelf: 'center'}}/>
                         <Button title="editreq" onPress= {() => edit_request(onereq)} style={{alignSelf: 'center'}}/>
