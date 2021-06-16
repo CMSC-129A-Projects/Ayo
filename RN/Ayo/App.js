@@ -18,6 +18,7 @@ import {splashScreen,
         basketListScreen,
         basketItemDetails,
         basketList,
+        orderList,
         customerTabScreen,
         pharmacyTabScreen,
         ownerTabScreen,
@@ -63,6 +64,7 @@ export default function App() {
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Basket Screen" component={basketListScreen}/>
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Basket Item Details" component={basketItemDetails}/>
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Checkout" component={basketList}/>
+          <Stack.Screen options={{headerStatusBarHeight: 30}} name="Order List" component={orderList}/>
           {/*<Stack.Screen name="ViewMedItems" component={viewMedItemsScreen} />*/}
           <Stack.Screen name="MedItems" component={medItemScreen} />
         </Stack.Navigator>

@@ -29,7 +29,7 @@ export default function homePharmacyScreen({navigation}) {
                         <HomeScreenButtons buttonVals={[
                               {title: "View Products", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
+                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
                               {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
