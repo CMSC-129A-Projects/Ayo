@@ -2,9 +2,9 @@ name: Django CI
 
 on:
   push:
-    branches: [ main, Sprint5 ]
+#     branches: [ main, Sprint5 ]
   pull_request:
-    branches: [ main, Sprint5 ]
+#     branches: [ main, Sprint5 ]
 
 defaults:
   run:
