@@ -123,7 +123,7 @@ class CreateUserTestCase(TestCase):
             format="json",
         )
 
-        self.assertEqual(list(response.data.keys()), ['access'])
+        self.assertEqual(list(response.data.keys()), ['access', 'refresh'])
 
     def test_get_users(self):
         """Api should allow owner to get list of unverified users."""
