@@ -1,11 +1,14 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, SafeAreaView} from 'react-native'
-import {connect, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
+import { getSelectLogin } from '../redux/Users/selectors';
+import {getSelectSignup} from '../redux/Users/selectors';
+import {getUser} from '../redux/Users/selectors';
     
-function homeOwnerScreen({navigation}) {
+export default function homeOwnerScreen({navigation}) {
 
       return (
             <SafeAreaView style = {styles.Container}>
@@ -40,8 +43,6 @@ function homeOwnerScreen({navigation}) {
 
       )
 }
-
-export default connect()(homeOwnerScreen);
 
 const styles = StyleSheet.create(
       {

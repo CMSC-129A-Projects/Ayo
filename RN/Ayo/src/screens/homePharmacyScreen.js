@@ -1,12 +1,14 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, SafeAreaView} from 'react-native'
-import {connect, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
+import { getSelectLogin } from '../redux/Users/selectors';
+import {getSelectSignup} from '../redux/Users/selectors';
+import {getUser} from '../redux/Users/selectors';
     
-function homePharmacyScreen({navigation}) {
-
+export default function homePharmacyScreen({navigation}) {
       return (
             <SafeAreaView style = {styles.Container}>
                   <ImageBackground source={require('../backgrounds/AyoHomeBG.png')} style={styles.Background}/>
@@ -25,9 +27,9 @@ function homePharmacyScreen({navigation}) {
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products Staff", img:icons.homeScreenButton1, screen:"Staff Product List"},
+                              {title: "View Products", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
+                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
                               {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
@@ -40,8 +42,6 @@ function homePharmacyScreen({navigation}) {
 
       )
 }
-
-export default connect()(homePharmacyScreen)
 
 const styles = StyleSheet.create(
       {

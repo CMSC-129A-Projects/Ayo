@@ -131,9 +131,9 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
                     color= "#ffffff"
                      />
                 </TouchableOpacity>
-                <View>
+              <View style = {styles.productPreviewTextContainer}>
               <Text style = {styles.productPreviewTextHeavy}>{item.name}</Text>
-              <Text style = {styles.productPreviewText}>$Generic Name$</Text>
+              <Text style = {styles.productPreviewText}>Generic Name: {item.description}</Text>
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
               </View>
             </View>
@@ -146,7 +146,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   };
 
   const SortFlatlist = (dropOption, searchItem) => {
-    var returnProducts = products_list;
+    var returnProducts = tmpProducts; //products_list;
     if(searchItem != ''){
       returnProducts = returnProducts.filter(item => {      
         const itemData = `${item.name.toLowerCase()}`;
@@ -314,7 +314,10 @@ const styles = StyleSheet.create(
     },
     ListContainer:{
       width: '100%',
-      height: '92%',
+      flex: 1,
+      borderBottomWidth: 4,
+      borderColor: '#ffffff',
+      backgroundColor: 'rgba(100, 100, 100, 0.5)',
       alignSelf: 'center',
       justifyContent: 'center',
     },
@@ -346,6 +349,10 @@ const styles = StyleSheet.create(
       alignItems: 'center',
       justifyContent: 'space-around',
     },
+    productPreviewTextContainer: {
+      width: '55%',
+      marginLeft: '3%',
+    },
     productPreviewText: {
       fontSize: 15,
       fontFamily: 'Roboto',
@@ -358,7 +365,8 @@ const styles = StyleSheet.create(
     productPreviewImage: {
       width:80, 
       height:80, 
-      marginVertical: '5%'
+      marginVertical: '5%',
+      marginRight: '7.5%'
     },
     item: {
       padding: '2.7%',
@@ -511,7 +519,7 @@ const styles = StyleSheet.create(
       marginRight:10,
       marginBottom:10,
       flexDirection:'row',
-      
+      marginLeft: '7.5%'
   },
   }
 )

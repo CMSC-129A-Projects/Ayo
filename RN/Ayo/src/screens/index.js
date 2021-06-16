@@ -5,6 +5,11 @@ import confirmationScreen from './ownerConfirmationScreen';
 import customerProductListScreen from './customerProductListScreen';
 import staffProductListScreen from './staffProductListScreen';
 import medItemScreen from './medItemScreen';
+import prescriptionListScreen from './prescriptionListScreen';
+import basketListScreen from './basketListScreen';
+import basketItemDetails from './basketItemDetails';
+import basketList from './checkoutScreen';
+import orderList from './staffOrderListScreen';
 import apiTestScreen from './apiTestScreen';
 import testingscreen from './testingscreen';
 import customerVerificationScreen from './customerVerificationScreen';
@@ -22,6 +27,11 @@ export {splashScreen,
         customerProductListScreen,
         staffProductListScreen, 
         medItemScreen, 
+        prescriptionListScreen,
+        basketListScreen,
+        basketItemDetails,
+        basketList,
+        orderList,
         apiTestScreen,
         testingscreen,
         customerVerificationScreen,
