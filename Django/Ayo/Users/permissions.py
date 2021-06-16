@@ -21,6 +21,7 @@ class IsPharmacyStaffOrReadOnly(permissions.BasePermission):
     """Allow unsafe methods for admin users only."""
 
     def has_permission(self, request, view):
+        print("REQUEST USER IS ", request.user)
         if not request.user:
             return False
         if request.user.is_superuser:

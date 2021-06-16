@@ -12,7 +12,7 @@ import {
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
-import Notifications from '../mocks/Notifications';
+import {Notifications} from '../mocks/Notifications';
 
 const notificationScreen = ({navigation}) => {
   const [listData, setListData] = useState(
