@@ -16,11 +16,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import json2formdata from 'json2formdata';
 
-import {setValidId} from '../redux/signupScreen/actions';
+import {setValidId} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
-import {getRole, getSelectSignup} from '../redux/signupScreen/selectors';
-import {setRole} from '../redux/signupScreen/actions';
+import {setRole} from '../redux/Users/actions';
 import {Fontisto} from '@expo/vector-icons';
 
 

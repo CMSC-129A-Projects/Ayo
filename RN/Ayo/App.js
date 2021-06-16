@@ -22,7 +22,7 @@ import store from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
 import RejectModal from './src/modals/RejectModal';
-import cardListScreen from './src/screens/cardListScreen';
+// import cardListScreen from './src/screens/cardListScreen';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +39,7 @@ export default function App() {
             fontWeight:'bold',
           }
         }}>
+                    <Stack.Screen name="Api" component={apiTestScreen} />
           <Stack.Screen options={{headerShown: false}} name ="Order List Screen" component = {staffOrderListScreen}/> 
           <Stack.Screen options={{headerShown: false}} name ="Splash Screen" component = {splashScreen}/> 
           <Stack.Screen options={{headerShown: false}} name="Log In" component={loginScreen} />
@@ -54,9 +55,8 @@ export default function App() {
           <Stack.Screen options={{headerShown: false}} name="Owner Homes" component={ownerTabScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
           <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
-          <Stack.Screen options={{headerStatusBarHeight: 30}} name="My Basket" component={cardListScreen} />
+          {/* <Stack.Screen options={{headerStatusBarHeight: 30}} name="My Basket" component={cardListScreen} /> */}
           
-                    <Stack.Screen name="Api" component={apiTestScreen} />
 
           {/*<Stack.Screen name="ViewMedItems" component={viewMedItemsScreen} />*/}
           <Stack.Screen name="MedItems" component={medItemScreen} />

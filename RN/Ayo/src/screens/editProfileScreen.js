@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TextInput,
   StyleSheet,
+  Platform,
 } from 'react-native';                   
 
 import {useTheme} from 'react-native-paper';

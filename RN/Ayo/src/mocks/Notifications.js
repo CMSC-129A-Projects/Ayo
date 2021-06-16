@@ -1,4 +1,4 @@
-export default Notifications = [
+export const Notifications = [
     {
         id: 1,
         title: 'Your order placed successfully',
