@@ -12,24 +12,23 @@ import {StyleSheet,
         Platform,
         Touchable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import json2formdata from 'json2formdata';
 
-import {setValidId} from '../redux/Users/actions';
+import {setBusinessPermit, setMedicalLicense, setValidId} from '../redux/Users/actions';
 import usersApi from '../api/Users';
 
 import {getRole, getSelectSignup} from '../redux/Users/selectors';
 import {setRole} from '../redux/Users/actions';
 import {Fontisto} from '@expo/vector-icons';
+import uploadImg from '../imgupload';
+import uploadImage from '../imgupload';
+import { registerUser } from '../redux/Users/services';
 
 
-const actionDispatch = (dispatch) => ({
-  setRole: (role) => dispatch(setRole(role)),
-})
 
-const roleSelectScreen = () => {
-    const {setRole} = actionDispatch(useDispatch());
+const roleSelectScreen = ({dispatch, user}) => {
     const navigation = useNavigation();
     const [customerVisible, setCustomerVisible] = useState(false);
     const [staffVisible, setStaffVisible] = useState(false);
@@ -61,8 +60,23 @@ const roleSelectScreen = () => {
         return null;
 
       setImage(result.uri); //Do not remove this as this is to display the image
-      setValidId(result.uri);
+      let img_link= await uploadImage(result.uri)
+      console.log("AFTER NA ", img_link);
+      switch(user.role){
+        case "Customer":
+          dispatch(setValidId(img_link));
+          break;
+        case "Worker":
+          dispatch(setMedicalLicense(img_link));
+          break;
+        case "Owner":
+          dispatch(setBusinessPermit(img_link));
+          break;
+        default:
+          break;
+      }
     };
+
 
     return (
         <SafeAreaView style= {styles.Container}>
@@ -71,19 +85,19 @@ const roleSelectScreen = () => {
               <Text style={styles.Title}>SELECT USER TYPE</Text>
               <View style = {styles.ButtonContainer}>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
-                  setRole("Customer");
+                  dispatch(setRole("Customer"));
                   setCustomerVisible(true);
                 }}>
                   <Text style = {styles.ButtonText}>CUSTOMER</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
-                  setRole("Pharmacy Worker")
+                  dispatch(setRole("Worker"))
                   setStaffVisible(true);
                 }}>
                   <Text style = {styles.ButtonText}>PHARMACY STAFF</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.Button} onPress = {() => {
-                  setRole("Owner")
+                  dispatch(setRole("Owner"))
                   setOwnerVisible(true);
                 }}>
                   <Text style = {styles.ButtonText}>PHARMACY OWNER</Text>
@@ -117,10 +131,7 @@ const roleSelectScreen = () => {
                     <Text style = {styles.UploadButtonText}>UPLOAD ID</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                   {/* const formdata = json2formdata(JSON.stringify(finalval))
-                    usersApi.post('register', formdata, {headers : {
-                      'Content-Type': 'multipart/form-data',
-                    }}).then(err => console.log(err)) */}
+                    registerUser(user)
                     setCustomerVisible(false);
                     navigation.navigate("Customer Homes");
                     }
@@ -159,10 +170,7 @@ const roleSelectScreen = () => {
                     <Text style = {styles.UploadButtonText}>UPLOAD LICENSE</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                   {/* const formdata = json2formdata(JSON.stringify(finalval))
-                    usersApi.post('register', formdata, {headers : {
-                      'Content-Type': 'multipart/form-data',
-                    }}).then(err => console.log(err)) */}
+                    registerUser(user)
                     setStaffVisible(false);
                     navigation.navigate("Pharmacy Homes");
                     }
@@ -201,10 +209,7 @@ const roleSelectScreen = () => {
                     <Text style = {styles.UploadButtonText}>UPLOAD PERMIT</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                    {/* const formdata = json2formdata(JSON.stringify(finalval))
-                    usersApi.post('register', formdata, {headers : {
-                      'Content-Type': 'multipart/form-data',
-                    }}).then(err => console.log(err)) */}
+                    registerUser(user)
                     setOwnerVisible(false);
                     navigation.navigate("Owner Homes");
                     }
@@ -237,7 +242,11 @@ const roleSelectScreen = () => {
     );
 }
 
-export default roleSelectScreen;
+const mapStateToProps = (state) => ({
+  user : state.userData
+})
+
+export default connect(mapStateToProps)(roleSelectScreen);
 
 const styles = StyleSheet.create(
     {
