@@ -5,14 +5,14 @@ export default function ViewProductDetails({itemData}) {
       if(itemData == null)
             return null;
 
-      const {name, description, price, in_stock, product_img} = itemData;
+      const {name, description, price, in_stock, product_img, generic_name} = itemData;
 
       return (
             <View>
                   <View style = {styles.TopDetailsContainer}>
                         <View style = {styles.TopTextContainer}>
                               <Text style = {styles.NameText}>Brand Name: {name}</Text>
-                              <Text>Generic Name: N/A</Text>
+                              <Text>Generic Name: {generic_name}</Text>
                               <Text>Price: {price}</Text>
                         </View>
                         <Image source={product_img} style={styles.images}/>

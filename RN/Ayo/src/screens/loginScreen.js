@@ -34,7 +34,6 @@ function LogInScreen ({dispatch, username, password}) {
 
   const callogin = async (values) => {
     const response = await login(values);
-    console.log("LOGIN IS !", response, "!");
     if (response === "Unauthorized"){
       setWrongPasword(true);
       setWrongUser(true);
