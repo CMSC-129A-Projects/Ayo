@@ -29,11 +29,9 @@ export default function homeScreen({navigation}) {
                         <HomeScreenButtons buttonVals={[
                               {title: "View Products", img:icons.homeScreenButton1, screen:"Product List"},
                               {title: "View Prescriptions", img:icons.homeScreenButton1, screen:"Prescription List"},
-                              {title: "View Basket", img:icons.homeScreenButton1, screen:"Basket Screen"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "", img:icons.homeScreenButton1, screen:"My Basket"},
-                              {title: "", img:icons.homeScreenButton1, screen: "CardListScreen" },
+                              {title: "View Basket", img:icons.homeScreenButton1, screen:"Basket Screen"},
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>
                   </View>

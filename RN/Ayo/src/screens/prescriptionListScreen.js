@@ -12,7 +12,8 @@ import {StyleSheet,
         Platform,
         TouchableHighlight,
         Button,
-        ScrollView} from 'react-native';
+        ScrollView,
+        KeyboardAvoidingView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ViewPrescriptionDetails from '../modals/viewPrescriptionDetails'
@@ -25,41 +26,48 @@ import EditProductModal from '../modals/editProduct'
 import EditQuantity from '../modals/editQuantity'
 import {Fontisto} from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 var tmpProducts = [
     {
         label: "Unnamed Prescription",
-        date: new Date(),
+        start_date: new Date(),
+        ongoing: true,
         notes: 'for fever',
         prescription_img: require("../assets/favicon.png")
     },
     {
         label: "Cough",
-        date: new Date(2020, 4, 18),
+        start_date: new Date(2020, 4, 18),
+        ongoing: true,
         notes: 'take strepsils',
         prescription_img: require("../assets/favicon.png")
     },
     {
         label: "High Blood Pressure",
-        date: new Date(2020,5,12),
+        start_date: new Date(2020,5,12),
+        ongoing: true,
         notes: 'get rest',
         prescription_img: require("../assets/favicon.png")
     },
       {
         label: "Unnamed Prescription",
-        date: new Date(2020,2,19),
+        start_date: new Date(2020,2,19),
+        ongoing: true,
         notes: 'for fever',
         prescription_img: require("../assets/favicon.png")
     },
       {
         label: "Unnamed Prescription",
-        date: new Date(2020,7,8),
+        start_date: new Date(2020,7,8),
+        ongoing: false,
         notes: 'drink tea',
         prescription_img: require("../assets/favicon.png")
     },
       {
         label: "Unnamed Prescription",
-        date: new Date(2020,2,11),
+        start_date: new Date(2020,2,11),
+        ongoing: false,
         notes: 'apply betadine',
         prescription_img: require("../assets/favicon.png")
     },
@@ -76,23 +84,18 @@ const prescriptionList = () => {
     const [selectedId, setSelectedId] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [modal2Visible, setModal2Visible] = useState(false);
-    const [modal3Visible, setModal3Visible] = useState(false);
     const [successVisible, setSuccessVisible] = useState(false);
     const [failVisible, setFailVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
-    const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
-    const [deleteFailVisible, setDeleteFailVisible] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
     const [itemData, setItemData] = useState(null);
-    const [name, setname] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [price, setPrice] = useState(null);
     const [image, setImage] = useState(null);
+    const [ongoingStatus, setOngoing] = useState(true);
+    const [day, setDay] = useState('');
+    const [month, setMonth] = useState('');
+    const [year, setYear] = useState('')
     const [dropdownBar, setDropdownBar] = useState('brandname');
     const [searchBar, setSearchBar] = useState('');
-    const [genericSearchBar, setGenericSearchBar] = useState('');
-    const [enteredDisease, setEnteredDisease] = useState('');
-    const [diseasesList, setDiseasesList] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -132,7 +135,8 @@ const prescriptionList = () => {
           }}>
               <View style = {styles.prescriptionPreviewTextContainer}>
                   <Text style = {styles.prescriptionPreviewTextHeavy}>{item.label}</Text>
-                  <Text style = {styles.prescriptionPreviewText}>Date: {item.date.toDateString()}</Text>
+                  <Text style = {styles.prescriptionPreviewText}>Start Date: {item.start_date.toDateString()}</Text>
+                  <Text style = {styles.prescriptionPreviewText}>{item.ongoing ? 'Ongoing':'Finished'}</Text>
               </View>
               <Image source={item.prescription_img}
                   style={styles.prescriptionPreviewImage}
@@ -146,15 +150,15 @@ const prescriptionList = () => {
         var returnProducts = tmpProducts;
         if(searchItem != ''){
           returnProducts = returnProducts.filter(item => {      
-            const itemData = `${item.label.toLowerCase()} ${item.date.toDateString()}`;
+            const itemData = `${item.label.toLowerCase()} ${item.start_date.toDateString()}`;
             const search = searchItem.toLowerCase();
             return itemData.indexOf(search) > -1;    
           });
         }
         switch(dropOption) {
-          case 'newest':   return returnProducts.sort((a, b) => b.date - a.date);
-          case 'oldest':   return returnProducts.sort((a, b) => a.date - b.date);
-          default: return returnProducts.sort((a, b) => b.date - a.date);
+          case 'newest':   return returnProducts.sort((a, b) => b.start_date - a.start_date);
+          case 'oldest':   return returnProducts.sort((a, b) => a.start_date - b.start_date);
+          default: return returnProducts.sort((a, b) => b.start_date - a.start_date);
         }
     }
 
@@ -214,22 +218,33 @@ const prescriptionList = () => {
               <ScrollView style = {styles.prescriptionDetailsScrollView}>
                 <ViewPrescriptionDetails itemData={itemData}/>
               </ScrollView>
-              <TouchableOpacity style={styles.editPrescriptionButton}
+              <TouchableOpacity style={styles.finishPrescriptionButton}
                                   onPress = {() =>{
-                                  setEditVisible(!editVisible)
+                                  //setOngoing(false);
                                 }}>
                 <Text style = {styles.addPrescriptionButtonText}>
-                  EDIT PRESCRIPTION
+                  FINISH PRESCRIPTION
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.deletePrescriptionButton}
-                                  onPress = {() =>{
-                                  setDeleteVisible(!deleteVisible)
-                                }}>
-                <Text style = {styles.deletePrescriptionButtonText}>
-                  DELETE PRESCRIPTION
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.duoButton}>
+                <TouchableOpacity style={styles.deletePrescriptionButton}
+                                    onPress = {() =>{
+                                    setEditVisible(!editVisible)
+                                  }}>
+                  <Text style = {styles.deletePrescriptionButtonText}>
+                    EDIT
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deletePrescriptionButton}
+                                    onPress = {() =>{
+                                    setDeleteVisible(!deleteVisible)
+                                  }}>
+                  <Text style = {styles.deletePrescriptionButtonText}>
+                    DELETE
+                  </Text>
+                </TouchableOpacity>
+              </View>
+      
             </View>
           </View>
         </Modal>
@@ -246,8 +261,9 @@ const prescriptionList = () => {
               <TouchableOpacity style={{margin:10, alignSelf:'flex-end', position: 'relative'}} onPress = {() => setModal2Visible(!modal2Visible)}>
                       <Fontisto name="close" size={30}/>
               </TouchableOpacity>
-              <View style = {styles.addProductDetailsContainer}>
-                <View style = {styles.addProductDetailsTopField}>
+              <View style = {styles.addPrescriptionDetailsContainer}>
+                <View style = {styles.addPrescriptionDetailsTopField}>
+                  <View style = {{flex:0}}>
                     <Text style={styles.addPrescriptionTitleText}>
                       ADD PRESCRIPTION
                     </Text>
@@ -257,18 +273,89 @@ const prescriptionList = () => {
                       underlineColorAndroid = "transparent"
                       style = {styles.inputField}
                     />
+                    <View style= {{flexDirection:'row'}}>
+                      <Text style = {styles.addPrescriptionText}>Start Date:</Text>
+                      <View style = {{width:'23.3%'}}>
+                        <RNPickerSelect pickerProps={{ style: {overflow: 'scroll' } }}
+                                      onValueChange={(daySelect) => setDay(daySelect)}
+                                      placeholder = {{label: 'DD' , color: 'gray'}}
+                                      items={[
+                                        { label: '1', value: '1'},
+                                        { label: '2', value: '2'},
+                                        { label: '3', value: '3'},
+                                        { label: '4', value: '4'},
+                                        { label: '5', value: '5'},
+                                        { label: '6', value: '6'},
+                                        { label: '7', value: '7'},
+                                        { label: '8', value: '8'},
+                                        { label: '9', value: '9'},
+                                        { label: '10', value: '10'},
+                                        { label: '11', value: '11'},
+                                        { label: '12', value: '12'},
+                                        { label: '13', value: '13'},
+                                        { label: '14', value: '14'},
+                                        { label: '15', value: '15'},
+                                        { label: '16', value: '16'},
+                                        { label: '17', value: '17'},
+                                        { label: '18', value: '18'},
+                                        { label: '19', value: '19'},
+                                        { label: '20', value: '20'},
+                                        { label: '21', value: '21'},
+                                        { label: '22', value: '22'},
+                                        { label: '23', value: '23'},
+                                        { label: '24', value: '24'},
+                                        { label: '25', value: '25'},
+                                        { label: '26', value: '26'},
+                                        { label: '27', value: '27'},
+                                        { label: '28', value: '28'},
+                                        { label: '29', value: '29'},
+                                        { label: '30', value: '30'},
+                                        { label: '31', value: '31'},
+                                      ]}/>
+                      </View>
+                      <View style = {{width:'23.3%'}}>
+                        <RNPickerSelect pickerProps={{ style: {overflow: 'scroll' } }}
+                                    onValueChange={(monthSelect) => setMonth(monthSelect)}
+                                    placeholder = {{label: 'MM' , color: 'gray'}}
+                                    items={[
+                                        { label: 'Jan', value: '1'},
+                                        { label: 'Feb', value: '2'},
+                                        { label: 'Mar', value: '3'},
+                                        { label: 'Apr', value: '4'},
+                                        { label: 'May', value: '5'},
+                                        { label: 'Jun', value: '6'},
+                                        { label: 'Jul', value: '7'},
+                                        { label: 'Aug', value: '8'},
+                                        { label: 'Sep', value: '9'},
+                                        { label: 'Oct', value: '10'},
+                                        { label: 'Nov', value: '11'},
+                                        { label: 'Dec', value: '12'},
+                                    ]}/>
+                      </View>
+                      <View style = {{width:'23.3%', marginRight: '5%'}}>
+                        <RNPickerSelect pickerProps={{ style: {overflow: 'scroll' } }}
+                                      onValueChange={(yearSelect) => setYear(yearSelect)}
+                                      placeholder = {{label: 'YY' , color: 'gray'}}
+                                      items={[
+                                          { label: '2019', value: '2019'},
+                                          { label: '2020', value: '2020' },
+                                          { label: '2021', value: '2021' },
+                                          { label: '2022', value: '2022' }
+                                      ]}/>
+                      </View>
+                    </View>
                     <TextInput
                       placeholder = "Notes"
                       placeholderTextColor = '#ffffff'
                       underlineColorAndroid = "transparent"
                       style = {styles.inputNotesField}
                     />
-                  <View style = {styles.addProductDetailsImages}>
-                    <TouchableOpacity style = {styles.ImagePreviewContainer} 
-                                      onPress = {() => setViewImage(true)}>
+                  </View>
+                  <View style = {styles.addPrescriptionDetailsImages}>
+                    <TouchableOpacity style = {styles.ImagePreviewContainer} >
                       {image && <Image source={{ uri: image }} style={styles.ImagePreview} />}
                       <Text style = {styles.PlaceholderText}>
-                        PRODUCT IMAGE
+                        PRESCRIPTION IMAGE
                       </Text> 
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.addImageButton} onPress = {pickImage}>
@@ -276,7 +363,7 @@ const prescriptionList = () => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <TouchableOpacity style = {styles.addProductButton}
+                <TouchableOpacity style = {styles.addPrescriptionButton}
                                   onPress = {() =>{
                                   setSuccessVisible(!successVisible);
                                   //setFailVisible(!failVisible);
@@ -324,17 +411,16 @@ const styles = StyleSheet.create(
       alignSelf: 'center',
       justifyContent: 'center',
     },
-    addProductDetailsContainer: {
-      justifyContent: 'center'
+    addPrescriptionDetailsContainer: {
+      justifyContent: 'center',
     },
-    addProductDetailsTopField: {
+    addPrescriptionDetailsTopField: {
       flex: 0,
       justifyContent: 'space-around'
     },
-    addProductDetailsImages: {
-      marginVertical: '1%',
+    addPrescriptionDetailsImages: {
+      flex: 0,
       width: '50%',
-      justifyContent: 'flex-end', 
       alignSelf: 'center'
     },
     touchablesContainer: {
@@ -366,7 +452,7 @@ const styles = StyleSheet.create(
     prescriptionPreviewImage: {
       width:80, 
       height:80, 
-      marginVertical: '5%',
+      marginVertical: '3%',
       marginRight: '7.5%'
     },
     item: {
@@ -439,7 +525,7 @@ const styles = StyleSheet.create(
     inputNotesField: {
       width: '90%',
       padding: '1%',
-      height: '20%',
+      height: 'auto',
       borderRadius: 15,
       borderWidth: 0.75,
       borderColor: 'black',
@@ -449,6 +535,7 @@ const styles = StyleSheet.create(
       fontWeight: 'bold',
       fontSize: 17,
       letterSpacing: 1,
+      marginBottom: '5%',
       alignSelf:'center'
     },
     addPrescriptionTitleText: {
@@ -460,7 +547,17 @@ const styles = StyleSheet.create(
       marginBottom: '5%',
       color: '#2a2a2a',
     },
-    addProductButton: {
+    addPrescriptionText: {
+      marginLeft: '5%',
+      textAlign: 'center',
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
+      fontSize: 17,
+      letterSpacing: 1,
+      color: '#2a2a2a',
+      marginTop: '3%'
+    },
+    addPrescriptionButton: {
       flex: 0,
       borderWidth: 3,
       borderColor: '#00d1a3',
@@ -484,7 +581,7 @@ const styles = StyleSheet.create(
       borderColor: '#00d1a3',
       backgroundColor:  '#00d1a3',
       borderRadius: 23,
-      width: 125,
+      width: '75%',
       alignSelf:'center',
       alignItems:'center',
       marginTop: '5%',
@@ -514,7 +611,7 @@ const styles = StyleSheet.create(
       alignSelf: 'center'
     },
     ImagePreviewContainer:{
-      width: '65%',
+      width: '75%',
       flexDirection: 'row',
       aspectRatio: 1,
       elevation: 7,
@@ -569,7 +666,7 @@ const styles = StyleSheet.create(
     prescriptionDetailsScrollView: {
       flex: 1,
     },
-    editPrescriptionButton: {
+    finishPrescriptionButton: {
       borderWidth: 3,
       borderColor: '#00d1a3',
       backgroundColor:  '#00d1a3',
@@ -580,16 +677,23 @@ const styles = StyleSheet.create(
       marginTop: '3%',
       padding: '2%',
     },
+    duoButton: {
+      width: '70%',
+      flexDirection:'row',
+      alignSelf:'center',
+      alignItems:'center',
+      marginTop: '3%',
+      marginBottom: '5%'
+    },
     deletePrescriptionButton: {
       borderWidth: 3,
       borderColor: '#00d1a3',
       borderRadius: 23,
-      width: '70%',
+      width: '50%',
       alignSelf:'center',
       alignItems:'center',
-      marginTop: '3%',
+      marginTop: '1%',
       padding: '2%',
-      marginBottom: '8%'
     },
     deletePrescriptionButtonText: {
       color: 'black',
