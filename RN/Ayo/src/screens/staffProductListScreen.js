@@ -27,6 +27,9 @@ import EditProductModal from '../modals/editProduct'
 import EditQuantity from '../modals/editQuantity'
 import {Fontisto} from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
+import { fetchProducts } from '../redux/Products/services';
+import { setProductsList } from '../redux/Products/actions';
 
 var tmpProducts = [
   {
@@ -100,7 +103,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const productList = () => {
+const productList = ({dispatch, products_list, user}) => {
   const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -132,7 +135,11 @@ const productList = () => {
         }
       }
     })();
-  }, []);
+     (async () => {
+       const response = await fetchProducts();
+       dispatch(setProductsList(response.data));
+    })();
+  }, [])
   
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -149,7 +156,11 @@ const productList = () => {
     setImage(result.uri); //Do not remove this as this is to display the image
   };
 
+
+  console.log("PRODUCT DETAILS ARE ", products_list);
+
   const renderItem = ({ item }) => {
+    console.log("ITEM IS ", item);
     const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
     const color = item.name === selectedId ? 'white' : 'black';
     return (
@@ -161,10 +172,10 @@ const productList = () => {
         }}>
             <View style = {styles.productPreviewTextContainer}>
               <Text style = {styles.productPreviewTextHeavy}>{item.name}</Text>
-              <Text style = {styles.productPreviewText}>Generic Name: {item.description}</Text>
+              <Text style = {styles.productPreviewText}>Generic Name: {item.generic_name}</Text>
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
             </View>
-            <Image source={item.product_img}
+            <Image source={{ uri : item.product_img}}
                 style={styles.productPreviewImage}
             />
         </TouchableOpacity>
@@ -173,7 +184,7 @@ const productList = () => {
   };
 
   const SortFlatlist = (dropOption, searchItem) => {
-    var returnProducts = tmpProducts;
+    var returnProducts = products_list;
     if(searchItem != ''){
       returnProducts = returnProducts.filter(item => {      
         const itemData = `${item.name.toLowerCase()}`;
@@ -544,7 +555,12 @@ const productList = () => {
   );
 }
 
-export default productList;
+const mapStateToProps = (state) => ({
+  products_list : state.productData.products_list ,
+  user: state.userData
+})
+
+export default connect(mapStateToProps)(productList);
 
 const styles = StyleSheet.create(
   {

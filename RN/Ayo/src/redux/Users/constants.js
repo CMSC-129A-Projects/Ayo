@@ -1,4 +1,5 @@
 export const ActionTypes = {
+      LOGOUT: "src/screens/loginScreen/LOGOUT",
       SET_USERS_LIST: "src/screens/loginScreen/SET_USERS_LIST",
       SET_USER: "src/screens/loginScreen/SET_USER",
       SET_CUSTOMER: "src/screens/loginScreen/SET_CUSTOMER",
