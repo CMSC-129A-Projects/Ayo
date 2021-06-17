@@ -22,7 +22,7 @@ import checkoutScreen from './checkoutScreen';
        const NotificationStack = createStackNavigator();
        const Tab = createMaterialBottomTabNavigator();
        
-       const pharmacyTabScreen = () => (
+       const customerTabScreen = () => (
            <Tab.Navigator
              initialRouteName="Home Customer"
              activeColor="#fff"
@@ -43,7 +43,7 @@ import checkoutScreen from './checkoutScreen';
                component={ProductsStackScreen}
                options={{
                  tabBarLabel: 'Products',
-                 tabBarColor: '#1f65ff',
+                 tabBarColor: '#00ccaa',
                  tabBarIcon: ({ color }) => (
                     <AntDesign name="medicinebox" color={color} size={24}/>
                  ),
@@ -54,7 +54,7 @@ import checkoutScreen from './checkoutScreen';
                component={NotificationStackScreen}
                options={{
                  tabBarLabel: 'Notifications',
-                 tabBarColor: '#ff3333',
+                 tabBarColor: '#06AD91',
                  tabBarIcon: ({ color }) => (
                     <Ionicons name="notifications" color={color} size={24}/>
                  ),
@@ -76,7 +76,7 @@ import checkoutScreen from './checkoutScreen';
                component={ProfileStackScreen}
                options={{
                  tabBarLabel: 'Profile',
-                 tabBarColor: '#FF6347',
+                 tabBarColor: '#06AD91',
                  tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="account" color={color} size={26} />
                  ),
@@ -85,7 +85,7 @@ import checkoutScreen from './checkoutScreen';
            </Tab.Navigator>
        );
        
-       export default pharmacyTabScreen;
+       export default customerTabScreen;
        
        const HomeStackScreen = ({navigation}) => (
        <HomeStack.Navigator screenOptions={{
@@ -109,7 +109,7 @@ import checkoutScreen from './checkoutScreen';
        const ProductsStackScreen = ({navigation}) => (
        <ProductsStack.Navigator screenOptions={{
                headerStyle: {
-               backgroundColor: '#1f65ff',
+               backgroundColor: '#00ccaa',
                },
                headerTintColor: '#fff',
                headerTitleStyle: {
@@ -118,7 +118,7 @@ import checkoutScreen from './checkoutScreen';
            }}>
                <ProductsStack.Screen name="Products" component={customerProductListScreen} options={{
                headerLeft: () => (
-                <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#1f65ff" onPress={() => navigation.goBack()}></Ionicons.Button>
+                <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#00ccaa" onPress={() => navigation.goBack()}></Ionicons.Button>
                )
                }} />
        </ProductsStack.Navigator>
@@ -126,7 +126,7 @@ import checkoutScreen from './checkoutScreen';
        const NotificationStackScreen = ({navigation}) => (
         <NotificationStack.Navigator screenOptions={{
                 headerStyle: {
-                backgroundColor: '#ff3333',
+                backgroundColor: '#06AD91',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -135,7 +135,7 @@ import checkoutScreen from './checkoutScreen';
             }}>
                 <NotificationStack.Screen name="My Notifications" component={notificationScreen} options={{
                 headerLeft: () => (
-                 <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#ff3333" onPress={() => navigation.goBack()}></Ionicons.Button>
+                 <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#06AD91" onPress={() => navigation.goBack()}></Ionicons.Button>
                 )
                 }} />
         </NotificationStack.Navigator>
@@ -218,7 +218,7 @@ import checkoutScreen from './checkoutScreen';
                       size={25}  
                       color = 'black'
                       backgroundColor = 'white'
-                      onPress={() => navigation.navigate('Home')}></Entypo.Button>
+                      onPress={() => navigation.navigate('Home Customer')}></Entypo.Button>
                     </View>
                   ),
                   headerRight: () => (

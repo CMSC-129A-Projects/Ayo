@@ -67,14 +67,14 @@ const ProfileScreen = ({navigation}) => {
       <View style={styles.menuWrapper}>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
-            <MaterialCommunityIcons name="credit-card-clock" color="#FF6347" size={25}/>
+            <MaterialCommunityIcons name="credit-card-clock" color="#06AD91" size={25}/>
             <Text style={styles.menuItemText}>Summary of Records</Text>
           </View>
         </TouchableRipple>
         <View style={styles.signoutSection}>
         <TouchableRipple onPress={() => {navigation.navigate('Splash Screen')}}>
           <View style={styles.menuItem}>
-            <MaterialCommunityIcons name="logout-variant" color="#FF6347" size={25}/>
+            <MaterialCommunityIcons name="logout-variant" color="#06AD91" size={25}/>
             <Text style={styles.menuItemText}>Sign Out</Text>
           </View>
         </TouchableRipple>

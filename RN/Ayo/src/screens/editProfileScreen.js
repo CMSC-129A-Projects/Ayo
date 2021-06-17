@@ -6,7 +6,6 @@ import {
   ImageBackground,
   TextInput,
   StyleSheet,
-  Platform,
 } from 'react-native';                   
 
 import {useTheme} from 'react-native-paper';
@@ -99,7 +98,7 @@ const EditProfileScreen = () => {
               style={{
                 height: 100,
                 width: 100,
-                backgroundColor: '#FF6347',
+                backgroundColor: '#06AD91',
                 borderRadius: 20,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -216,7 +215,7 @@ const styles = StyleSheet.create({
   commandButton: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: '#FF6347',
+    backgroundColor: '#06AD91',
     alignItems: 'center',
     marginTop: 50,
   },
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
   panelButton: {
     padding: 13,
     borderRadius: 10,
-    backgroundColor: '#FF6347',
+    backgroundColor: '#06AD91',
     alignItems: 'center',
     marginVertical: 7,
   },

@@ -1,8 +1,13 @@
-import React, {useEffect} from 'react';
-import { View, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , TouchableOpacity} from 'react-native';
+import React, {useEffect, useState}from 'react';
+import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
 import {data} from '../mocks/data';
-import Card from '../components/Card';
-import {LinearGradient} from 'expo-linear-gradient';
+import {AntDesign} from '@expo/vector-icons';
+
+import EditQuantity1 from '../modals/editQuantity1';
+import DeleteProductModal from '../modals/deleteProduct'
+import DeleteProductSuccess from '../modals/deleteProductSuccess'
+import DeleteProductFail from '../modals/deleteProductFail'
+
 import { fetchUserRequests } from '../redux/Orders/services';
 import { connect } from 'react-redux';
 import { setRequestList } from '../redux/OrderItems/actions';
@@ -17,14 +22,56 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
   }, [])
 
   console.log("request list is ", request_list);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+  const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
+  const [deleteFailVisible, setDeleteFailVisible] = useState(false);
+
+
+  const showSuccess = () => {
+    setDeleteSuccessVisible(true);
+    setDeleteVisible(false);
+    setTimeout(() => {
+      setDeleteSuccessVisible(false);
+    }, 2500);
+  };
+  const showFail = () => {
+    setDeleteFailVisible(true);
+    setDeleteVisible(false);
+    setTimeout(() => {
+      setDeleteFailVisible(false);
+    }, 2500);
+  };
 
     const renderItem = ({item}) => {
+
         return (
-            <Card 
-                itemData={item}
-                onPress={()=> navigation.navigate('Basket Item Details', {itemData: item})}
-            />
-        );
+            <SafeAreaView>
+            <View style={styles.touchablesContainer}>
+            <TouchableOpacity 
+            onPress={()=> navigation.navigate('Basket Item Details', {itemData: item})}
+             style={styles.touchables}>
+              <Image source={item.product_img}
+                            style={styles.productPreviewImage}
+                        />
+                        <View>
+                            <Text style = {styles.productPreviewText}>{item.name}</Text>
+                            <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
+                            <EditQuantity1/>
+                            
+                        </View>
+                        <TouchableOpacity style= {styles.delete}
+                        onPress = {() =>{setDeleteVisible(!deleteVisible)}}>
+                            <AntDesign
+                            name= "delete"
+                            size = {30}
+                            color= "#ffffff"
+                             />
+                        </TouchableOpacity>
+                        </TouchableOpacity>
+                        </View>
+                      </SafeAreaView>
+        
+          );
     };
 
     return (
@@ -32,13 +79,13 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
       <StatusBar barStyle="light-content"/>
       <ImageBackground source={require('../backgrounds/AyoDefaultBG.png')} 
       style={styles.Background}/>
-        <View style = {styles.ContentContainer}>
+        <View style = {styles.ContentContainer}>  
         <View style = {styles.ListContainer}>
         <FlatList 
             showsVerticalScrollIndicator ={false}
-            data={request_list}
+            data={data}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.name}
         />
         </View>
         <View style= {{borderTopColor: '#fff', borderTopWidth: 1}}>
@@ -53,6 +100,57 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
           </TouchableOpacity>
           </View>
       </View>
+      <Modal //Delete Product Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteVisible}
+            onRequestClose = {() => {
+                    setDeleteVisible(false); 
+            }}>
+      <View style={styles.deleteProductContainer}>
+        <DeleteProductModal/>
+        <View style={{flexDirection:"row-reverse",margin:10}}>
+        <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
+         onPress={() => {
+          showSuccess();
+          }}>
+          <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{borderRadius:5,marginHorizontal:10,marginVertical: 5, paddingVertical:10,paddingHorizontal:30, backgroundColor:'lightgray'}} 
+          onPress={() => {
+            setDeleteVisible(!deleteVisible)
+          }}>
+          <Text style={{color:'gray'}}>CANCEL</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+      </Modal>
+      <Modal //Delete Success Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteSuccessVisible}
+            onRequestClose = {() => {
+                    setDeleteSuccessVisible(false); 
+            }}>
+      <View style={styles.deleteSuccessContainer}>
+        <DeleteProductSuccess/>
+      </View>
+      </Modal> 
+
+      <Modal //Delete Fail Modal
+            animationType = "slide"
+            style = {styles.modal}
+            transparent = {true}
+            visible={deleteFailVisible}
+            onRequestClose = {() => {
+                    setDeleteFailVisible(false); 
+            }}>
+      <View style={styles.deleteSuccessContainer}>
+        <DeleteProductFail/>
+      </View>
+      </Modal>
       </SafeAreaView>
     );
 };
@@ -123,12 +221,13 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#ffffff',
     borderRadius: 27,
-    width: '100%',
+    width: '95%',
     alignSelf:'center',
     alignItems:'center',
     padding: '2%',
-    marginVertical: '1%',
-    backgroundColor: 'rgba(100, 100, 100, 0.3)',
+    marginHorizontal: 10,
+    marginVertical: 10,
+    backgroundColor: '#00ccaa',
  },
  buttonCheckoutText: {
     color: '#ffffff',
@@ -136,5 +235,88 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontFamily: 'Roboto',
     fontWeight: 'bold'
- }
+ },
+ touchablesContainer: {
+  alignSelf:'center',
+  width: '100%',
+  margin: '.5%',
+  backgroundColor: 'white',
+},
+touchables: {
+  flex: 1,
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+productPreviewText: {
+  fontSize: 18,
+  fontFamily: 'Roboto',
+  marginLeft: 1,
+},
+productPreviewImage: {
+  width:80, 
+  height:80,
+  marginVertical: '5%',
+  marginHorizontal: 30,
+},
+item: {
+  padding: '2.7%',
+  borderWidth: 2,
+  borderColor: '#ffffff',
+  width: '90%',
+  borderRadius: 35,
+  marginVertical: '5.2%',
+  alignSelf: 'center',
+  alignItems: 'center',
+  elevation: 5,
+  shadowColor:'#000000',
+  shadowOffset:{
+      width:0, height:2
+  },
+  shadowOpacity:0.25,
+  shadowRadius: 5
+},
+itemText: {
+  fontSize: 17,
+  fontFamily: 'Roboto',
+  letterSpacing: 0.3,
+},
+delete:{
+  width: 45,
+  height: 45,
+  borderRadius: 15,
+  borderColor: '#ffffff',
+  borderWidth: 1,
+  backgroundColor: '#ff3d00',
+  justifyContent:'center',
+  alignItems: 'center',
+  alignSelf:'flex-end',
+  marginLeft:80,
+  marginBottom:10,
+},
+modal:{
+  backgroundColor:"#ffff",
+  height: '25%',
+  width: '90%',
+  alignSelf: 'center'
+},
+deleteProductContainer:{
+  backgroundColor: "#ffff",
+  height: '20%',
+  width: '80%',
+  marginTop: 'auto',
+  marginBottom: 290,
+  alignItems:'center',
+  borderRadius: 20,
+  borderWidth: 2,
+  borderColor: 'red',
+  alignSelf: 'center'
+},
+deleteSuccessContainer:{
+  backgroundColor: "#00000999",
+  height: '10%',
+  width: '100%',
+  marginTop: 'auto',
+  alignSelf: 'center',
+  flexDirection:'row',
+},
 });

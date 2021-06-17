@@ -211,6 +211,33 @@ const productList = ({dispatch, products_list, user}) => {
   const SortGenerics = (searchItem) => {
 
   }
+  const showDeleteSuccess = () => {
+    setDeleteSuccessVisible(true);
+    setDeleteVisible(false);
+    setTimeout(() => {
+      setDeleteSuccessVisible(false);
+    }, 2500);
+  };
+  const showDeleteFail = () => {
+    setDeleteFailVisible(true);
+    setDeleteVisible(false);
+    setTimeout(() => {
+      setDeleteFailVisible(false);
+    }, 2500);
+  };
+  const showAddSuccess = () => {
+    setSuccessVisible(true);
+    setTimeout(() => {
+      setSuccessVisible(false);
+    }, 2500);
+  };
+  const showAddFail = () => {
+    setFailVisible(true);
+    setTimeout(() => {
+      setFailVisible(false);
+    }, 2500);
+  };
+
   
   return(
     <SafeAreaView style= {styles.Container}>
@@ -328,8 +355,8 @@ const productList = ({dispatch, products_list, user}) => {
         <View style={{flexDirection:"row-reverse",margin:10}}>
         <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
          onPress={() => {
-          //setDeleteFailVisible(!deleteFailVisible)
-          setDeleteSuccessVisible(!deleteSuccessVisible)
+          showDeleteSuccess();
+          //showDeleteFail();
           }}>
           <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
         </TouchableOpacity>
@@ -352,16 +379,6 @@ const productList = ({dispatch, products_list, user}) => {
             }}>
       <View style={styles.addSuccessContainer}>
         <AddProductSuccess/>
-        <TouchableOpacity>
-          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', marginBottom: 1, alignSelf: 'flex-end'}} 
-          onPress ={() =>
-          setSuccessVisible(!successVisible)
-          //setDeleteVisible(!deleteVisible)
-          }>
-            OK
-          </Text>
-
-        </TouchableOpacity>
       </View>
       </Modal> 
       <Modal //Add Product Fail Modal
@@ -374,15 +391,9 @@ const productList = ({dispatch, products_list, user}) => {
             }}>
         <View style={styles.addFailContainer}>
         <AddProductFail/>
-        <TouchableOpacity>
-          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
-          onPress ={() => setFailVisible(!failVisible)}>
-            OK
-          </Text>
-
-        </TouchableOpacity>
       </View>
       </Modal>
+
       <Modal //Delete Success Modal
             animationType = "slide"
             style = {styles.modal}
@@ -393,14 +404,6 @@ const productList = ({dispatch, products_list, user}) => {
             }}>
       <View style={styles.deleteSuccessContainer}>
         <DeleteProductSuccess/>
-        <View style={{ marginLeft:100, marginTop: 40}}>
-        <TouchableOpacity>
-          <Text style={{fontSize: 25, color: 'dodgerblue', fontWeight: 'bold'}} 
-          onPress ={() => setDeleteSuccessVisible(!deleteSuccessVisible)}>
-            OK
-          </Text>
-        </TouchableOpacity>
-        </View>
       </View>
       </Modal> 
       <Modal //Delete Fail Modal
@@ -413,14 +416,6 @@ const productList = ({dispatch, products_list, user}) => {
             }}>
       <View style={styles.deleteSuccessContainer}>
         <DeleteProductFail/>
-        <View style={{ marginLeft:80, marginTop: 40}}>
-        <TouchableOpacity>
-          <Text style={{fontSize: 25, color: 'dodgerblue', fontWeight: 'bold'}} 
-          onPress ={() => setDeleteFailVisible(!deleteFailVisible)}>
-            OK
-          </Text>
-        </TouchableOpacity>
-        </View>
       </View>
       </Modal>
       
@@ -498,8 +493,8 @@ const productList = ({dispatch, products_list, user}) => {
                 />
                 <TouchableOpacity style = {styles.addProductButton}
                                   onPress = {() =>{
-                                  setSuccessVisible(!successVisible);
-                                  //setFailVisible(!failVisible);
+                                  showAddSuccess();
+                                  //showAddFail();
                                   }}>
                   <Text style = {styles.addProductButtonText}>
                     ADD
@@ -867,10 +862,10 @@ const styles = StyleSheet.create(
       backgroundColor: "#ffff",
       height: '15%',
       width: '90%',
-      marginTop: 'auto',
+      marginVertical: '90%',
       alignItems:'center',
       borderRadius: 20,
-      borderWidth: 5,
+      borderWidth: 2.5,
       borderColor: "#00d1a3",
       alignSelf: 'center'
     },

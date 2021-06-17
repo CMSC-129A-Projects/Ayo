@@ -9,9 +9,6 @@ import {StyleSheet,
         Modal,
         Image,
         FlatList,
-        Platform,
-        TouchableHighlight,
-        Button,
         ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -115,7 +112,18 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   useEffect(() => {
     dispatch(setProductsList(jwt_access, jwt_refresh));
   }, [])
-
+  const showSuccess = () => {
+    setSuccessVisible(true);
+    setTimeout(() => {
+      setSuccessVisible(false);
+    }, 2500);
+  };
+  const showFail = () => {
+    setFailVisible(true);
+    setTimeout(() => {
+      setFailVisible(false);
+    }, 2500);
+  };
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
@@ -130,7 +138,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
             <View style ={{flexDirection:'row'}}>
             <TouchableOpacity style= {styles.basket}
                 onPress = {() =>{
-                                  setSuccessVisible(!successVisible)
+                                  showSuccess();
                                 }}>
                     <Entypo
                     name= "shopping-basket"
@@ -196,7 +204,8 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
             </View>
         </View>
         <SafeAreaView style = {styles.ListContainer}>
-          <FlatList data={SortFlatlist(dropdownBar, searchBar)}
+          <FlatList showsVerticalScrollIndicator = {false}
+                    data={SortFlatlist(dropdownBar, searchBar)}
                     extraData = {dropdownBar, searchBar}
                     renderItem={renderItem}
                     keyExtractor={item => item.generic_name
@@ -227,17 +236,9 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
                 <EditQuantity1/>
 
               <TouchableOpacity style={styles.addProductButton}
-              onPress ={() => setSuccessVisible(!successVisible)}>
-            {/*  //setFailVisible(!failVisible)} */}
+              onPress ={() => {showSuccess();}}>
                 <Text style = {styles.addProductButtonText}>
                   ADD TO BASKET
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buyProductButton}
-              onPress ={() => setFailVisible(!failVisible)}>
-             
-                <Text style = {styles.buyProductButtonText}>
-                  BUY NOW
                 </Text>
               </TouchableOpacity>
           </View>
@@ -253,13 +254,6 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
             }}>
       <View style={styles.addSuccessContainer}>
         <AddtoBasketSuccess/>
-        <TouchableOpacity>
-          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
-          onPress ={() => setSuccessVisible(!successVisible)}>
-            OK
-          </Text>
-
-        </TouchableOpacity>
       </View>
       </Modal> 
 
@@ -269,16 +263,10 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
             transparent = {true}
             visible={failVisible}
             onRequestClose = {() => {
-                    setFailVisible(false); 
+                    showFail(); 
             }}>
         <View style={styles.addFailContainer}>
         <AddtoBasketFail/>
-        <TouchableOpacity>
-          <Text style={{marginBottom:2,fontSize: 20, color: 'dodgerblue', fontWeight: 'bold', alignSelf: 'flex-end'}} 
-          onPress ={() => setFailVisible(!failVisible)}>
-            OK
-          </Text>
-        </TouchableOpacity>
       </View>
       </Modal>
 
@@ -491,11 +479,11 @@ const styles = StyleSheet.create(
       backgroundColor: "#ffff",
       height: '15%',
       width: '90%',
-      marginTop: 'auto',
+      marginVertical: '90%',
       alignItems:'center',
       borderRadius: 20,
-      borderWidth: 5,
-      borderColor: "#00CC00",
+      borderWidth: 3,
+      borderColor: "#00d1a3",
       alignSelf: 'center'
     },
     productDetailsScrollView: {

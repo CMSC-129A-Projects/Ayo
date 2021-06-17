@@ -21,27 +21,21 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   
 const basketList = () => {
     const navigation = useNavigation();
-    const [selectedId, setSelectedId] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [itemData, setItemData] = useState(null);
-    const [name, setname] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [price, setPrice] = useState(null);
-    const [image, setImage] = useState(null);
-
     const renderItem = ({ item }) => {
-        const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
-        const color = item.name === selectedId ? 'white' : 'black';
         return (
             <View style={styles.touchables}>
                 <Image source={item.product_img}
                     style={styles.productPreviewImage}
                 /> 
-                <View style={{marginLeft: 20}}>
+                <View style={{marginLeft: 20, flex:1}}>
                     <Text style = {styles.productPreviewText}>{item.name}</Text>
                     <Text style = {styles.productPreviewText}>₱{item.price}</Text>
                 </View>
-                <View style={{marginLeft: 20, alignSelf: 'center' }}>
+                <View style={{
+                        flex: 1,
+                        justifyContent:'center',
+                        alignItems: 'flex-start',
+                 }}>
                     <Text style = {styles.productPreviewText}>Qty: {item.quantity}</Text>
                     <Text style = {styles.productPreviewText}>Subtotal: ₱{item.total}</Text>
                 </View>
@@ -116,7 +110,7 @@ const styles = StyleSheet.create(
             backgroundColor: 'white',
         },
         touchables: {
-            flex: 1,
+            flex: 3,
             borderBottomWidth: 1,
             borderBottomColor: '#000',
             flexDirection: 'row',
@@ -159,9 +153,10 @@ const styles = StyleSheet.create(
             paddingVertical:10,
             width:'90%',
             marginHorizontal:10,
+            
            },
            totalSection:{
-            borderTopWidth: .5,
+            borderTopWidth: 1,
             borderTopColor: 'gray'
           },
     }   
