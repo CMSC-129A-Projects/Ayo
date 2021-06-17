@@ -60,3 +60,47 @@ export  const delete_multiple_products = async (arg) => {
 	const response = await ProductApi.post(`product/multidelete`, {"ids" : ids}, {headers})
 	fetchProducts();
   }
+
+export const fetchGenerics = async () => {
+      const jwts =  await getJWTs();
+      const headers = {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer ' + jwts['jwt_access']
+      }
+      const response = await ProductApi.get('generic/all', {headers});
+      setGenerics(response.data);
+}
+
+// path('generic/add', NewGenericName.as_view()),
+export const add_generic= async (arg) => { 
+      // CHANGE THIS TO FIT THE VALUE
+      const jwts =  await getJWTs();
+      const headers = {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer ' + jwts['jwt_access']
+      }
+      console.log("HEADERS ARE ", headers);
+      const response = await ProductApi.post('generic/add', arg, {headers})
+      fetchGenerics();
+}
+
+// path('generic/instance/<str:generic>', GenericNameView.as_view())
+export const edit_generic = async (arg) => { 
+      const jwts =  await getJWTs();
+      const headers = {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer ' + jwts['jwt_access']
+      }
+      const response = await ProductApi.patch(`generic/instance/${arg['id']}`, {"generic_name" : "edited_test_gen_2"}, {headers})
+      fetchGenerics();
+}
+
+export const delete_generic = async (arg) => { 
+      const jwts =  await getJWTs();
+      const headers = {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer ' + jwts['jwt_access']
+      }
+      const response = await ProductApi.delete(`generic/instance/${arg['id']}`, {"generic_name" : "edited_test_gen_2"}, {headers})
+      fetchGenerics();
+}
