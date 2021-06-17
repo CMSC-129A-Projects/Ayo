@@ -1,5 +1,15 @@
 import {ActionTypes} from './constants';
 
+export function setRequestList(req){
+      return (
+            {
+                  type: ActionTypes.SET_REQUEST_LIST,
+                  payload: req 
+            }
+      )
+}
+
+
 export function setUserId(user_id){
       return (
             {

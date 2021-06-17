@@ -1,17 +1,12 @@
 import ProductApi from '../../api/Products';
 import getJWTs from '../../authheaders';
-import { setProductsList } from './actions';
-
-
 
 export const fetchProducts = async () => {
 	const jwts = await getJWTs();
-	const header = {
-		headers:{
+	const headers = {
 			'Authorization': "Bearer " + jwts['jwt_access'] 
-		}
 	}
-	const response = await ProductApi.get('product/all', header);
+	const response = await ProductApi.get('product/all', {headers});
 	return response.data
 }
 

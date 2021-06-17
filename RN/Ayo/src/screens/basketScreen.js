@@ -24,6 +24,7 @@ import EditQuantity1 from '../modals/editQuantity1'
 import {Fontisto, MaterialIcons,AntDesign} from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { setProductsList } from '../redux/Products/actions';
+import { fetchUserRequests } from '../redux/Orders/services';
 
 var tmpProducts = [
     {
@@ -90,7 +91,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     </TouchableOpacity>
   );
   
-const basketList = ({dispatch, products_list, jwt_access, jwt_refresh}) => {
+const basketList = ({dispatch, products_list, user }) => {
     const navigation = useNavigation();
     const [selectedId, setSelectedId] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -107,7 +108,7 @@ const basketList = ({dispatch, products_list, jwt_access, jwt_refresh}) => {
     const [image, setImage] = useState(null);
 
     useEffect(() => {
-        dispatch(setProductsList(jwt_access,jwt_refresh));
+        fetchUserRequests(user.id);
     }, [])
 
     console.log("PRODUCTS LIST ARE", products_list);
@@ -157,8 +158,7 @@ const basketList = ({dispatch, products_list, jwt_access, jwt_refresh}) => {
 const mapStateToProps = (state) => {
     return{
         products_list: state.productData.products_list,
-        jwt_access: state.userData.JWT_ACCESS,
-        jwt_refresh: state.userData.JWT_REFRESH,
+        user: state.userData
     }
 }
 

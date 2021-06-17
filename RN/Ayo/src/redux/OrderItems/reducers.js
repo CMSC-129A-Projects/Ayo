@@ -6,6 +6,7 @@ TODO:
 import {ActionTypes} from './constants';
 
 const defaultState = {
+      request_list: [],
       id : '',
       user_id : '',
       request_id : '',
@@ -17,6 +18,8 @@ const defaultState = {
 
 export default function orderItemsReducer(state = defaultState, action) {
       switch(action.type){
+            case ActionTypes.SET_REQUEST_LIST:
+                  return {...state, request_list:action.payload}
             case ActionTypes.SET_PRODUCT_ID:
                   return {...state, product_id :action.payload}
             case ActionTypes.SET_USER_ID:

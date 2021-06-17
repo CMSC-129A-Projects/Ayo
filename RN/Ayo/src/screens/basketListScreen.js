@@ -1,10 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , TouchableOpacity} from 'react-native';
 import {data} from '../mocks/data';
 import Card from '../components/Card';
 import {LinearGradient} from 'expo-linear-gradient';
+import { fetchUserRequests } from '../redux/Orders/services';
+import { connect } from 'react-redux';
+import { setRequestList } from '../redux/OrderItems/actions';
 
-const basketListScreen = ({navigation}) => {
+const basketListScreen = ({navigation, dispatch, user, request_list}) => {
+
+  useEffect(() => {
+    (async () => {
+      const val = await fetchUserRequests(user.id);
+      dispatch(setRequestList(val))
+    })()
+  }, [])
+
+  console.log("request list is ", request_list);
 
     const renderItem = ({item}) => {
         return (
@@ -24,9 +36,9 @@ const basketListScreen = ({navigation}) => {
         <View style = {styles.ListContainer}>
         <FlatList 
             showsVerticalScrollIndicator ={false}
-            data={data}
+            data={request_list}
             renderItem={renderItem}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.id}
         />
         </View>
         <View style= {{borderTopColor: '#fff', borderTopWidth: 1}}>
@@ -45,7 +57,14 @@ const basketListScreen = ({navigation}) => {
     );
 };
 
-export default basketListScreen;
+const mapStateToProps = (state) => {
+  return {
+    user: state.userData,
+    request_list : state.orderItemData.request_list
+  }
+}
+
+export default connect(mapStateToProps)(basketListScreen);
 
 const styles = StyleSheet.create({
   container: {

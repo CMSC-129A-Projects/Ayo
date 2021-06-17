@@ -20,6 +20,8 @@ const basketItemDetails = ({route}) => {
   const itemData = route.params.itemData;
   const navTitleView = useRef(null);
 
+  console.log("ITEMDATA IS ", itemData);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -33,12 +35,12 @@ const basketItemDetails = ({route}) => {
         )}
         renderForeground={() => (
           <View style={styles.titleContainer}>
-            <Text style={styles.imageTitle}>{itemData.name}</Text>
+            <Text style={styles.imageTitle}>{itemData.product_id.name}</Text>
           </View>
         )}
         renderFixedForeground={() => (
           <Animatable.View style={styles.navTitleView} ref={navTitleView}>
-            <Text style={styles.navTitle}>{itemData.name}</Text>
+            <Text style={styles.navTitle}>{itemData.product_id.name}</Text>
           </Animatable.View>
         )}>
         <TriggeringView
