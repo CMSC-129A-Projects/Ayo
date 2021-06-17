@@ -23,8 +23,9 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
     const navigation = useNavigation();
     const [firstStep, setFirstStepVisible] = useState(true);
     const [secondStep, setSecondStepVisible] = useState(false);
+    const [thirdStep, setThirdStepVisible] = useState(false);
     const [filledFields1, setFilledFields1] = useState(0);
-    const [filledFields2, setFilledFields3] = useState(0);
+    const [filledFields2, setFilledFields2] = useState(0);
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -61,7 +62,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
         - CONNECT TO BACKEND API (AXIOS.POST)
     */ 
       return (
-        <SafeAreaView style= {styles.Container}>
+        <SafeAreaView>
           <ImageBackground source={require('../backgrounds/AyoSignUp.png')} style={styles.Background}/>
             <View style={styles.ContentContainer}> 
               <Modal animationType="none"
@@ -78,7 +79,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         onChangeText = {(usernameInput) => dispatch(setUsername(usernameInput))}
-                        style = {styles.UsernameField}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TextInput 
@@ -87,7 +88,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         underlineColorAndroid = "transparent"
                         secureTextEntry
                         onChangeText = {(passwordInput) => dispatch(setPassword(passwordInput))}
-                        style = {styles.OtherFields}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TextInput 
@@ -96,7 +97,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         underlineColorAndroid = "transparent"
                         secureTextEntry
                         onChangeText = {(passwordInput) => dispatch(setPasswordConfirm(passwordInput))}
-                        style = {styles.OtherFields}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TouchableOpacity style = {styles.NextButton} onPress = {() => {
@@ -122,7 +123,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         onChangeText = {(nameInput) => dispatch(setName(nameInput))}
-                        style = {styles.UsernameField}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TextInput 
@@ -130,10 +131,36 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         onChangeText = {(contactNumberInput) => dispatch(setContactNumber(contactNumberInput))}
-                        style = {styles.OtherFields}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TouchableOpacity style = {styles.NextButton} onPress = {() => {
+                      setFirstStepVisible(!firstStep)
+                      setSecondStepVisible(!secondStep)
+                    }}>
+                      <Text style = {styles.ButtonText}>BACK</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                  <TouchableOpacity style = {styles.NextButton} onPress = {() => {
+                      setSecondStepVisible(!secondStep);
+                      setThirdStepVisible(!thirdStep);
+                    }}>
+                      <Text style = {styles.ButtonText}>NEXT</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+              <Modal animationType="none"
+                      transparent={true}
+                      visible={thirdStep}
+                      onRequestClose={() => {
+                        setSecondStepVisible(!secondStep);
+                        setThirdStepVisible(!thirdStep)}}
+              >
+                <View style={styles.ContentContainer}>
+                  <View>
+                    <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                       getLocation()
                     }}>
                       <Text style = {styles.ButtonText}>Get Location</Text>
@@ -147,11 +174,11 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                         // placeholderTextColor = '#dcdcdc'
                         underlineColorAndroid = "transparent"
                         onChangeText = {(addressInput) => dispatch(setAddress(addressInput))}
-                        style = {styles.OtherFields}/>
+                        style = {styles.InputFields}/>
                   </View>
                   <View>
                     <TouchableOpacity style = {styles.NextButton} onPress = {() => {
-                      setFirstStepVisible(!firstStep)
+                      setThirdStepVisible(!thirdStep)
                       setSecondStepVisible(!secondStep)
                     }}>
                       <Text style = {styles.ButtonText}>BACK</Text>
@@ -159,7 +186,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                   </View>
                   <View>
                     <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                      setSecondStepVisible(!secondStep);
+                      setThirdStepVisible(!thirdStep);
                       navigation.navigate("Select Role")
                     }}>
                       <Text style = {styles.ButtonText}>SIGN UP</Text>
@@ -189,9 +216,6 @@ export default connect(mapStateToProps)(SignUpScreen);
 
 const styles = StyleSheet.create(
     {
-      Container: {
-        flex: 1
-      },
       Background: {
         width: '100%',
         height: '100%',
@@ -202,14 +226,15 @@ const styles = StyleSheet.create(
       },
       ContentContainer:{
         width: '100%',
-        height: '65%',
+        height: '60%',
         bottom: 0,
         alignSelf: 'flex-end',
         position: 'absolute',
         justifyContent: 'center'
       },
-      UsernameField: {
+      InputFields: {
         width: '70%',
+        flex: 0,
         padding: '1%',
         borderRadius: 15,
         borderColor: '#ffffff',
@@ -219,23 +244,7 @@ const styles = StyleSheet.create(
         fontWeight: 'bold',
         fontSize: 17,
         letterSpacing: 1,
-        marginTop: '3%',
-        marginBottom: '5%',
-        alignSelf:'center'
-      },
-      OtherFields: {
-        width: '70%',
-        padding: '1%',
-        borderRadius: 15,
-        borderColor: '#ffffff',
-        backgroundColor: '#ffffff',
-        textAlign: 'center',
-        fontFamily: 'Roboto',
-        fontWeight: 'bold',
-        fontSize: 17,
-        letterSpacing: 1,
-        margin: "2%",
-        marginBottom: '5%',
+        marginVertical: '3%',
         alignSelf:'center'
       },
       SignupButton: {
@@ -243,21 +252,22 @@ const styles = StyleSheet.create(
         width: '70%',
         alignSelf:'center',
         alignItems:'center',
-        marginBottom: '10%',
         borderRadius: 15,
         padding: '1%',
-        elevation: 3
+        elevation: 3,
+        marginVertical: '3%'
       },
       NextButton: {
         borderWidth: 2,
+        flex: 0,
         borderColor: '#ffffff',
         backgroundColor: 'transparent',
         width: '70%',
         alignSelf:'center',
         alignItems:'center',
-        margin: '7%',
         borderRadius: 15,
-        padding: '1%'
+        padding: '1%',
+        marginVertical: '2%'
       },
       ButtonText: {
         color: '#ffffff',

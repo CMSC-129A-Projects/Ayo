@@ -20,6 +20,12 @@ export default function homeScreenButtons({buttonVals}) {
                               <Text style={styles.title}>{buttonVals[1].title}</Text>
                         </View>
                   </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress = {() => navigation.navigate(buttonVals[2].screen)}>
+                        <View style = {styles.contentContainer}>
+                              <Image style={styles.icon} source={buttonVals[2].img}/>
+                              <Text style={styles.title}>{buttonVals[2].title}</Text>
+                        </View>
+                  </TouchableOpacity>
             </View>
       )
 }
@@ -27,8 +33,7 @@ export default function homeScreenButtons({buttonVals}) {
 const styles = StyleSheet.create({
       container : {
             flexDirection: "row",
-            width:'90%',
-            justifyContent: "space-around",
+            justifyContent: "center",
             margin: '2%'
       },
       icon : {

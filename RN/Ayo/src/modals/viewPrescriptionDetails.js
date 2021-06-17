@@ -5,13 +5,15 @@ export default function ViewProductDetails({itemData}) {
       if(itemData == null)
             return null;
 
-      const {label, date, notes, prescription_img} = itemData;
+      const {label, start_date, notes, prescription_img} = itemData;
+      const [ongoing, setOngoing] = useState(true);
 
       return (
             <View style = {styles.container}>
                   <View style = {styles.TopDetailsContainer}>
                         <Text style = {styles.NameText}>Label: {label}</Text>
-                        <Text>Date Added: {date.toDateString()}</Text>
+                        <Text>Date Added: {start_date.toDateString()}</Text>
+                        <Text style = {styles.prescriptionPreviewText}>{ongoing ? 'Ongoing':'Finished'}</Text>
                         <Text> </Text>
                         <Text>Notes: {notes}</Text>
                   </View>
@@ -72,5 +74,5 @@ const styles = StyleSheet.create({
             borderRadius: 20,
             backgroundColor: 'black',
             alignSelf: 'center'
-      }
+      },
 })

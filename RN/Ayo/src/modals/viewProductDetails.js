@@ -5,7 +5,7 @@ export default function ViewProductDetails({itemData}) {
       if(itemData == null)
             return null;
 
-      const {name, description, price, in_stock, product_img, generic_name} = itemData;
+      const {name, generic_name, description, price, in_stock, product_img} = itemData;
 
       return (
             <View>

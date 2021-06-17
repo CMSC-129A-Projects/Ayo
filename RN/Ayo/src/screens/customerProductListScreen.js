@@ -28,60 +28,67 @@ import { setProductsList } from '../redux/Products/actions';
 var tmpProducts = [
   {
       name: "biogesic",
-      description: "biogesic",
+      generic_name: "biogesic",
+      description: 'for fever',
       price: 10,
       //in_stock: true , 
       product_img: require("../assets/favicon.png")
   },
   {
       name: "bioflu",
-      description: "bioflue",
+      generic_name: "bioflue",
+      description: 'for flu',
       price: 15,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
   {
       name: "maryjane",
-      description: "maryjane",
+      generic_name: "maryjane",
+      description: 'illegal',
       price: 100,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "paracetamol",
-      description: "paracetamol",
+      generic_name: "paracetamol",
+      description: 'for pain',
       price: 20,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "mefenamic",
-      description: "mefenamic",
+      generic_name: "mefenamic",
+      description: 'sample description',
       price: 25,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "alaxan",
-      description: "alaxan",
+      generic_name: "alaxan",
+      description: 'for energy',
       price: 10,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
   {
     name: "extrajoss",
-    description: "extrajoss",
+    generic_name: "extrajoss",
+    description: 'energy',
       price: 1,
       //in_stock: true ,
     product_img: require("../assets/favicon.png")
 },
-{
-  name: "elixir",
-  description: "elixir",
-  price: 200,
-  //in_stock: true ,
-  product_img: require("../assets/favicon.png")
-}
+  {
+    name: "elixir",
+    generic_name: "elixir",
+    price: 200,
+    //in_stock: true ,
+    product_img: require("../assets/favicon.png")
+  }
 ]
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -133,7 +140,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
                 </TouchableOpacity>
               <View style = {styles.productPreviewTextContainer}>
               <Text style = {styles.productPreviewTextHeavy}>{item.name}</Text>
-              <Text style = {styles.productPreviewText}>Generic Name: {item.description}</Text>
+              <Text style = {styles.productPreviewText}>Generic Name: {item.generic_name}</Text>
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
               </View>
             </View>
@@ -149,7 +156,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
     var returnProducts = tmpProducts; //products_list;
     if(searchItem != ''){
       returnProducts = returnProducts.filter(item => {      
-        const itemData = `${item.name.toLowerCase()}`;
+        const itemData = `${item.name.toLowerCase()} ${item.generic_name.toLowerCase()}`;
         const search = searchItem.toLowerCase();
         return itemData.indexOf(search) > -1;    
       });
@@ -192,7 +199,8 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
           <FlatList data={SortFlatlist(dropdownBar, searchBar)}
                     extraData = {dropdownBar, searchBar}
                     renderItem={renderItem}
-                    keyExtractor={item => item.description}
+                    keyExtractor={item => item.generic_name
+                    }
           />
         </SafeAreaView>
       </View>
@@ -214,8 +222,6 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
               </View>
               <ScrollView style = {styles.productDetailsScrollView}>
                 <ViewProductDetails itemData={itemData}/>
-
-                
               </ScrollView>
               <Text style={{fontSize:22, alignSelf:'center'}}>Quantity</Text>
                 <EditQuantity1/>
@@ -230,7 +236,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
               <TouchableOpacity style={styles.buyProductButton}
               onPress ={() => setFailVisible(!failVisible)}>
              
-                <Text style = {styles.addProductButtonText}>
+                <Text style = {styles.buyProductButtonText}>
                   BUY NOW
                 </Text>
               </TouchableOpacity>
@@ -412,18 +418,23 @@ const styles = StyleSheet.create(
     buyProductButton: {
       borderWidth: 3,
       borderColor: '#00d1a3',
-      backgroundColor:  '#00E8B5',
       borderRadius: 23,
       width: '70%',
       alignSelf:'center',
       alignItems:'center',
-      marginTop: 10,
+      marginTop: '3%',
       padding: '2%',
       marginBottom: '8%'
     },
-    
     addProductButtonText: {
       color: '#ffffff',
+      fontSize: 15,
+      letterSpacing: 1,
+      fontFamily: 'Roboto',
+      fontWeight: 'bold'
+    },
+    buyProductButtonText: {
+      color: 'black',
       fontSize: 15,
       letterSpacing: 1,
       fontFamily: 'Roboto',

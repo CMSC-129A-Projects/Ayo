@@ -34,56 +34,63 @@ import { setProductsList } from '../redux/Products/actions';
 var tmpProducts = [
   {
       name: "biogesic",
-      description: "biogesic",
+      generic_name: "biogesic",
+      description: 'for fever',
       price: 10,
       //in_stock: true , 
       product_img: require("../assets/favicon.png")
   },
   {
       name: "bioflu",
-      description: "bioflue",
+      generic_name: "bioflue",
+      description: 'for flu',
       price: 15,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
   {
       name: "maryjane",
-      description: "maryjane",
+      generic_name: "maryjane",
+      description: 'illegal',
       price: 100,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "paracetamol",
-      description: "paracetamol",
+      generic_name: "paracetamol",
+      description: 'for pain',
       price: 20,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "mefenamic",
-      description: "mefenamic",
+      generic_name: "mefenamic",
+      description: 'sample description',
       price: 25,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
     {
       name: "alaxan",
-      description: "alaxan",
+      generic_name: "alaxan",
+      description: 'for energy',
       price: 10,
       //in_stock: true ,
       product_img: require("../assets/favicon.png")
   },
   {
     name: "extrajoss",
-    description: "extrajoss",
+    generic_name: "extrajoss",
+    description: 'energy',
       price: 1,
       //in_stock: true ,
     product_img: require("../assets/favicon.png")
-  },
+},
   {
     name: "elixir",
-    description: "elixir",
+    generic_name: "elixir",
     price: 200,
     //in_stock: true ,
     product_img: require("../assets/favicon.png")
