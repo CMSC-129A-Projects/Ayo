@@ -1,6 +1,13 @@
 import {ActionTypes} from './constants';
 import {fetchUsers, fetchUserDetails, fetchUnverifiedCustomers} from './services';
 
+
+export  function Logout(){
+      return ({
+            type : ActionTypes.LOGOUT
+      })
+}
+
 export const setUnverifiedCustomers= (jwt_access, jwt_refresh) => async (dispatch, getState) => {
       const users_list = await fetchUnverifiedCustomers(jwt_access,jwt_refresh);
       dispatch(

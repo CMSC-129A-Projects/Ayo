@@ -1,13 +1,14 @@
 import React, { Component, useState } from 'react';
 import { Modal, Text, ImageBackground, TouchableOpacity, View, Alert,StyleSheet } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { connect } from 'react-redux';
 
-export default function App({toVisible, toggle}) {
+function App({toVisible, toggle, dispatch, user}) {
   const navigation = useNavigation();
 
   const modalHeader=(
     <View style={styles.modalHeader}>
-      <Text style={styles.title}>Approved</Text>
+      <Text style={styles.title}>Login Successful</Text>
       <View style={styles.divider}></View>
     </View>
   )
@@ -25,7 +26,20 @@ export default function App({toVisible, toggle}) {
         <TouchableOpacity style={{...styles.actions,backgroundColor:"dodgerblue"}} 
           onPress={() => {
             Alert.alert(toggle())
-            navigation.navigate("Homes")
+            console.log("PRESSING ", user);
+            switch(user.role){
+              case "Customer":
+                navigation.navigate("Customer Homes")
+                break;
+              case "Worker":
+                navigation.navigate("Pharmacy Homes")
+                break;
+              case "Owner":
+                navigation.navigate("Owner Homes")
+                break;
+              default:
+                break
+            }
           }}>
           <Text style={styles.actionText}>Ok</Text>
         </TouchableOpacity>
@@ -63,6 +77,12 @@ export default function App({toVisible, toggle}) {
     </View>
   );
 }
+
+const mapStateToProps = (state) => ({
+  user : state.userData
+})
+
+export default connect(mapStateToProps)(App)
 
 const styles = StyleSheet.create({
   container: {

@@ -11,23 +11,14 @@ import {StyleSheet,
         SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {setUser, setUsername, setPassword, setJWTAccess, setJWTRefresh, setUserId, setCustomer, setWorker, setOwner} from '../redux/Users/actions' 
+import {setUser, setUsername, setPassword, setJWTAccess, setJWTRefresh, setCustomer, setWorker, setOwner} from '../redux/Users/actions' 
 import usersApi from '../api/Users';
 
 import RejectModal from '../modals/RejectModal';
 import WaitingModal from '../modals/WaitingModal';
 import VerifiedModal from '../modals/VerifiedModal'; 
-import { fetchUserDetails } from '../redux/Users/services';
+import { fetchUserDetails, login } from '../redux/Users/services';
 import {connect} from 'react-redux';
-
-const actionDispatch = (dispatch) => ({
-  setUsername: (username) => dispatch(setUsername(username)),
-  setPassword: (password) => dispatch(setPassword(password)),
-  setUser: (details) => dispatch(setUser(details)),
-  setJWTAccess: (JWTAccess) => dispatch(setJWTAccess(JWTAccess)),
-  setJWTRefresh: (JWTRefresh) => dispatch(setJWTRefresh(JWTRefresh)),
-  setUserId: (id) => dispatch(setUserId(id))
-})
 
 // being consistent with what is in Django const getLoginData = () => {
 
@@ -41,73 +32,57 @@ function LogInScreen ({dispatch, username, password}) {
   const [connectivityIssue, setConnectivityIssue] = useState(false);
   const [filledFields, setFilledFields] = useState(0); // scoring style: 3 - all unfilled, 2- password filled, 1 - username filled, 0 - all filld
 
-  const login = async (values) => {
-    var has_error = false;
-    const response = await usersApi.post('login', values, {headers : {
-      'Content-Type': 'application/json',
-      }})
-      .catch((error) => {
-        if(error.response){
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          if(error.response.data.detail === "Password")
-            setWrongPasword(true);
-          if(error.response.data.detail === "User")
-            setWrongUser(true);
-        }
-        else if(error.request){
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the 
-          // browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-          setConnectivityIssue(true);
-        }
-        else{
-          console.log('Error ', error.message);
-        }
-        has_error = true;
-      })
-
-    if(has_error)
-      return null;
-
-
-    dispatch(setJWTAccess(response.data.jwt['access']));
-    dispatch(setJWTRefresh(response.data.jwt['refresh']));
-
-    // SUUUUUPER EXPLICIT
-    if(response.data.is_staff || response.data.is_verified){
-      const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
-      dispatch(setUser(details.data));
-      switch(response.data.role){
-        case "Customer":
-          dispatch(setCustomer(details.data));
-          break;
-        case "Worker":
-          dispatch(setWorker(details.data));
-          break;
-        case "Owner":
-          dispatch(setOwner(details.data));
-          break;
-        default:
-          break;
-      }
-      // dispatch(set(details.data));
-      toggleVerify();
-      setWaitingVisible(false);
-      setRejectVisible(false);
+  const callogin = async (values) => {
+    const response = await login(values);
+    console.log("LOGIN IS !", response, "!");
+    if (response === "Unauthorized"){
+      setWrongPasword(true);
+      setWrongUser(true);
     }
-    else if(response.data.is_rejected){
-      toggleRejected();
-      setWaitingVisible(false);
-      setVerifyVisible(false);
+    else if (response == "Not Found"){
+      // TODO: something here
+      console.log("not found");
+    }
+    else if (response == "Connectivity Issues"){
+      // TODO: something here
+      console.log("connectivity issues");
     }
     else{
-      toggleWaiting();
-      setVerifyVisible(false);
-      setRejectVisible(false);
+      dispatch(setJWTAccess(response.data.jwt['access']));
+      dispatch(setJWTRefresh(response.data.jwt['refresh']));
+
+      // SUUUUUPER EXPLICIT
+      if(response.data.is_staff || response.data.is_verified){
+        const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
+        dispatch(setUser(details.data));
+        // dispatch(set(details.data));
+        toggleVerify();
+        setWaitingVisible(false);
+        setRejectVisible(false);
+        switch(response.data.role){
+              case "Customer":
+                    dispatch(setCustomer(details.data));
+                    break;
+              case "Worker":
+                    dispatch(setWorker(details.data));
+                    break;
+              case "Owner":
+                    dispatch(setOwner(details.data));
+                    break;
+              default:
+                    break;
+        }
+      }
+      else if(response.data.is_rejected){
+        toggleRejected();
+        setWaitingVisible(false);
+        setVerifyVisible(false);
+      }
+      else{
+        toggleWaiting();
+        setVerifyVisible(false);
+        setRejectVisible(false);
+      }
     }
   }
 
@@ -148,10 +123,8 @@ function LogInScreen ({dispatch, username, password}) {
               setWrongUser(false);
               setConnectivityIssue(false);
               setFilledFields(0);
-              console.log(username.length, password.length);
-              console.log(username, password);
               if((username.length) > 0 && (password.length) > 0){ 
-                login({username, password});
+                callogin({username, password});
               }
               else{
                 if(username.length === 0 && password.length === 0)

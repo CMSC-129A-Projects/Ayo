@@ -7,7 +7,7 @@ import BasketApi from '../api/Requests';
 import PrescriptionApi from '../api/Prescriptions';
 import {setUser, setWorker, setUsersList, setJWTAccess, setJWTRefresh} from '../redux/Users/actions';
 import {getUser, getUsersList} from '../redux/Users/selectors';
-import { fetchUserDetails, registerUser } from '../redux/Users/services';
+import { fetchUserDetails, login, registerUser } from '../redux/Users/services';
 import  getJWTs from '../authheaders';
 // path('users', Users.as_view(), name='get_users'),
 // path('register', RegisterUser.as_view(), name='register'),
@@ -45,55 +45,6 @@ function apiTestScreen({dispatch, userslist, user}) {
 
       console.log("onegen is ", onegen);
 
-      const pharmacist_data = {
-            "username": "test_owner",
-            "name": "own",
-            "password": "yep",
-            "password_confirm": "yep",
-            "role": "Owner",
-            "contact_number": "234421132",
-            "business_permit": "https://i.ytimg.com/vi/7eGKDuJ-E1w/hqdefault.jpg",
-            "address": "yep"
-      }
-
-
-      const login = async (values) => {
-            var has_error = false;
-            const response = await UserApi.post('login', values, {headers : {
-                  'Content-Type': 'application/json',
-                  }})
-                  .catch((error) => {
-                  if(error.response){
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  console.log(error.response.data);
-                  if(error.response.data.detail === "Password")
-                        setWrongPasword(true);
-                  if(error.response.data.detail === "User")
-                        setWrongUser(true);
-                  }
-                  else if(error.request){
-                  // The request was made but no response was received
-                  // `error.request` is an instance of XMLHttpRequest in the 
-                  // browser and an instance of
-                  // http.ClientRequest in node.js
-                  console.log(error.request);
-                  setConnectivityIssue(true);
-                  }
-                  else{
-                  console.log('Error ', error.message);
-                  }
-                  has_error = true;
-                  })
-
-            if(has_error)
-                  return null;
-
-            dispatch(setJWTAccess(response.data.jwt['access']));
-            dispatch(setJWTRefresh(response.data.jwt['refresh']));
-            const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
-            dispatch(setUser(details.data));
-      }
       // path('product/all', Products.as_view()),
       // path('product/add', NewProduct.as_view()),
       // path('product/instance/<str:product>', ProductView.as_view()),
