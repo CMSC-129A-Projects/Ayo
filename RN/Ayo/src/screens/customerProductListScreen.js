@@ -1,3 +1,4 @@
+// TODO: WAIT FOR API CALL TO BE A SUCCESS, THEN CALL THE SUCCESS API, ELSE NOT
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, 
         Text, 
@@ -20,7 +21,8 @@ import {Fontisto, Entypo} from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { connect } from 'react-redux';
 import { fetchProducts } from '../redux/Products/services';
-import { setProductsList } from '../redux/Products/actions';
+import { setId, setProductsList } from '../redux/Products/actions';
+import { add_request } from '../redux/Orders/services';
 
 var tmpProducts = [
   {
@@ -94,7 +96,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
+const productList = ({dispatch, products_list, product_id, customer_id, quantity}) => {
   const navigation = useNavigation();
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -109,8 +111,17 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   const [dropdownBar, setDropdownBar] = useState('brandname');
   const [searchBar, setSearchBar] = useState('')
 
+  const values = {
+    user_id : customer_id,
+    quantity,
+    product_id
+  }
+  console.log("VALUES ARE ", values);
   useEffect(() => {
-    dispatch(setProductsList(jwt_access, jwt_refresh));
+    (async () => {
+      let val = await fetchProducts(); 
+      dispatch(setProductsList(val));
+    })()
   }, [])
   const showSuccess = () => {
     setSuccessVisible(true);
@@ -131,6 +142,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
     return (
       <View style={styles.touchablesContainer}>
         <TouchableOpacity style = {styles.touchables} item={item} backgroundColor = {{backgroundColor}} textColor = {{color}} onPress = {() => {
+          dispatch(setId(item.id))
           setItemData(item);
           setModalVisible(!modalVisible); 
           
@@ -152,7 +164,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
               </View>
             </View>
-            <Image source={item.product_img}
+            <Image source={{uri : item.product_img}}
                 style={styles.productPreviewImage}
             />
         </TouchableOpacity>
@@ -161,7 +173,7 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
   };
 
   const SortFlatlist = (dropOption, searchItem) => {
-    var returnProducts = tmpProducts; //products_list;
+    var returnProducts = products_list; //products_list;
     if(searchItem != ''){
       returnProducts = returnProducts.filter(item => {      
         const itemData = `${item.name.toLowerCase()} ${item.generic_name.toLowerCase()}`;
@@ -236,7 +248,10 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
                 <EditQuantity1/>
 
               <TouchableOpacity style={styles.addProductButton}
-              onPress ={() => {showSuccess();}}>
+              onPress ={() => {
+                add_request(values);
+                showSuccess();
+              }}>
                 <Text style = {styles.addProductButtonText}>
                   ADD TO BASKET
                 </Text>
@@ -278,8 +293,9 @@ const productList = ({dispatch, jwt_access, jwt_refresh, products_list}) => {
 const mapStateToProps = (state) => {
     return{
         products_list: state.productData.products_list,
-        jwt_access: state.userData.JWT_ACCESS,
-        jwt_refresh: state.userData.JWT_REFRESH,
+        product_id: state.productData.id,
+        customer_id: state.userData.id,
+        quantity: state.orderItemData.quantity
     }
 }
 

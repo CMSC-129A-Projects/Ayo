@@ -54,8 +54,8 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
                             style={styles.productPreviewImage}
                         />
                         <View>
-                            <Text style = {styles.productPreviewText}>{item.name}</Text>
-                            <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
+                            <Text style = {styles.productPreviewText}>{item.product_id.name}</Text>
+                            <Text style = {styles.productPreviewText}>Cost: ₱{item.cost}</Text>
                             <EditQuantity1/>
                             
                         </View>
@@ -83,9 +83,9 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         <View style = {styles.ListContainer}>
         <FlatList 
             showsVerticalScrollIndicator ={false}
-            data={data}
+            data={request_list}
             renderItem={renderItem}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.id}
         />
         </View>
         <View style= {{borderTopColor: '#fff', borderTopWidth: 1}}>

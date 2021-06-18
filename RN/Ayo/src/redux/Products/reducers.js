@@ -7,6 +7,7 @@ import {ActionTypes} from './constants';
 
 const defaultState = {
       products_list: [],
+      id : '',
       name: '',
       description : '',
       price : 0,
@@ -19,6 +20,8 @@ export default function signupScreenReducer(state = defaultState, action) {
       switch(action.type){
             case ActionTypes.SET_PRODUCTS_LIST:
                   return {...state, products_list:action.payload}
+            case ActionTypes.SET_ID:
+                  return {...state, id:action.payload}
             case ActionTypes.SET_NAME:
                   return {...state, name:action.payload}
             case ActionTypes.SET_DESCRIPTION:

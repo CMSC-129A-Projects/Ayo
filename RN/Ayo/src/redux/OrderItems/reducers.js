@@ -9,7 +9,6 @@ const defaultState = {
       request_list: [],
       id : '',
       user_id : '',
-      request_id : '',
       product_id : '',
       cost: 0,
       quantity: 0,
@@ -18,6 +17,14 @@ const defaultState = {
 
 export default function orderItemsReducer(state = defaultState, action) {
       switch(action.type){
+            case ActionTypes.SET_REQUEST:
+                  return {...state, 
+                        id: action.payload.id,
+                        user_id: action.payload.user_id.id,
+                        product_id: action.payload.product_id.id,
+                        cost: action.payload.cost,
+                        quantity: action.payload.quantity
+                  }
             case ActionTypes.SET_REQUEST_LIST:
                   return {...state, request_list:action.payload}
             case ActionTypes.SET_PRODUCT_ID:

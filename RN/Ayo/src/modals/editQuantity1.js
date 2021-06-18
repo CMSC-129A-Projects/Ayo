@@ -1,25 +1,25 @@
 import React, {useLayoutEffect, useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import { connect } from 'react-redux';
+import { setQuantity } from '../redux/OrderItems/actions'
 
-
-export default function EditQuantity() {
-    const [quantityValue, setQuantityValue] = useState(1);
+function EditQuantity({dispatch, quantity}) {
 return(
     <View style = {styles.quantityContainer}>
        <TouchableOpacity style={styles.minusButton}
          onPress = {() =>{
-           if (quantityValue>1){
-          setQuantityValue(quantityValue - 1);
+           if (quantity>1){
+            dispatch(setQuantity(quantity- 1));
            }
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
         </TouchableOpacity>
         <View style={styles.quantityNumber}>
-            <Text style={{fontSize:25,fontWeight:'bold'}}>{quantityValue}</Text>
+            <Text style={{fontSize:25,fontWeight:'bold'}}>{quantity}</Text>
         </View>
         <TouchableOpacity style={styles.plusButton}
         onPress = {() =>{
-          setQuantityValue(quantityValue + 1);
+            dispatch(setQuantity(quantity+ 1));
         }}> 
             <Text style= {{color:'#424242',fontSize:25, fontWeight: 'bold'}}>+</Text>
         </TouchableOpacity>
@@ -27,6 +27,15 @@ return(
 
 )
 }
+
+const mapStateToProps = (state) => {
+  return {
+  quantity: state.orderItemData.quantity
+  }
+}
+
+export default connect(mapStateToProps)(EditQuantity);
+
 const styles=StyleSheet.create({
     quantityContainer:{
         marginTop: 10,

@@ -11,6 +11,15 @@ export const setProductsList = (jwt_access, jwt_refresh) => async (dispatch, get
             }
       )
 }
+export function setId(id) {
+      return (
+            {
+                  type: ActionTypes.SET_ID,
+                  payload: id 
+            }
+      )
+}
+
 
 export function setName(name) {
       return (

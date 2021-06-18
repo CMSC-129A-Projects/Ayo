@@ -1,14 +1,11 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, SafeAreaView} from 'react-native'
-import {useSelector} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 
 import {HomeScreenButtons} from '../components/index';
 import {icons} from '../constants/icons'
-import { getSelectLogin } from '../redux/Users/selectors';
-import {getSelectSignup} from '../redux/Users/selectors';
-import {getUser} from '../redux/Users/selectors';
     
-export default function homeScreen({navigation}) {
+function homeScreen({navigation, dispatch, user}) {
       return (
             <SafeAreaView style = {styles.Container}>
                   <ImageBackground source={require('../backgrounds/AyoHomeBG.png')} style={styles.Background}/>
@@ -17,7 +14,7 @@ export default function homeScreen({navigation}) {
                               <TouchableOpacity style = {styles.UserDetails}>
                               <Image style = {styles.Icon} source = {require('../assets/icon.png')}></Image>
                               <View style = {styles.UserTextContainer}>
-                                    <Text style = {styles.UserText}>Robert A. Johnson</Text>
+                                    <Text style = {styles.UserText}>{user.name}</Text>
                                     <Text style = {styles.UserText}>CUSTOMER</Text>
                               </View>
                               </TouchableOpacity>
@@ -40,6 +37,12 @@ export default function homeScreen({navigation}) {
 
       )
 }
+
+const mapStateToProps = (state) => ({
+      user: state.userData
+})
+
+export default connect (mapStateToProps)(homeScreen);
 
 const styles = StyleSheet.create(
       {
