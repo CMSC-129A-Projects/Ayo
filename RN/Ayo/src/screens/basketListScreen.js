@@ -1,13 +1,12 @@
 import React, {useEffect, useState}from 'react';
 import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
-import {data} from '../mocks/data';
+import {Data} from '../mocks/checkoutData';
 import {AntDesign} from '@expo/vector-icons';
 
-import EditQuantity1 from '../modals/editQuantity1';
-import DeleteProductModal from '../modals/deleteProduct'
-import DeleteProductSuccess from '../modals/deleteProductSuccess'
-import DeleteProductFail from '../modals/deleteProductFail'
-
+import DeleteProductModal from '../modals/deleteProduct';
+import DeleteProductSuccess from '../modals/deleteProductSuccess';
+import DeleteProductFail from '../modals/deleteProductFail';
+import EditQuantityBasket from '../modals/editQuantityBasket';
 import { fetchUserRequests } from '../redux/Orders/services';
 import { connect } from 'react-redux';
 import { setRequestList } from '../redux/OrderItems/actions';
@@ -26,7 +25,6 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
   const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
   const [deleteFailVisible, setDeleteFailVisible] = useState(false);
 
-
   const showSuccess = () => {
     setDeleteSuccessVisible(true);
     setDeleteVisible(false);
@@ -42,22 +40,21 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
     }, 2500);
   };
 
-    const renderItem = ({item}) => {
 
+    const renderItem = ({item}) => {  
         return (
             <SafeAreaView>
             <View style={styles.touchablesContainer}>
             <TouchableOpacity 
             onPress={()=> navigation.navigate('Basket Item Details', {itemData: item})}
-             style={styles.touchables}>
+             style={styles.touchables}>   
               <Image source={item.product_img}
                             style={styles.productPreviewImage}
                         />
                         <View>
                             <Text style = {styles.productPreviewText}>{item.product_id.name}</Text>
                             <Text style = {styles.productPreviewText}>Cost: ₱{item.cost}</Text>
-                            <EditQuantity1/>
-                            
+                        <EditQuantityBasket/>
                         </View>
                         <TouchableOpacity style= {styles.delete}
                         onPress = {() =>{setDeleteVisible(!deleteVisible)}}>
