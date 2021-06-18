@@ -170,13 +170,13 @@ const styles = StyleSheet.create(
     },
     FieldContainer:{
       width: '100%',
-      height: '70%',
-      bottom: 0,
-      alignSelf: 'flex-end',
+      height: '67%',
       position: 'absolute',
+      bottom: 0,
       justifyContent: 'center',
     },
     UsernameField: {
+      flex: 0,
       width: '70%',
       padding: '1%',
       borderRadius: 15,
@@ -191,6 +191,7 @@ const styles = StyleSheet.create(
       alignSelf:'center'
     },
     PasswordField: {
+      flex: 0,
       width: '70%',
       padding: '1%',
       borderRadius: 15,
@@ -209,6 +210,7 @@ const styles = StyleSheet.create(
       borderColor: 'red',
     },
     LoginButton: {
+      flex: 0,
       backgroundColor: '#00d1a3',
       width: '70%',
       alignSelf:'center',
@@ -219,6 +221,7 @@ const styles = StyleSheet.create(
       elevation: 3
     },
     SignupButton: {
+      flex: 0,
       borderWidth: 2,
       borderColor: '#ffffff',
       backgroundColor: 'transparent',
@@ -227,7 +230,8 @@ const styles = StyleSheet.create(
       alignItems:'center',
       marginTop: '7%',
       borderRadius: 15,
-      padding: '1%'
+      padding: '1%',
+      marginBottom: '10%'
     },
     ButtonText: {
       color: '#ffffff',

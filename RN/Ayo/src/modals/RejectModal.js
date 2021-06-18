@@ -66,12 +66,7 @@ export default function App({toVisible, toggle}) {
 
   return (
     <View style={styles.container}>
-      
       {modal}
-     <ImageBackground 
-      source={require("../backgrounds/AyoLandingPage.png")}
-      style = {styles.image}
-      />
       <Text style={styles.text}>Registration Status</Text>
     </View>
   );
@@ -80,7 +75,6 @@ export default function App({toVisible, toggle}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -102,11 +96,12 @@ const styles = StyleSheet.create({
   },
   text:{
     fontWeight:"bold",
-    fontSize:35,
+    fontSize:30,
     padding:20,
     color:"#fff",
     letterSpacing: 1,
-    alignSelf:'center'
+    alignSelf:'center',
+    textAlign: 'center',
   },
   title:{
     fontWeight:"bold",

@@ -28,13 +28,11 @@ function homeOwnerScreen({navigation, dispatch, user}) {
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products Staff", img:icons.homeScreenButton1, screen:"Staff Product List"},
+                              {title: "View Products", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "View Products Customer", img:icons.homeScreenButton1, screen:"Product List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
-                              {title: "Card List Screen", img:icons.homeScreenButton1, screen: "CardListScreen" },
+                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"},
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>
                   </View>

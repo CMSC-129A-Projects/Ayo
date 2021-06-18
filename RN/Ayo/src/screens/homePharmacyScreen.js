@@ -26,11 +26,9 @@ function homePharmacyScreen({dispatch, user, navigation}) {
                         <HomeScreenButtons buttonVals={[
                               {title: "View Products", img:icons.homeScreenButton1, screen:"Staff Product List"},
                               {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
-                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"}
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Basket", img:icons.homeScreenButton1, screen:"My Basket"},
-                              {title: "Card List Screen", img:icons.homeScreenButton1, screen: "CardListScreen" },
+                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"},
                               {title: "Options", img:icons.homeScreenButton1 }
                         ]}/>
                   </View>
