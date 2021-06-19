@@ -35,6 +35,7 @@ const splashScreen = ({navigation, user}) => {
           setinitRoute("Owner Homes");
           break;
         default:
+          setinitRoute("Log In");
           break;
       }
     }

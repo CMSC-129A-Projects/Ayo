@@ -11,6 +11,7 @@ import {
 import {icons} from '../constants/icons'
 import { MaterialCommunityIcons, Entypo, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { Logout } from '../redux/Users/actions';
 
 
 const ProfileScreen = ({navigation, user, dispatch}) => {
@@ -66,20 +67,23 @@ const ProfileScreen = ({navigation, user, dispatch}) => {
       </View>
 
       <View style={styles.menuWrapper}>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <MaterialCommunityIcons name="credit-card-clock" color="#06AD91" size={25}/>
-            <Text style={styles.menuItemText}>Summary of Records</Text>
-          </View>
-        </TouchableRipple>
         <View style={styles.signoutSection}>
-        <TouchableRipple onPress={() => {navigation.navigate('Splash Screen')}}>
+        <TouchableRipple onPress={() => {
+           dispatch(Logout())
+           navigation.navigate('Splash Screen')
+          }}>
           <View style={styles.menuItem}>
             <MaterialCommunityIcons name="logout-variant" color="#06AD91" size={25}/>
             <Text style={styles.menuItemText}>Sign Out</Text>
           </View>
         </TouchableRipple>
         </View>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <MaterialCommunityIcons name="credit-card-clock" color="#06AD91" size={25}/>
+            <Text style={styles.menuItemText}>Summary of Records</Text>
+          </View>
+        </TouchableRipple>
 
       </View>
  
