@@ -10,9 +10,10 @@ import {
 
 import {icons} from '../constants/icons'
 import { MaterialCommunityIcons, Entypo, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation, user, dispatch}) => {
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,8 +30,8 @@ const ProfileScreen = ({navigation}) => {
             <Title style={[styles.title, {
               marginTop:15,
               marginBottom: 5,
-            }]}>Robert A. Johnson</Title>
-            <Caption style={styles.caption}>@r_johnson</Caption>
+            }]}>{user.name}</Title>
+            <Caption style={styles.caption}>{user.username}</Caption>
           </View>
         </View>
       </View>
@@ -42,7 +43,7 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View style={styles.row}>
           <Entypo name="phone" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>09123456789</Text>
+          <Text style={{color:"#777777", marginLeft: 20}}>09{user.contact_number}</Text>
         </View>
         <View style={styles.row}>
           <MaterialCommunityIcons name="email" color="#777777" size={20}/>
@@ -86,7 +87,11 @@ const ProfileScreen = ({navigation}) => {
   );
 };
 
-export default ProfileScreen;
+const mapStateToProps = (state) => ({
+  user : state.userData
+})
+
+export default connect(mapStateToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
   container: {

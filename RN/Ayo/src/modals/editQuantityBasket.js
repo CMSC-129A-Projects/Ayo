@@ -1,25 +1,44 @@
 import React, {useLayoutEffect, useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import { connect } from 'react-redux';
+import { setRequestList } from '../redux/OrderItems/actions';
+import { edit_request, fetchUserRequests } from '../redux/Orders/services';
 
 
-export default function EditQuantityBasket() {
+function EditQuantityBasket({item, dispatch, id, getTotalCost}) {
     const [quantityValue, setQuantityValue] = useState(1);
 return(
     <View style = {styles.quantityContainer}>
        <TouchableOpacity style={styles.minusButton}
-         onPress = {() =>{
-           if (quantityValue>1){
-          setQuantityValue(quantityValue - 1);
+         onPress = {async () =>{
+           if (item.quantity>1){
+             const value = await edit_request({
+               id : item.id,
+               quantity: item.quantity - 1
+             })
            }
+            //  IF SUCCESSFUL
+            const newList = await fetchUserRequests(id)
+            dispatch(setRequestList(newList))
+            getTotalCost(newList);
+            // TODO: CATCH IF NOT
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
         </TouchableOpacity>
         <View style={styles.quantityNumber}>
-            <Text style={{fontSize:25,fontWeight:'bold'}}>{quantityValue}</Text>
+            <Text style={{fontSize:25,fontWeight:'bold'}}>{item.quantity}</Text>
         </View>
         <TouchableOpacity style={styles.plusButton}
-        onPress = {() =>{
-          setQuantityValue(quantityValue + 1);
+        onPress = {async () =>{
+             const value = await edit_request({
+               id : item.id,
+               quantity: item.quantity + 1
+             })
+            //  IF SUCCESSFUL
+            const newList = await fetchUserRequests(id)
+            dispatch(setRequestList(newList))
+            getTotalCost(newList);
+            // TODO: CATCH IF NOT
         }}> 
             <Text style= {{color:'#424242',fontSize:25, fontWeight: 'bold'}}>+</Text>
         </TouchableOpacity>
@@ -27,6 +46,13 @@ return(
 
 )
 }
+
+const mapStateToProps = (state) => ({
+  id : state.userData.id,
+})
+
+export default connect(mapStateToProps)(EditQuantityBasket);
+
 const styles=StyleSheet.create({
     quantityContainer:{
         marginTop: 10,

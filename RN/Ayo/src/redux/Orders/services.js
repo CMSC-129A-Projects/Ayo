@@ -33,7 +33,7 @@ export const edit_request = async (arg) => {
 		'Content-Type' : 'application/json',
 		'Authorization' : 'Bearer ' + jwts['jwt_access']
 	}
-	const response = await BasketApi.patch(`requestitem/instance/${arg['id']}`, {"quantity" : 10}, {headers})
+	const response = await BasketApi.patch(`requestitem/instance/${arg['id']}`, arg, {headers})
 	// fetchUserRequests(users['data'][0]);
 }
 

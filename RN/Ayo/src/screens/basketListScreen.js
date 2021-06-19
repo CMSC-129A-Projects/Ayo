@@ -18,12 +18,25 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
       const val = await fetchUserRequests(user.id);
       dispatch(setRequestList(val))
     })()
+    getTotalCost(request_list);
   }, [])
 
-  console.log("request list is ", request_list);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
   const [deleteFailVisible, setDeleteFailVisible] = useState(false);
+  const [totalCost, setTotalCost] = useState('');
+
+  const getTotalCost = (arg_requests_list) => {
+    let newTotal = 0;
+    console.log("CALLED TOTAL COST");
+    setTotalCost('');
+    arg_requests_list.forEach(element => {
+      newTotal += element.cost;
+    });
+    setTotalCost(newTotal.toString())
+    console.log("THIS IS NEW TOTAL COST", newTotal);
+    return newTotal;
+  }
 
   const showSuccess = () => {
     setDeleteSuccessVisible(true);
@@ -54,7 +67,7 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
                         <View>
                             <Text style = {styles.productPreviewText}>{item.product_id.name}</Text>
                             <Text style = {styles.productPreviewText}>Cost: ₱{item.cost}</Text>
-                        <EditQuantityBasket/>
+                        <EditQuantityBasket item={item} getTotalCost = {(arg) => getTotalCost(arg)} />
                         </View>
                         <TouchableOpacity style= {styles.delete}
                         onPress = {() =>{setDeleteVisible(!deleteVisible)}}>
@@ -70,6 +83,8 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         
           );
     };
+
+    console.log("THIS IS ", totalCost.length, totalCost.indexOf('.'));
 
     return (
       <SafeAreaView style={styles.container}>
@@ -89,7 +104,11 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
           <View style={{flexDirection:'row',marginHorizontal:5, marginTop: 10}}>
             <Text style={styles.totalText}>Total</Text>
             <View style = {styles.divider}/>
-            <Text style={styles.totalText}>₱376.00</Text>
+            <Text style={styles.totalText}>P{
+              totalCost.indexOf('.') > -1 ?
+                totalCost + "0".repeat((2-(totalCost.length- totalCost.indexOf('.')) + 1)) : // 33.5 + "0".repeat([2-(4-3)]) => 33.50
+                totalCost + ".00"
+            }</Text>
           </View>
 
           <TouchableOpacity style={styles.buttonCheckout} onPress = {() => navigation.navigate('Checkout')}> 

@@ -3,13 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux';
 import { setQuantity } from '../redux/OrderItems/actions'
 
-function EditQuantity({dispatch, quantity}) {
+function EditQuantity({dispatch, quantity, id}) {
 return(
     <View style = {styles.quantityContainer}>
        <TouchableOpacity style={styles.minusButton}
          onPress = {() =>{
-           if (quantity>1){
-            dispatch(setQuantity(quantity- 1));
+           if (quantity>1 && id){
+              const data = EditQuantity({
+                id,
+                quantity: quantity + 1
+              })
            }
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
@@ -18,8 +21,13 @@ return(
             <Text style={{fontSize:25,fontWeight:'bold'}}>{quantity}</Text>
         </View>
         <TouchableOpacity style={styles.plusButton}
-        onPress = {() =>{
-            dispatch(setQuantity(quantity+ 1));
+        onPress = {async () =>{
+            if (id){
+              const data = EditQuantity({
+                id,
+                quantity: quantity + 1
+              })
+            }
         }}> 
             <Text style= {{color:'#424242',fontSize:25, fontWeight: 'bold'}}>+</Text>
         </TouchableOpacity>
@@ -30,7 +38,8 @@ return(
 
 const mapStateToProps = (state) => {
   return {
-  quantity: state.orderItemData.quantity
+    quantity: state.orderItemData.quantity,
+    id: state.orderItemData.id
   }
 }
 
