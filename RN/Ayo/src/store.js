@@ -8,6 +8,9 @@ import orderData from './redux/Orders/reducers';
 import orderItemData from './redux/OrderItems/reducers';
 import prescriptionData from './redux/Prescriptions/reducers';
 import medicineRecordData from './redux/MedicineRecords/reducers';
+import {persistStore, persistReducer} from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const reducers = combineReducers({
       userData,
@@ -18,4 +21,15 @@ const reducers = combineReducers({
       medicineRecordData
 });
 
-export default createStore(reducers, applyMiddleware(thunk));
+const persistConfig = {
+      key: 'root',
+      storage: AsyncStorage,
+      stateReconciler: autoMergeLevel2, //check this!
+      blacklist: ['orderItemData', 'prescriptionData',
+            'medicineRecordData', 'orderData', 'productData']
+}
+
+const pReducer = persistReducer(persistConfig, reducers);
+
+export default store = createStore(pReducer, applyMiddleware(thunk));
+export const persistor = persistStore(store);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     Text, 
@@ -13,8 +13,34 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import {MaterialIcons} from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
-const splashScreen = ({navigation}) => {
+const splashScreen = ({navigation, user}) => {
+  const [initRoute, setinitRoute] = useState('');
+
+  useEffect(() => {
+    presetInitRoute();
+  }, [])
+
+  const presetInitRoute = () => {
+    if(user.id != ""){
+      switch(user.role){
+        case "Customer":
+          setinitRoute("Customer Homes");
+          break;
+        case "Worker":
+          setinitRoute("Worker Homes");
+          break;
+        case "Owner":
+          setinitRoute("Owner Homes");
+          break;
+        default:
+          break;
+      }
+    }
+    else
+      return "Splash Screen"
+  }
 
     return (
     <SafeAreaView style = {styles.container}>
@@ -35,7 +61,7 @@ const splashScreen = ({navigation}) => {
             <Text style={[styles.title]}>Find the right medicine in your locality!</Text>
             <Text style={styles.text}>Sign in with account</Text>
             <View style={styles.button}>
-            <TouchableOpacity onPress={()=>navigation.navigate('Log In')}>
+            <TouchableOpacity onPress={()=>navigation.navigate(initRoute)}>
                 <LinearGradient
                     colors={['#00DEAD', '#06AD91']}
                     style={styles.signIn}
@@ -55,7 +81,11 @@ const splashScreen = ({navigation}) => {
     );
 };
 
-export default splashScreen;
+const mapStateToProps = (state) => ({
+    user: state.userData
+})
+
+export default connect(mapStateToProps)(splashScreen);
 
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.28;
