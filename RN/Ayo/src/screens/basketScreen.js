@@ -186,7 +186,7 @@ const styles = StyleSheet.create(
         ListContainer:{
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(100, 100, 100, 0.5)',
+            backgroundColor: 'rgba(100, 100, 100, 0.3)',
             alignSelf: 'center',
             justifyContent: 'center',
         },
@@ -277,7 +277,7 @@ const styles = StyleSheet.create(
        buttonCheckout:{
         borderWidth: 3,
         borderColor: '#00d1a3',
-        backgroundColor:  '#00d1a3',
+        backgroundColor: 'rgba(100, 100, 100, 0.2)',
         borderRadius: 23,
         width: '70%',
         alignSelf:'center',

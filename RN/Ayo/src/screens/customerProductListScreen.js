@@ -319,15 +319,11 @@ const styles = StyleSheet.create(
       height: '100%',
       alignSelf: 'center',
       position: 'absolute',
-      backgroundColor: 'rgba(100, 100, 100, 0.5)',
-
     },
     ListContainer:{
       width: '100%',
       flex: 1,
-      borderBottomWidth: 4,
-      borderColor: '#ffffff',
-      backgroundColor: 'rgba(100, 100, 100, 0.5)',
+      backgroundColor: 'rgba(100, 100, 100, 0.3)',
       alignSelf: 'center',
       justifyContent: 'center',
     },
@@ -518,7 +514,7 @@ const styles = StyleSheet.create(
     dropdownBar: {
       width: '30%',
       flexDirection: 'column',
-      backgroundColor: '#dcdcdc'
+      backgroundColor: '#dcdcdc',
     },
     basket:{
       width: 45,

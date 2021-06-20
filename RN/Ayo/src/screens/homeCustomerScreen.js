@@ -12,24 +12,24 @@ function homeScreen({navigation, dispatch, user}) {
                   <View style = {styles.MenuContainer}>
                         <View style = {styles.TopContainer}>
                               <TouchableOpacity style = {styles.UserDetails}>
-                              <Image style = {styles.Icon} source = {require('../assets/icon.png')}></Image>
+                              <Image style = {styles.Icon} source = {icons.userIcon}></Image>
                               <View style = {styles.UserTextContainer}>
                                     <Text style = {styles.UserText}>{user.name}</Text>
                                     <Text style = {styles.UserText}>CUSTOMER</Text>
                               </View>
                               </TouchableOpacity>
                               <TouchableOpacity style = {styles.NotificationsContainer}>
-                                    <Image style = {styles.NotificationIcon} source = {require('../assets/icon.png')}></Image>
+                                    <Image style = {styles.NotificationIcon} source = {icons.notificationsIcon}></Image>
                               </TouchableOpacity>
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products", img:icons.homeScreenButton1, screen:"Product List"},
-                              {title: "View Prescriptions", img:icons.homeScreenButton1, screen:"Prescription List"},
+                              {title: "View Products", img:icons.productsIcon, screen:"Product List"},
+                              {title: "View Prescriptions", img:icons.prescriptionIcon, screen:"Prescription List"},
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Basket", img:icons.homeScreenButton1, screen:"Basket Screen"},
-                              {title: "Options", img:icons.homeScreenButton1 }
+                              {title: "View Basket", img:icons.basketIcon, screen:"Basket Screen"},
+                              {title: "Options", img:icons.optionsIcon }
                         ]}/>
                   </View>
                  

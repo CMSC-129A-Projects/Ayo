@@ -29,7 +29,7 @@ const splashScreen = ({navigation, user}) => {
           setinitRoute("Customer Homes");
           break;
         case "Worker":
-          setinitRoute("Worker Homes");
+          setinitRoute("Pharmacy Homes");
           break;
         case "Owner":
           setinitRoute("Owner Homes");
