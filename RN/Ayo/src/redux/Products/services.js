@@ -10,6 +10,16 @@ export const fetchProducts = async () => {
 	return response.data
 }
 
+export const fetchOneProduct = async (product_id) => {
+	const jwts = await getJWTs();
+	console.log("INSIDE HERE ", product_id);
+	const headers = {
+			'Authorization': "Bearer " + jwts['jwt_access'] 
+	}
+	const response = await ProductApi.get(`product/instance/${product_id}`, {headers});
+	return response.data
+}
+
 export const add_product = async (arg) => { 
 	// CHANGE THIS TO FIT THE VALUE
 	const jwts =  await getJWTs();
@@ -28,7 +38,7 @@ export  const edit_product = async (arg) => {
 	      'Content-Type' : 'application/json',
 	      'Authorization' : 'Bearer ' + jwts['jwt_access']
 	}
-	const response = await ProductApi.patch(`product/instance/${arg['id']}`, {"name" : "edited_test_medicine_2"}, {headers})
+	const response = await ProductApi.patch(`product/instance/change/${arg['id']}`, {"name" : "edited_test_medicine_2"}, {headers})
 	fetchProducts();
   }
 
@@ -38,7 +48,7 @@ export  const delete_product = async (arg) => {
 	      'Content-Type' : 'application/json',
 	      'Authorization' : 'Bearer ' + jwts['jwt_access']
 	}
-	const response = await ProductApi.delete(`product/instance/${arg['id']}`, {headers})
+	const response = await ProductApi.delete(`product/instance/change/${arg['id']}`, {headers})
 	fetchProducts();
   }
 

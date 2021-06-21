@@ -28,13 +28,11 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
 
   const getTotalCost = (arg_requests_list) => {
     let newTotal = 0;
-    console.log("CALLED TOTAL COST");
     setTotalCost('');
     arg_requests_list.forEach(element => {
       newTotal += element.cost;
     });
     setTotalCost(newTotal.toString())
-    console.log("THIS IS NEW TOTAL COST", newTotal);
     return newTotal;
   }
 
@@ -83,8 +81,6 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         
           );
     };
-
-    console.log("THIS IS ", totalCost.length, totalCost.indexOf('.'));
 
     return (
       <SafeAreaView style={styles.container}>
