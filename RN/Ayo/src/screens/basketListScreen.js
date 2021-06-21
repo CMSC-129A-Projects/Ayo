@@ -112,7 +112,7 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
           </View>
 
           <TouchableOpacity style={styles.buttonCheckout} onPress = {() => navigation.navigate('Checkout')}> 
-          <Text style={styles.buttonCheckoutText}>Checkout</Text>
+          <Text style={styles.buttonCheckoutText}>CHECKOUT</Text>
           </TouchableOpacity>
           </View>
       </View>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomWidth: 4,
     borderColor: '#ffffff',
-    backgroundColor: 'rgba(100, 100, 100, 0.5)',
+    backgroundColor: 'rgba(100, 100, 100, 0.3)',
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     padding: '2%',
     marginHorizontal: 10,
     marginVertical: 10,
-    backgroundColor: '#00ccaa',
- },
+    backgroundColor: 'rgba(100, 100, 100, 0.3)',
+  },
  buttonCheckoutText: {
     color: '#ffffff',
     fontSize: 20,

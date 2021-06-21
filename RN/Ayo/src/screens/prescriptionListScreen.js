@@ -405,9 +405,7 @@ const styles = StyleSheet.create(
     ListContainer:{
       width: '100%',
       flex: 1,
-      borderBottomWidth: 4,
-      borderColor: '#ffffff',
-      backgroundColor: 'rgba(100, 100, 100, 0.5)',
+      backgroundColor: 'rgba(100, 100, 100, 0.3)',
       alignSelf: 'center',
       justifyContent: 'center',
     },
@@ -480,7 +478,7 @@ const styles = StyleSheet.create(
       alignItems:'center',
       padding: '2%',
       marginVertical: '1%',
-      backgroundColor: 'rgba(100, 100, 100, 0.3)',
+      backgroundColor: 'rgba(100, 100, 100, 0.2)',
     },
     ButtonText: {
       color: '#ffffff',

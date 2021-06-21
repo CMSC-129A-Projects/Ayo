@@ -15,7 +15,7 @@ function App({toVisible, toggle, dispatch, user}) {
 
   const modalBody=(
     <View style={styles.modalBody}>
-      <Text style={styles.bodyText}>Proceed to User Dashboard?</Text>
+      <Text style={styles.bodyText}>Proceeding to User Dashboard</Text>
     </View>
   )
 
@@ -23,7 +23,7 @@ function App({toVisible, toggle, dispatch, user}) {
     <View style={styles.modalFooter}>
       <View style={styles.divider}></View>
       <View style={{flexDirection:"row-reverse",margin:10}}>
-        <TouchableOpacity style={{...styles.actions,backgroundColor:"dodgerblue"}} 
+        <TouchableOpacity style={{...styles.actions,backgroundColor: '#00d1a3'}} 
           onPress={() => {
             Alert.alert(toggle())
             console.log("PRESSING ", user);
@@ -41,7 +41,7 @@ function App({toVisible, toggle, dispatch, user}) {
                 break
             }
           }}>
-          <Text style={styles.actionText}>Ok</Text>
+          <Text style={styles.actionText}>Continue</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   modalHeader:{
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   text:{
     fontWeight:"bold",
@@ -133,13 +133,13 @@ const styles = StyleSheet.create({
     //alignItems:'center'
   },
   actions:{
-    borderRadius:5,
+    borderRadius:20,
     marginHorizontal:10,
     paddingVertical:10,
-    paddingHorizontal:20
+    paddingHorizontal:40,
   },
   actionText:{
-    color:"#000",
+    color:"#ffffff",
     alignSelf: 'center'
   },
   image:{

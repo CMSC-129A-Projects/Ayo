@@ -58,7 +58,7 @@ export default function App() {
               <Stack.Screen options={{headerShown: false}} name="Customer Homes" component={customerTabScreen} />
               <Stack.Screen options={{headerShown: false}} name="Pharmacy Homes" component={pharmacyTabScreen} />
               <Stack.Screen options={{headerShown: false}} name="Owner Homes" component={ownerTabScreen} />
-              {/* <Stack.Screen options={{headerStatusBarHeight: 30}} name ="Order List" component = {staffOrderListScreen}/>  */}
+              <Stack.Screen options={{headerStatusBarHeight: 30}} name ="Staff Order List" component = {staffOrderListScreen}/>
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
               <Stack.Screen name="Api" component={apiTestScreen} />

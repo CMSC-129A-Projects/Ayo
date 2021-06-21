@@ -12,24 +12,24 @@ function homePharmacyScreen({dispatch, user, navigation}) {
                   <View style = {styles.MenuContainer}>
                         <View style = {styles.TopContainer}>
                               <TouchableOpacity style = {styles.UserDetails}>
-                              <Image style = {styles.Icon} source = {require('../assets/icon.png')}></Image>
+                              <Image style = {styles.Icon} source = {icons.userIcon}></Image>
                               <View style = {styles.UserTextContainer}>
                                     <Text style = {styles.UserText}>{user.name}</Text>
                                     <Text style = {styles.UserText}>PHARMACY STAFF</Text>
                               </View>
                               </TouchableOpacity>
                               <TouchableOpacity style = {styles.NotificationsContainer}>
-                                    <Image style = {styles.NotificationIcon} source = {require('../assets/icon.png')}></Image>
+                                    <Image style = {styles.NotificationIcon} source = {icons.notificationsIcon}></Image>
                               </TouchableOpacity>
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products", img:icons.homeScreenButton1, screen:"Staff Product List"},
-                              {title: "Confirm Users", img:icons.homeScreenButton1, screen:"Verify Customers"},
+                              {title: "View Products", img:icons.productsIcon, screen:"Staff Product List"},
+                              {title: "Confirm Users", img:icons.verifyIcon, screen:"Verify Customers"},
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "Order List", img:icons.homeScreenButton1, screen:"Order List"},
-                              {title: "Options", img:icons.homeScreenButton1 }
+                              {title: "Order List", img:icons.ordersIcon, screen:"Staff Order List"},
+                              {title: "Options", img:icons.optionsIcon }
                         ]}/>
                   </View>
                  
