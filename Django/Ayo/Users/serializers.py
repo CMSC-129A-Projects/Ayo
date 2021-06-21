@@ -39,10 +39,8 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # TODO: what do we need to checl jere?
         try:
-            print(validated_data)
             instance.name = validated_data.get('name', instance.name)
             if validated_data.get('password') and validated_data.get('password') != instance.password:
-                print("CHANGE PASS VRO")
                 instance.set_password(validated_data.get(
                     'password'))
             instance.address = validated_data.get('address', instance.address)

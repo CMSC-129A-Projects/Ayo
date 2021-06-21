@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from rest_framework.permissions import AllowAny, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from PIL import Image
 from io import BytesIO
 from urllib.request import urlretrieve, urlopen
@@ -41,7 +41,7 @@ def uri_to_file(uri, idnum, starting_date):
 
 
 class FreeMedicineRecords(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     # check on this!
     def get(self, request, userid):
@@ -56,7 +56,7 @@ class FreeMedicineRecords(APIView):
 
 
 class NewMedicineRecord(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
         # DO CHECKS HERE
@@ -71,8 +71,18 @@ class NewMedicineRecord(APIView):
         )
 
 
+class OneMedicineRecord(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, prescitem):
+        meditem = MedicineRecord.objects.filter(id=prescitem).values()[0]
+        serializer = MedicineRecordViewSerializer(
+            meditem, context={'request': request})
+        return Response(serializer.data)
+
+
 class MedicineRecordView(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def patch(self, request, prescitem):
         med = MedicineRecord.objects.filter(
@@ -107,7 +117,7 @@ class MedicineRecordView(APIView):
 
 
 class DeleteMultipleRecords(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request):
         for req_id in request.data['ids']:
@@ -132,7 +142,7 @@ class DeleteMultipleRecords(APIView):
 
 
 class UserPrescriptions(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, userid):
         user = get_user_model().objects.filter(id=userid).first()
@@ -158,7 +168,7 @@ class UserPrescriptions(APIView):
 
 
 class NewPrescription(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
     # needs improvement pa ni
 
     def post(self, request):
@@ -182,7 +192,7 @@ class NewPrescription(APIView):
 
 
 class PrescriptionView(APIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
 
     def patch(self, request, prescription):
         med = Prescription.objects.filter(

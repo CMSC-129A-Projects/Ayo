@@ -6,7 +6,7 @@ import subprocess
 from django.contrib.auth.models import Group
 
 
-class OrderTestCases(TestCase):
+class PrescriptionTestCases(TestCase):
 
     fixtures = ['ayofixture.json']
 
@@ -41,6 +41,13 @@ class OrderTestCases(TestCase):
         response2 = self.customer_client.get(
             reverse('get_free_prescitems', kwargs={"userid": self.customervals.data['id']}))
         self.assertEquals(response2.status_code, 200)
+
+    def test_one_prescitem(self):
+        response = self.customer_client.get(
+            reverse('get_free_prescitems', kwargs={"userid": self.customervals.data['id']})).data
+        response2 = self.customer_client.get(
+            reverse('one_prescitem', kwargs={"prescitem": response[0]['id']}))
+        self.assertEquals(response2.data['id'], response[0]['id'])
 
     def test_edit_free_prescitems(self):
         response2 = self.customer_client.get(

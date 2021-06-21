@@ -3,6 +3,7 @@ TODO:
 - reconfigure api for possible roles
 """
 
+from os import isatty
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http.response import JsonResponse
 from rest_framework.response import Response
@@ -79,6 +80,16 @@ class Products(APIView):
     def get(self, request):
         serializer = ProductViewSerializer(
             Product.objects.all().values(), many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class OneProduct(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, product):
+        product = Product.objects.filter(id=product).values()[0]
+        serializer = ProductViewSerializer(
+            product, context={'request': request})
         return Response(serializer.data)
 
 

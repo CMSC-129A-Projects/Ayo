@@ -161,3 +161,11 @@ class ProductTestCase(TestCase):
                                                           "product": response.data[0]['id']}),
                                               )
         self.assertEquals(response2.data, "Deleted")
+
+    def test_get_one_product(self):
+        response = self.worker_client.get(reverse("get_products"))
+        response2 = self.worker_client.get(reverse("one_product",
+                                                   kwargs={
+                                                       "product": response.data[0]['id']}),
+                                           )
+        self.assertEquals(response.data[0]['id'], response2.data['id'])

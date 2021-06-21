@@ -7,6 +7,8 @@ urlpatterns = [
          name="get_free_prescitems"),
     path('items/add', NewMedicineRecord.as_view(), name="add_prescitem"),
     path('items/instance/<str:prescitem>',
+         OneMedicineRecord.as_view(), name="one_prescitem"),
+    path('items/instance/change/<str:prescitem>',
          MedicineRecordView.as_view(), name="instance_prescitems"),
     path('items/multidelete', DeleteMultipleRecords.as_view(),
          name="multidel_prescitems"),
