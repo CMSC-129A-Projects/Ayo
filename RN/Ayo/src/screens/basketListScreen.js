@@ -1,6 +1,5 @@
 import React, {useEffect, useState}from 'react';
 import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
-import {Data} from '../mocks/checkoutData';
 import {AntDesign} from '@expo/vector-icons';
 
 import DeleteProductModal from '../modals/deleteProduct';
@@ -253,6 +252,7 @@ const styles = StyleSheet.create({
   width: '100%',
   margin: '.5%',
   backgroundColor: 'white',
+  justifyContent: 'space-around'
 },
 touchables: {
   flex: 1,
@@ -302,8 +302,9 @@ delete:{
   justifyContent:'center',
   alignItems: 'center',
   alignSelf:'flex-end',
-  marginLeft:80,
+  marginLeft: 'auto',
   marginBottom:10,
+  marginRight: 10
 },
 modal:{
   backgroundColor:"#ffff",
