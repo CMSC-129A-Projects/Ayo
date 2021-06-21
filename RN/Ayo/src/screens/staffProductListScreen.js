@@ -115,7 +115,6 @@ const productList = ({dispatch, products_list, user}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modal2Visible, setModal2Visible] = useState(false);
-  const [modal3Visible, setModal3Visible] = useState(false);
   const [successVisible, setSuccessVisible] = useState(false);
   const [failVisible, setFailVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -130,8 +129,7 @@ const productList = ({dispatch, products_list, user}) => {
   const [dropdownBar, setDropdownBar] = useState('brandname');
   const [searchBar, setSearchBar] = useState('');
   const [genericSearchBar, setGenericSearchBar] = useState('');
-  const [enteredDisease, setEnteredDisease] = useState('');
-  const [diseasesList, setDiseasesList] = useState([]);
+
 
   useEffect(() => {
     (async () => {
@@ -273,7 +271,8 @@ const productList = ({dispatch, products_list, user}) => {
           />
         </SafeAreaView>
         <TouchableOpacity style = {styles.Button} onPress = {() =>{
-          setModal2Visible(!modal2Visible);
+          //setModal2Visible(!modal2Visible);
+          navigation.navigate("Add Product");
         }}>
           <Text style = {styles.ButtonText}>ADD PRODUCT</Text>
         </TouchableOpacity>
@@ -419,7 +418,7 @@ const productList = ({dispatch, products_list, user}) => {
       </View>
       </Modal>
       
-      <Modal //Add Product Modal
+      {/*<Modal
             animationType = "slide"
             visible={modal2Visible}
             transparent={true}
@@ -456,7 +455,7 @@ const productList = ({dispatch, products_list, user}) => {
                         <RNPickerSelect
                           placeholder = {{label: ''}}
                           pickerProps={{ style: {overflow: 'scroll' } }}
-                          onValueChange={(toGenericField) => toGenericField!= 'add' ? setGenericSearchBar(toGenericField) : setModal3Visible(true)}
+                          onValueChange={(toGenericField) => toGenericField!= 'add' ? setGenericSearchBar(toGenericField) : (navigation.navigate("Add Generic Medicine"), setModal2Visible(false))}
                           items={[
                               { label: 'Add...', value: 'add' },
                               ...tmpGenerics.sort((a, b) => a.label.localeCompare(b.name))
@@ -503,55 +502,7 @@ const productList = ({dispatch, products_list, user}) => {
               </View>
           </View>
         </View>
-      </Modal>
-
-      <Modal //Add Generic Name Modal
-            animationType = "slide"
-            visible={modal3Visible}
-            transparent={true}
-            onRequestClose = {() => {
-                    setModal3Visible(false);
-                    setDiseasesList([]);
-                    setEnteredDisease('');
-            }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-              <TouchableOpacity style={{margin:10, alignSelf:'flex-end', position: 'relative'}} onPress = {() => setModal3Visible(!modal3Visible)}>
-                      <Fontisto name="close" size={30}/>
-              </TouchableOpacity>
-              <View style = {styles.addProductDetailsContainer}>
-                <View style = {styles.addProductDetailsTopField}>
-                  <View style= {styles.addGenericDetailsField}>
-                    <Text style={styles.addGenericTitleText}>
-                      ADD GENERIC MEDICINE
-                    </Text>
-                    <TextInput
-                      placeholder = "Generic Name"
-                      placeholderTextColor = '#ffffff'
-                      underlineColorAndroid = "transparent"
-                      style = {styles.inputField}
-                    />
-                    </View>
-                </View>
-                <TextInput
-                  placeholder = "Add Disease"
-                  placeholderTextColor = '#dcdcdc'
-                  underlineColorAndroid = "transparent"
-                  style = {styles.inputDiseaseField}
-                  onChangeText = {enteredText => setEnteredDisease(enteredText)}
-                  value = {enteredDisease}
-                />
-                <TouchableOpacity style = {styles.addProductButton}
-                                  onPress = {() => setDiseasesList(diseasesList => [...diseasesList, enteredDisease])}>
-                  <Text style = {styles.addProductButtonText}>
-                    ADD DISEASE
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <FlatList data = {diseasesList} renderItem = {diseaseData => <View><Text>{diseaseData.item}</Text></View>}/>
-          </View>
-        </View>
-      </Modal>
+      </Modal>*/}
 
     </SafeAreaView>
   );
@@ -663,14 +614,14 @@ const styles = StyleSheet.create(
     },
     Button: {
       borderWidth: 3,
-      borderColor: '#ffffff',
+      borderColor: '#00d1a3',
       borderRadius: 27,
-      width: '100%',
+      width: '90%',
       alignSelf:'center',
       alignItems:'center',
       padding: '2%',
-      marginVertical: '1%',
-      backgroundColor: 'rgba(100, 100, 100, 0.2)',
+      marginVertical: '5%',
+      backgroundColor: '#00d1a3',
     },
     ButtonText: {
       color: '#ffffff',

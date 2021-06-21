@@ -14,6 +14,8 @@ import {splashScreen,
         confirmationScreen,
         customerProductListScreen,
         staffProductListScreen, 
+        addProductScreen,
+        addGenericScreen,
         medItemScreen,
         prescriptionListScreen,
         basketListScreen,
@@ -28,6 +30,7 @@ import store, { persistor } from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
 import RejectModal from './src/modals/RejectModal';
+import { add } from 'react-native-reanimated';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +64,8 @@ export default function App() {
               <Stack.Screen options={{headerStatusBarHeight: 30}} name ="Staff Order List" component = {staffOrderListScreen}/>
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Add Product" component={addProductScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Add Generic Medicine" component={addGenericScreen} />
               <Stack.Screen name="Api" component={apiTestScreen} />
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Prescription List" component={prescriptionListScreen}/>
               <Stack.Screen options={{headerStatusBarHeight: 30}} name="Basket Screen" component={basketListScreen}/>

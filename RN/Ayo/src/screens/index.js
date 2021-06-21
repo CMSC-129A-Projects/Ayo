@@ -4,6 +4,8 @@ import roleSelectScreen from './roleSelectScreen';
 import confirmationScreen from './ownerConfirmationScreen';
 import customerProductListScreen from './customerProductListScreen';
 import staffProductListScreen from './staffProductListScreen';
+import addProductScreen from './productAdd';
+import addGenericScreen from './genericNameAdd';
 import medItemScreen from './medItemScreen';
 import prescriptionListScreen from './prescriptionListScreen';
 import basketListScreen from './basketListScreen';
@@ -26,6 +28,8 @@ export {splashScreen,
         confirmationScreen,
         customerProductListScreen,
         staffProductListScreen, 
+        addProductScreen,
+        addGenericScreen,
         medItemScreen, 
         prescriptionListScreen,
         basketListScreen,

@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menuWrapper: {
-    marginTop: 10,
+    marginTop: 0,
   },
   menuItem: {
     flexDirection: 'row',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
   signoutSection: {
-    marginTop: 220,
+    flex: 0,
     borderTopColor: '#dddddd',
     borderTopWidth: 1,
     

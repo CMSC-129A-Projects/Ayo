@@ -226,9 +226,6 @@ var tmpOrders = [
 
         <ImageBackground source = {require('../backgrounds/AyoDefaultBG.png')} style = {styles.Background}/>
         <View style ={ styles.ContentContainer}>
-          <View>
-            <Text style = {styles.ButtonText}>ORDERS</Text>
-          </View>
           <SafeAreaView style ={styles.ListContainer}>
             <FlatList data = {tmpOrders}
             renderItem = {renderItem}
@@ -310,18 +307,14 @@ var tmpOrders = [
           resizeMode: 'cover'
         },
         ContentContainer:{
-          width: '95%',
+          width: '100%',
           height: '100%',
           alignSelf: 'center',
           position: 'absolute',
         },
         ListContainer:{
-          marginTop: 70 , 
+          flex: 1,
           width: '100%',
-          height: '90%',
-          borderBottomWidth: 4,
-          borderTopWidth: 4,
-          borderColor: '#ffffff',
           backgroundColor: 'rgba(100, 100, 100, 0.5)',
           alignSelf: 'center',
           justifyContent: 'center',
@@ -338,26 +331,30 @@ var tmpOrders = [
         },
 
         touchables: {
-
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
         },
         touchablesContainer: {
 
           flexDirection: 'row',
           alignSelf:'center',
-          width: '95%',
-          margin: '1.5%',
-          borderRadius: 15,
+          marginVertical: '0.5%',
           backgroundColor: 'white',
           justifyContent: 'space-around',
         },
         productPreviewTextHeavy: {
           fontSize: 18,
           fontFamily: 'Roboto',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          marginLeft: '7.5%',
+        },
+        productPreviewImage: {
+          width:80, 
+          height:80, 
+          marginVertical: '5%',
+          marginRight: '7.5%'
         },
         ButtonText: {
           color: '#ffffff',
