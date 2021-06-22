@@ -40,7 +40,7 @@ const splashScreen = ({navigation, user}) => {
       }
     }
     else
-      return "Splash Screen"
+      return setinitRoute("Log In")
   }
 
     return (

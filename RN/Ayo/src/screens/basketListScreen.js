@@ -1,12 +1,13 @@
 import React, {useEffect, useState}from 'react';
 import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
+import {Data} from '../mocks/checkoutData';
 import {AntDesign} from '@expo/vector-icons';
 
 import DeleteProductModal from '../modals/deleteProduct';
 import DeleteProductSuccess from '../modals/deleteProductSuccess';
 import DeleteProductFail from '../modals/deleteProductFail';
 import EditQuantityBasket from '../modals/editQuantityBasket';
-import { fetchUserRequests } from '../redux/Orders/services';
+import { delete_request, fetchUserRequests } from '../redux/Orders/services';
 import { connect } from 'react-redux';
 import { setRequestList } from '../redux/OrderItems/actions';
 
@@ -19,6 +20,8 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
     })()
     getTotalCost(request_list);
   }, [])
+
+  console.log("REQUEST LSIT IS ", request_list);
 
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [deleteSuccessVisible, setDeleteSuccessVisible] = useState(false);
@@ -123,7 +126,9 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         <DeleteProductModal/>
         <View style={{flexDirection:"row-reverse",margin:10}}>
         <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
-         onPress={() => {
+         onPress={async() => {
+          const response = await delete_request(request_id) 
+          // TODO: handle failure here
           showSuccess();
           }}>
           <Text style={{color: "#ffff", alignSelf: 'center'}}>CONTINUE</Text>
@@ -252,7 +257,6 @@ const styles = StyleSheet.create({
   width: '100%',
   margin: '.5%',
   backgroundColor: 'white',
-  justifyContent: 'space-around'
 },
 touchables: {
   flex: 1,
@@ -302,9 +306,8 @@ delete:{
   justifyContent:'center',
   alignItems: 'center',
   alignSelf:'flex-end',
-  marginLeft: 'auto',
+  marginLeft:80,
   marginBottom:10,
-  marginRight: 10
 },
 modal:{
   backgroundColor:"#ffff",
