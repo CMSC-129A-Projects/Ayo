@@ -43,7 +43,7 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
         const response = await axios.get(`https://us1.locationiq.com/v1/reverse.php?key=pk.c4d3bc349c75133c9c91dc86dec37582&lat=${location.coords.latitude}&lon=${location.coords.longitude}&format=json`)
         console.log(response["data"]["address"]);
         setLocation(`${response["data"]["address"]["city"]}`);
-        setAddress(`${response["data"]["address"]["road"]}, ${response["data"]["address"]["village"]}, ${response["data"]["address"]["city"]}`)
+        dispatch(setAddress(`${response["data"]["address"]["road"]}, ${response["data"]["address"]["village"]}, ${response["data"]["address"]["city"]}`))
     };
  
     /* TODO: 
