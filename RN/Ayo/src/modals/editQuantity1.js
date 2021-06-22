@@ -8,12 +8,7 @@ return(
     <View style = {styles.quantityContainer}>
        <TouchableOpacity style={styles.minusButton}
          onPress = {() =>{
-           if (quantity>1 && id){
-              const data = EditQuantity({
-                id,
-                quantity: quantity + 1
-              })
-           }
+           dispatch(setQuantity(quantity -1));
          }}> 
         <Text style= {{color:'#666666',fontSize:25, fontWeight: 'bold'}}>-</Text>
         </TouchableOpacity>
@@ -22,12 +17,7 @@ return(
         </View>
         <TouchableOpacity style={styles.plusButton}
         onPress = {async () =>{
-            if (id){
-              const data = EditQuantity({
-                id,
-                quantity: quantity + 1
-              })
-            }
+           dispatch(setQuantity(quantity + 1));
         }}> 
             <Text style= {{color:'#424242',fontSize:25, fontWeight: 'bold'}}>+</Text>
         </TouchableOpacity>

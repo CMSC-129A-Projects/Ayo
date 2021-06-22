@@ -44,7 +44,7 @@ export const delete_request = async (arg) => {
 		'Content-Type' : 'application/json',
 		'Authorization' : 'Bearer ' + jwts['jwt_access']
 	}
-	const response = await BasketApi.delete(`requestitem/instance/${arg['id']}`, {headers})
+	const response = await BasketApi.delete(`requestitem/instance/${arg}`, {headers})
 	// fetchUserRequests(users['data'][0]);
 }
 

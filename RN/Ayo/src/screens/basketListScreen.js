@@ -9,9 +9,9 @@ import DeleteProductFail from '../modals/deleteProductFail';
 import EditQuantityBasket from '../modals/editQuantityBasket';
 import { delete_request, fetchUserRequests } from '../redux/Orders/services';
 import { connect } from 'react-redux';
-import { setRequestList } from '../redux/OrderItems/actions';
+import { setRequest, setRequestList } from '../redux/OrderItems/actions';
 
-const basketListScreen = ({navigation, dispatch, user, request_list}) => {
+const basketListScreen = ({navigation, dispatch, user, request_list, request_id}) => {
 
   useEffect(() => {
     (async () => {
@@ -70,7 +70,10 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
                         <EditQuantityBasket item={item} getTotalCost = {(arg) => getTotalCost(arg)} />
                         </View>
                         <TouchableOpacity style= {styles.delete}
-                        onPress = {() =>{setDeleteVisible(!deleteVisible)}}>
+                        onPress = {() =>{
+                          dispatch(setRequest(item))
+                          setDeleteVisible(!deleteVisible)
+                        }}>
                             <AntDesign
                             name= "delete"
                             size = {30}
@@ -83,6 +86,8 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         
           );
     };
+    
+    console.log("REQUEST ID IS ", request_id);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -128,6 +133,9 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
         <TouchableOpacity style={{ borderRadius:5,marginHorizontal:10,marginVertical: 5,paddingVertical:10,paddingHorizontal:30,backgroundColor:"#00d1a3"}}
          onPress={async() => {
           const response = await delete_request(request_id) 
+          const val = await fetchUserRequests(user.id);
+          dispatch(setRequestList(val))
+          getTotalCost(val);
           // TODO: handle failure here
           showSuccess();
           }}>
@@ -174,6 +182,7 @@ const basketListScreen = ({navigation, dispatch, user, request_list}) => {
 const mapStateToProps = (state) => {
   return {
     user: state.userData,
+    request_id : state.orderItemData.id,
     request_list : state.orderItemData.request_list
   }
 }
@@ -306,7 +315,6 @@ delete:{
   justifyContent:'center',
   alignItems: 'center',
   alignSelf:'flex-end',
-  marginLeft:80,
   marginBottom:10,
 },
 modal:{

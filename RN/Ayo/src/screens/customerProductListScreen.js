@@ -139,6 +139,7 @@ const productList = ({dispatch, products_list, product_id, customer_id, quantity
   const renderItem = ({ item }) => {
     const backgroundColor = item.name === selectedId ? "transparent" : "#ffffff";
     const color = item.name === selectedId ? 'white' : 'black';
+    var img = item.product_img;
     return (
       <View style={styles.touchablesContainer}>
         <TouchableOpacity style = {styles.touchables} item={item} backgroundColor = {{backgroundColor}} textColor = {{color}} onPress = {() => {
@@ -164,7 +165,7 @@ const productList = ({dispatch, products_list, product_id, customer_id, quantity
               <Text style = {styles.productPreviewText}>Price: ₱{item.price}</Text>
               </View>
             </View>
-            <Image source={{uri : item.product_img}}
+            <Image source={{uri : img}}
                 style={styles.productPreviewImage}
             />
         </TouchableOpacity>

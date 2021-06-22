@@ -133,7 +133,7 @@ const roleSelectScreen = ({dispatch, user}) => {
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                     registerUser(user)
                     setCustomerVisible(false);
-                    navigation.navigate("Customer Homes");
+                    navigation.navigate("Log In");
                     }
                   }>
                     <Text style = {styles.ButtonText}>SIGN UP</Text>
@@ -172,7 +172,7 @@ const roleSelectScreen = ({dispatch, user}) => {
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                     registerUser(user)
                     setStaffVisible(false);
-                    navigation.navigate("Pharmacy Homes");
+                    navigation.navigate("Log In");
                     }
                   }>
                     <Text style = {styles.ButtonText}>SIGN UP</Text>
@@ -211,7 +211,7 @@ const roleSelectScreen = ({dispatch, user}) => {
                   <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
                     registerUser(user)
                     setOwnerVisible(false);
-                    navigation.navigate("Owner Homes");
+                    navigation.navigate("Log In");
                     }
                   }>
                     <Text style = {styles.ButtonText}>SIGN UP</Text>
