@@ -16,6 +16,7 @@ import axios from 'axios';
 import locApi from '../api/Location';
 
 import {setUsername, setPassword, setName, setPasswordConfirm, setContactNumber, setAddress} from '../redux/Users/actions' 
+import { set } from 'react-native-reanimated';
 
 // being consistent with what is in Django
 
@@ -26,30 +27,22 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
     const [thirdStep, setThirdStepVisible] = useState(false);
     const [filledFields1, setFilledFields1] = useState(0);
     const [filledFields2, setFilledFields2] = useState(0);
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState("Press Get Location");
     const [errorMsg, setErrorMsg] = useState(null);
 
     console.log("USER IS", user);
 
     const getLocation = async () => {
-        if (Platform.OS === 'android' && !Constants.isDevice) {
-          setErrorMsg(
-            'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
-          );
-          return;
-        }
         let { status } = await Location.requestPermissionsAsync().catch((error) => console.log(error));
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           return;
-        }
-        console.log("after here");
-  
+        }  
         let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
         console.log(`&lat=${location.coords.latitude}&lon=${location.coords.longitude}&format=json`);
         const response = await axios.get(`https://us1.locationiq.com/v1/reverse.php?key=pk.c4d3bc349c75133c9c91dc86dec37582&lat=${location.coords.latitude}&lon=${location.coords.longitude}&format=json`)
         console.log(response["data"]["address"]);
+        setLocation(`${response["data"]["address"]["city"]}`);
         setAddress(`${response["data"]["address"]["road"]}, ${response["data"]["address"]["village"]}, ${response["data"]["address"]["city"]}`)
     };
  
@@ -161,20 +154,15 @@ const SignUpScreen = ({dispatch, user, username, password, password_confirm, nam
                 <View style={styles.ContentContainer}>
                   <View>
                     <TouchableOpacity style = {styles.SignupButton} onPress = {() => {
-                      getLocation()
+                      getLocation();
                     }}>
                       <Text style = {styles.ButtonText}>Get Location</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TextInput 
-                        placeholder = {address} 
-                        placeholderTextColor = '#000000'
-                        fontSize = {10}
-                        // placeholderTextColor = '#dcdcdc'
-                        underlineColorAndroid = "transparent"
-                        onChangeText = {(addressInput) => dispatch(setAddress(addressInput))}
-                        style = {styles.InputFields}/>
+                    <View style = {styles.InputFields}>
+                      <Text style ={styles.LocationText}>{location}</Text>
+                    </View>
                   </View>
                   <View>
                     <TouchableOpacity style = {styles.NextButton} onPress = {() => {
@@ -275,6 +263,13 @@ const styles = StyleSheet.create(
         letterSpacing: 1,
         fontFamily: 'Roboto',
         fontWeight: 'bold'
-      }
+      },
+      LocationText: {
+        textAlign: 'center',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        fontSize: 17,
+        letterSpacing: 1,
+      },
     }
   )

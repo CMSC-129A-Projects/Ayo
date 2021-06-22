@@ -24,12 +24,12 @@ function homeScreen({navigation, dispatch, user}) {
                         </View>
                         <View style = {styles.barGraphic}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Products", img:icons.productsIcon, screen:"Product List"},
-                              {title: "View Prescriptions", img:icons.prescriptionIcon, screen:"Prescription List"},
+                              {title: "Products", img:icons.productsIcon, screen:"Product List"},
+                              {title: "Prescriptions", img:icons.prescriptionIcon, screen:"Prescription List"},
                         ]}/>
                         <HomeScreenButtons buttonVals={[
-                              {title: "View Basket", img:icons.basketIcon, screen:"Basket Screen"},
-                              {title: "Options", img:icons.optionsIcon }
+                              {title: "Basket", img:icons.basketIcon, screen:"Basket Screen"},
+                              {title: "Orders", img:icons.ordersIcon }
                         ]}/>
                   </View>
                  
