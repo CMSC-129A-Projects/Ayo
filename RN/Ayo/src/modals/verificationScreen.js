@@ -5,21 +5,22 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, Alert, Button} 
 import {Fontisto} from '@expo/vector-icons';
 
 import usersApi from '../api/Users';
+import { approveCustomer, rejectCustomer } from '../redux/Users/services';
 
 export default function verificationScreen({modalVisible, itemData, toggle}) {
 
       if(itemData == null)
             return null;
 
-      const {name, username, contact_number, address, valid_id1} = itemData;
+      const {id, name, username, contact_number, address, valid_id1} = itemData;
       
-      const approve = async (username) => {
-            const response = await usersApi.patch('/approve', {"username":username});
+      const approve = async (id) => {
+            const response = await approveCustomer(id);
             Alert.alert(toggle()); 
       }
 
-      const reject = async (username) => {
-            const response = await usersApi.patch('/reject', {"username":username});
+      const reject = async (id) => {
+            const response = await rejectCustomer(id);
             Alert.alert(toggle()); 
       }
 
@@ -47,8 +48,8 @@ export default function verificationScreen({modalVisible, itemData, toggle}) {
                                     <Text>Contact Number: {contact_number}</Text>
                                     <Image source={valid_id1} style={styles.images}/>
                                     <View style = {{flex: 1, flexDirection: 'row'}}>
-                                          <Button  onPress = {() => approve(username)} title='Approve' />
-                                          <Button  onPress = {() => reject(username)} title='Reject' />
+                                          <Button  onPress = {() => approve(id)} title='Approve' />
+                                          <Button  onPress = {() => reject(id)} title='Reject' />
                                     </View>
                               </View>
                         </View>

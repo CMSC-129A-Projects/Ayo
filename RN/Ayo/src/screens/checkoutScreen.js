@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, 
         Text, 
         View,
@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import {Data} from '../mocks/checkoutData';
+import { connect } from 'react-redux';
 
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -19,8 +20,27 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     </TouchableOpacity>
   );
   
-const basketList = () => {
+const basketList = ({dispatch, request_list}) => {
     const navigation = useNavigation();
+    const [totalCost, setTotalCost] = useState('');
+    const [totalItems, setTotalItems] = useState();
+
+    useEffect(() => {
+        getTotalCost() 
+    }, []);
+
+    const getTotalCost = () => {
+        let newTotal = 0;
+        let itemCt = 0;
+        setTotalCost('');
+        request_list.forEach(element => {
+        newTotal += element.cost;
+        itemCt += element.quantity;
+        });
+        setTotalCost(newTotal.toString())
+        setTotalItems(itemCt)
+        return newTotal;
+    }
     const renderItem = ({ item }) => {
         return (
             <View style={styles.touchables}>
@@ -28,8 +48,8 @@ const basketList = () => {
                     style={styles.productPreviewImage}
                 /> 
                 <View style={{marginLeft: 20, flex:1}}>
-                    <Text style = {styles.productPreviewText}>{item.name}</Text>
-                    <Text style = {styles.productPreviewText}>₱{item.price}</Text>
+                    <Text style = {styles.productPreviewText}>{item.product_id.name}</Text>
+                    <Text style = {styles.productPreviewText}>₱{item.cost / item.quantity}</Text>
                 </View>
                 <View style={{
                         flex: 1,
@@ -37,7 +57,7 @@ const basketList = () => {
                         alignItems: 'flex-start',
                  }}>
                     <Text style = {styles.productPreviewText}>Qty: {item.quantity}</Text>
-                    <Text style = {styles.productPreviewText}>Subtotal: ₱{item.total}</Text>
+                    <Text style = {styles.productPreviewText}>Subtotal: ₱{item.cost}</Text>
                 </View>
             </View>
         );
@@ -49,7 +69,7 @@ const basketList = () => {
                 <SafeAreaView style = {styles.ListContainer}>
                     <FlatList 
                             showsVerticalScrollIndicator ={false}
-                            data={Data}
+                            data={request_list}
                             renderItem={renderItem}
                             keyExtractor={item => item.description}
                     />
@@ -57,10 +77,12 @@ const basketList = () => {
                 <View style={styles.totalSection}>
                 <View style={{flexDirection:'row', marginHorizontal: 10}}>
                 <Text style= {{fontSize:22, fontWeight: 'bold'}}>Order Amount </Text>
-                <Text style= {{fontSize:18}}>(8 items) </Text>
-                <Text style= {{fontSize:22, fontWeight: 'bold', marginLeft: 50}}> ₱ 906.00</Text>
+                <Text style= {{fontSize:18}}>({totalItems} items) </Text>
+                <Text style= {{fontSize:22, fontWeight: 'bold', marginLeft: 50}}> ₱{totalCost}</Text>
                 </View>
-                <TouchableOpacity onPress = {() => {}}> 
+                <TouchableOpacity onPress = {async () => {
+                    
+                }}> 
                 <LinearGradient
                 colors={['#00f7c1', '#00ccaa']}
                 style={styles.buttonCheckout}
@@ -74,7 +96,11 @@ const basketList = () => {
     );
 }
 
-export default basketList;
+const mapStateToProps = (state) => ({
+    request_list : state.orderItemData.request_list
+})
+
+export default connect(mapStateToProps)(basketList);
 
 const styles = StyleSheet.create(
     {

@@ -11,23 +11,23 @@ export const registerUser = async (details) => {
 
 export const fetchUsers = async () => {
       const jwts = await getJWTs();
-      const header = {
-            headers:{
-                  'Authorization': "Bearer " + jwt_access 
+      const headers = {
+                  'Authorization': "Bearer " + jwts['jwt_access'] 
             }
-      }
+      
       const response = await UserApi.get('users', {headers});
       return response.data;
 }
 
 export const fetchUnverifiedCustomers= async () => {
       const jwts = await getJWTs();
-      const header = {
-            headers:{
-                  'Authorization': "Bearer " + jwt_access 
+      const headers = 
+            {
+                  'Authorization': "Bearer " + jwts['jwt_access'] 
             }
-      }
-      const response = await UserApi.get('unverifiedcustomers', header);
+      
+      const response = await UserApi.get('unverifiedcustomers', {headers});
+      console.log("NAA SA UNVERIFIED CUSTOMERS ", response.data);
       return response.data;
 }
 
@@ -69,4 +69,21 @@ export const login = async (values) => {
       // Connectivity Issues
       // Not Found
       return response;
+}
+export const approveCustomer = async (id) => {
+      const jwts = await getJWTs();
+      const headers = 
+            {
+                  'Authorization': "Bearer " + jwts['jwt_access'] 
+            };
+      const response = await UserApi.patch('approve', {id}, {headers});
+}
+
+export const rejectCustomer = async (id) => {
+      const jwts = await getJWTs();
+      const headers = 
+            {
+                  'Authorization': "Bearer " + jwts['jwt_access'] 
+            };
+      const response = await UserApi.patch('reject', {id}, {headers});
 }

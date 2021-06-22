@@ -8,8 +8,9 @@ export  function Logout(){
       })
 }
 
-export const setUnverifiedCustomers= (jwt_access, jwt_refresh) => async (dispatch, getState) => {
-      const users_list = await fetchUnverifiedCustomers(jwt_access,jwt_refresh);
+export const setUnverifiedCustomers= () => async (dispatch, getState) => {
+      const users_list = await fetchUnverifiedCustomers();
+      console.log("USERS LIST IN UNVERIF IS ", users_list);
       dispatch(
             {
                   type: ActionTypes.SET_USERS_LIST,

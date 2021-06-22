@@ -13,7 +13,8 @@ import VerificationScreen from '../modals/verificationScreen';
 
 import usersApi from '../api/Users';
 import { connect } from 'react-redux';
-import { setUnverifiedCustomers } from '../redux/Users/actions';
+import { setUnverifiedCustomers, setUsersList } from '../redux/Users/actions';
+import { fetchUnverifiedCustomers } from '../redux/Users/services';
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -21,7 +22,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
+const confirmationScreen = ({dispatch, users_list}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false); 
   const [selectedId, setSelectedId] = useState(null);
@@ -38,12 +39,17 @@ const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
 
    
   useEffect(() => {
-    dispatch(setUnverifiedCustomers(jwt_access, jwt_refresh));
-  }, [modalVisible]);
+    (async () => {
+      dispatch(setUnverifiedCustomers());
+    })()
+  }, []);
+
+  console.log("UNVERIFIED CUSTOMERS ARE", users_list );
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.username === selectedId ? "transparent" : "#ffffff";
     const color = item.username === selectedId ? 'black' : 'black';
+    var id_uri = item.valid_id1;
     return (
       <View style={styles.touchablesContainer}>
         <TouchableOpacity style = {styles.touchables} item={item} backgroundColor = {{backgroundColor}} textColor = {{color}} onPress = {() => {
@@ -56,7 +62,7 @@ const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
               <Text style = {styles.userPreviewText}>{item.address}</Text>
               <Text style = {styles.userPreviewText}>{item.contact_number}</Text>
             </View>
-            <Image source={item.valid_id1}
+            <Image source={{uri: id_uri}}
                 style={styles.userPreviewImage}
             />
         </TouchableOpacity>
@@ -71,7 +77,7 @@ const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
       <View style = {styles.ContentContainer}>
         <SafeAreaView style={styles.ListContainer}>
           <FlatList
-            data={users} //list of users goes here
+            data={users_list} //list of users goes here
             renderItem={renderItem}
             keyExtractor={(item) => item.username}
             extraData={selectedId} //User identifier
@@ -93,8 +99,7 @@ const confirmationScreen = ({dispatch, jwt_access, jwt_refresh}) => {
 const mapStateToProps = (state) => {
     return{
         products_list: state.productData.products_list,
-        jwt_access: state.userData.JWT_ACCESS,
-        jwt_refresh: state.userData.JWT_REFRESH,
+        users_list: state.userData.users_list,
     }
 }
 

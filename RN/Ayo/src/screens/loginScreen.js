@@ -51,8 +51,9 @@ function LogInScreen ({dispatch, username, password}) {
       dispatch(setJWTRefresh(response.data.jwt['refresh']));
 
       // SUUUUUPER EXPLICIT
-      if(response.data.is_staff || response.data.is_verified){
-        const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
+      console.log("SUCCESSFUL DETAILS ", response.data);
+      const details = await fetchUserDetails(response.data.username, response.data.jwt['access']);
+      if(response.data.is_staff || details.data.is_verified){
         dispatch(setUser(details.data));
         // dispatch(set(details.data));
         toggleVerify();
@@ -72,7 +73,7 @@ function LogInScreen ({dispatch, username, password}) {
                     break;
         }
       }
-      else if(response.data.is_rejected){
+      else if(details.data.is_rejected){
         toggleRejected();
         setWaitingVisible(false);
         setVerifyVisible(false);

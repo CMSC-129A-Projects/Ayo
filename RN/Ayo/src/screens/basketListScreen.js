@@ -1,6 +1,5 @@
 import React, {useEffect, useState}from 'react';
 import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
-import {Data} from '../mocks/checkoutData';
 import {AntDesign} from '@expo/vector-icons';
 
 import DeleteProductModal from '../modals/deleteProduct';
