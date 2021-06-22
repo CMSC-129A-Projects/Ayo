@@ -14,16 +14,19 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import {MaterialIcons} from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 const splashScreen = ({navigation, user}) => {
   const [initRoute, setinitRoute] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     presetInitRoute();
-  }, [])
+  }, [isFocused])
 
   const presetInitRoute = () => {
     if(user.id != ""){
+      console.log("USER IS ", user);
       switch(user.role){
         case "Customer":
           setinitRoute("Customer Homes");
