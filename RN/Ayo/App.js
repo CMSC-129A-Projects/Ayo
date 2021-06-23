@@ -25,12 +25,12 @@ import {splashScreen,
         customerTabScreen,
         pharmacyTabScreen,
         ownerTabScreen,
-        staffOrderListScreen} from './src/screens/index';
+        staffOrderListScreen,
+} from './src/screens/index';
 import store, { persistor } from './src/store';
 
 import VerifiedModal from './src/modals/VerifiedModal';
 import RejectModal from './src/modals/RejectModal';
-import { add } from 'react-native-reanimated';
 
 const Stack = createStackNavigator();
 
@@ -41,7 +41,7 @@ export default function App() {
           <NavigationContainer initialRouteName= "Splash Screen">
             <Stack.Navigator screenOptions={{
               headerStyle:{
-                backgroundColor:'#009387',
+                backgroundColor:'#06AD91',
               },
               headerTintColor:'#ffffff',
               headerTitleStyle:{
@@ -54,24 +54,24 @@ export default function App() {
               <Stack.Screen options={{headerShown: false}} name="Sign Up" component={signupScreen} />
               <Stack.Screen options={{headerShown: false}} name="Select Role" component={roleSelectScreen} />
               {/*<Stack.Screen options={{headerShown: false}} name="Verify Customers" component={customerVerificationScreen} />*/}
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Verify Customers" component={confirmationScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Verify Customers" component={confirmationScreen} />
               {/* <Stack.Screen options={{headerShown: false}} name="Confirm" component={confirmationScreen} /> */}
               <Stack.Screen options={{headerShown: false}} name="Verify" component={VerifiedModal} />
               <Stack.Screen options={{headerShown: false}} name="Reject" component={RejectModal} />
               <Stack.Screen options={{headerShown: false}} name="Customer Homes" component={customerTabScreen} />
               <Stack.Screen options={{headerShown: false}} name="Pharmacy Homes" component={pharmacyTabScreen} />
               <Stack.Screen options={{headerShown: false}} name="Owner Homes" component={ownerTabScreen} />
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name ="Staff Order List" component = {staffOrderListScreen}/>
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Product List" component={customerProductListScreen} />
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Staff Product List" component={staffProductListScreen} />
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Add Product" component={addProductScreen} />
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Add Generic Medicine" component={addGenericScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name ="Staff Order List" component = {staffOrderListScreen}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Product List" component={customerProductListScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Staff Product List" component={staffProductListScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Add Product" component={addProductScreen} />
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Add Generic Medicine" component={addGenericScreen} />
               <Stack.Screen name="Api" component={apiTestScreen} />
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Prescription List" component={prescriptionListScreen}/>
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Basket Screen" component={basketListScreen}/>
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Basket Item Details" component={basketItemDetails}/>
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Checkout" component={basketList}/>
-              <Stack.Screen options={{headerStatusBarHeight: 30}} name="Order List" component={orderList}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Prescription List" component={prescriptionListScreen}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Basket Screen" component={basketListScreen}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Basket Item Details" component={basketItemDetails}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Checkout" component={basketList}/>
+              <Stack.Screen options={{headerStatusBarHeight: 10}} name="Order List" component={orderList}/>
               {/*<Stack.Screen name="ViewMedItems" component={viewMedItemsScreen} />*/}
               <Stack.Screen name="MedItems" component={medItemScreen} />
             </Stack.Navigator>

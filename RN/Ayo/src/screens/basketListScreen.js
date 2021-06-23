@@ -1,5 +1,6 @@
 import React, {useEffect, useState}from 'react';
 import { View, Image, Text, StatusBar, FlatList, StyleSheet, ImageBackground, SafeAreaView , Modal, TouchableOpacity} from 'react-native';
+import {Data} from '../mocks/checkoutData';
 import {AntDesign} from '@expo/vector-icons';
 
 import DeleteProductModal from '../modals/deleteProduct';
@@ -88,6 +89,7 @@ const basketListScreen = ({navigation, dispatch, user, request_list, request_id}
     
     console.log("REQUEST ID IS ", request_id);
 
+    if (request_list.length > 0 ){
     return (
       <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content"/>
@@ -175,7 +177,28 @@ const basketListScreen = ({navigation, dispatch, user, request_list, request_id}
       </View>
       </Modal>
       </SafeAreaView>
-    );
+    
+    ); 
+    }
+        else {
+            return (
+            <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="light-content"/>
+            <Image source={require('../assets/emptycart.png')} 
+            style={{height: '100%', width: '100%', resizeMode: 'contain', position: 'absolute', alignSelf: 'center'}}/>
+            <View style = {{position: 'absolute', alignSelf: 'center', alignItems: 'center', marginTop: '120%'}}>
+              <Text style = {{fontSize: 23, fontFamily: 'Roboto', fontWeight: 'bold'}}>Basket is empty</Text>
+              <Text style = {{fontSize: 19, fontFamily: 'Roboto', fontWeight: '900', }}>Looks like you haven't added</Text>
+              <Text style = {{fontSize: 19, fontFamily: 'Roboto', fontWeight: '900', }}>items to your basket yet</Text>
+              <TouchableOpacity 
+              style = {{borderRadius: 25, marginTop: 30 ,  paddingHorizontal: 20, backgroundColor: '#00ccaa', borderWidth: 3, borderColor: '#06AD91'}}
+              onPress = {() =>{navigation.navigate('Product List')}}>
+              <Text style = {{fontSize: 25, color: '#fff', marginVertical: 5, fontWeight: 'bold'}}>BROWSE PRODUCTS</Text>
+              </TouchableOpacity>
+            </View>
+            </SafeAreaView>
+            );
+          }
 };
 
 const mapStateToProps = (state) => {
@@ -191,6 +214,7 @@ export default connect(mapStateToProps)(basketListScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
+    backgroundColor: '#fff'
   },
   Background: {
     width: '100%',
