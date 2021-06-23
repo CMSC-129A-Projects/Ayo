@@ -11,12 +11,9 @@ import staffProductListScreen from './staffProductListScreen';
 import profileScreen from './profileScreen';
 import notificationScreen from './notificationScreen';
 import editProfileScreen from './editProfileScreen';
-import basketListScreen from './basketListScreen';
-import basketItemDetails from './basketItemDetails';
 
        const HomeStack = createStackNavigator();
        const ProductsStack = createStackNavigator();
-       const BasketStack = createStackNavigator();
        const ProfileStack = createStackNavigator();
        const NotificationStack = createStackNavigator();
        const Tab = createMaterialBottomTabNavigator();
@@ -42,7 +39,7 @@ import basketItemDetails from './basketItemDetails';
                component={ProductsStackScreen}
                options={{
                  tabBarLabel: 'Products',
-                 tabBarColor: '#1f65ff',
+                 tabBarColor: '#00ccaa',
                  tabBarIcon: ({ color }) => (
                     <AntDesign name="medicinebox" color={color} size={24}/>
                  ),
@@ -53,20 +50,9 @@ import basketItemDetails from './basketItemDetails';
                component={NotificationStackScreen}
                options={{
                  tabBarLabel: 'Notifications',
-                 tabBarColor: '#ff3333',
+                 tabBarColor: '#06AD91',
                  tabBarIcon: ({ color }) => (
                     <Ionicons name="notifications" color={color} size={24}/>
-                 ),
-               }}
-             />
-             <Tab.Screen
-               name="Basket"
-               component={BasketStackScreen}
-               options={{
-                 tabBarLabel: 'Orders',
-                 tabBarColor: '#00E8B5',
-                 tabBarIcon: ({ color }) => (
-                    <Entypo name="shopping-basket" color={color} size={26} />
                  ),
                }}
              />
@@ -75,7 +61,7 @@ import basketItemDetails from './basketItemDetails';
                component={ProfileStackScreen}
                options={{
                  tabBarLabel: 'Profile',
-                 tabBarColor: '#FF6347',
+                 tabBarColor: '#00ccaa',
                  tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="account" color={color} size={26} />
                  ),
@@ -107,7 +93,7 @@ import basketItemDetails from './basketItemDetails';
        const ProductsStackScreen = ({navigation}) => (
        <ProductsStack.Navigator screenOptions={{
                headerStyle: {
-               backgroundColor: '#1f65ff',
+               backgroundColor: '#00ccaa',
                },
                headerTintColor: '#fff',
                headerTitleStyle: {
@@ -116,7 +102,7 @@ import basketItemDetails from './basketItemDetails';
            }}>
                <ProductsStack.Screen name="Products" component={staffProductListScreen} options={{
                headerLeft: () => (
-                <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#1f65ff" onPress={() => navigation.goBack()}></Ionicons.Button>
+                <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#00ccaa" onPress={() => navigation.goBack()}></Ionicons.Button>
                )
                }} />
        </ProductsStack.Navigator>
@@ -124,7 +110,7 @@ import basketItemDetails from './basketItemDetails';
        const NotificationStackScreen = ({navigation}) => (
         <NotificationStack.Navigator screenOptions={{
                 headerStyle: {
-                backgroundColor: '#ff3333',
+                backgroundColor: '#06AD91',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -133,49 +119,12 @@ import basketItemDetails from './basketItemDetails';
             }}>
                 <NotificationStack.Screen name="My Notifications" component={notificationScreen} options={{
                 headerLeft: () => (
-                 <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#ff3333" onPress={() => navigation.goBack()}></Ionicons.Button>
+                 <Ionicons.Button name="arrow-back-circle-outline" size={35} backgroundColor="#06AD91" onPress={() => navigation.goBack()}></Ionicons.Button>
                 )
                 }} />
         </NotificationStack.Navigator>
         );
-       const BasketStackScreen = ({navigation}) => (
-        <BasketStack.Navigator screenOptions={{
-                headerStyle: {
-                backgroundColor: '#00E8B5',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                fontWeight: 'bold'
-                }
-            }}>
-                <BasketStack.Screen 
-                name="Basket Screen"
-                component={basketListScreen}
-                options={({route}) => ({
-                  title: 'My Basket',
-                  headerBackTitleVisible: false,
-                  headerLeft: () => (
-                 <Ionicons.Button 
-                 name="arrow-back-circle-outline" 
-                 size={35} backgroundColor="#00E8B5" 
-                 onPress={() => navigation.goBack()}>
-                 </Ionicons.Button>
-                 )
-                })}/>
-              <BasketStack.Screen 
-                name="Basket Item Details"
-                component={basketItemDetails}
-                options={({route}) => ({
-                  // title: route.params.title,
-                  headerBackTitleVisible: false,
-                  headerTitle: false,
-                  headerTransparent: true,
-                  headerTintColor: '#fff'
-                })}
-              />
-        </BasketStack.Navigator>
-        );
-
+      
         const ProfileStackScreen = ({navigation}) => {
           return (
             <ProfileStack.Navigator
@@ -203,7 +152,7 @@ import basketItemDetails from './basketItemDetails';
                       size={25}  
                       color = 'black'
                       backgroundColor = 'white'
-                      onPress={() => navigation.navigate('Home')}></Entypo.Button>
+                      onPress={() => navigation.navigate('Home Owner')}></Entypo.Button>
                     </View>
                   ),
                   headerRight: () => (
